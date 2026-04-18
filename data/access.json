@@ -1,0 +1,9 @@
+{
+  "_comment": "MVP: el CODIGO valida el acceso. El email lo escribe la usuaria y queda ligado a su sesion. Al migrar a Supabase la validacion va server-side.",
+  "codes": {
+    "CARDUMEN001": {
+      "name": "Eli",
+      "refuerzos": ["estetica-anatomia"]
+    }
+  }
+}

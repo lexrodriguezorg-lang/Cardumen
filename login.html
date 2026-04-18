@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar — Cardumen</title>
+<meta name="description" content="Entra a tu cardumen. Si ya validaste tu Refuerzo, úsalo con tu código.">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/logo/favicon-192.png">
+<link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<header class="login-top">
+  <a href="index.html" class="brand">
+    <img src="assets/logo/cardumen-horizontal.png" alt="Cardumen">
+  </a>
+  <a href="index.html" class="back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Volver
+  </a>
+</header>
+
+<main class="login-shell">
+  <div class="login-card">
+    <div class="login-kicker">ACCESO · REFUERZO</div>
+    <h1 class="login-title">Entra a tu <em>cardumen</em>.</h1>
+    <p class="login-lede">Usa el correo donde recibiste tu Refuerzo y el código que te enviamos por WhatsApp.</p>
+
+    <form class="login-form" id="loginForm" novalidate>
+      <div class="field">
+        <label for="email">Correo</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          autocomplete="email"
+          placeholder="tucorreo@ejemplo.com"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="code">Código de acceso</label>
+        <input
+          type="text"
+          id="code"
+          name="code"
+          autocomplete="one-time-code"
+          placeholder="CARDUMEN001"
+          required
+        >
+      </div>
+
+      <button type="submit" class="login-submit" id="loginBtn">
+        Entrar
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </form>
+
+    <div class="login-error" id="loginError"></div>
+
+    <div class="login-help">
+      <p><strong>¿No tienes código?</strong> Se genera después de validar tu pago por Nequi. Escríbenos a <a href="mailto:hola@cardumen.co">hola@cardumen.co</a> o por WhatsApp.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="login-foot">
+  Estudiamos juntas · llegamos lejos
+</footer>
+
+<script>
+(async () => {
+  const form  = document.getElementById('loginForm');
+  const btn   = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginError');
+  const emailIn = document.getElementById('email');
+  const codeIn  = document.getElementById('code');
+
+  // Si ya hay sesión válida, ir directo al dashboard
+  try {
+    const existing = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+    if (existing && existing.email) {
+      window.location.replace('mi-cardumen.html');
+      return;
+    }
+  } catch (_) { /* sesión corrupta, continuar */ }
+
+  const showError = (msg) => {
+    errEl.textContent = msg;
+    errEl.classList.add('show');
+  };
+  const hideError = () => errEl.classList.remove('show');
+
+  // Cargar JSON de códigos (cache en memoria)
+  let access = null;
+  try {
+    const res = await fetch('data/access.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    access = await res.json();
+  } catch (e) {
+    showError('No pudimos cargar la verificación. Recarga la página o escríbenos.');
+    btn.disabled = true;
+    return;
+  }
+
+  // Input uppercase feedback inmediato para el código
+  codeIn.addEventListener('input', () => {
+    const p = codeIn.selectionStart;
+    codeIn.value = codeIn.value.toUpperCase();
+    codeIn.setSelectionRange(p, p);
+  });
+  [emailIn, codeIn].forEach(el => el.addEventListener('input', hideError));
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    hideError();
+
+    const email = (emailIn.value || '').trim().toLowerCase();
+    const code  = (codeIn.value || '').trim().toUpperCase();
+
+    if (!email || !code) {
+      showError('Llena correo y código.');
+      return;
+    }
+
+    const entry = access.codes[code];
+    if (!entry) {
+      showError('Código inválido. Revisa que sea el que te enviamos por WhatsApp.');
+      return;
+    }
+
+    const session = {
+      email: email,
+      name: entry.name,
+      refuerzos: entry.refuerzos,
+      loggedInAt: new Date().toISOString()
+    };
+    localStorage.setItem('cardumen_session', JSON.stringify(session));
+    window.location.replace('mi-cardumen.html');
+  });
+})();
+</script>
+
+</body>
+</html>

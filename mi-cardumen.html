@@ -7,6 +7,19 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/logo/favicon-192.png">
 <link rel="stylesheet" href="css/dashboard.css">
+<script>
+  // Auth guard — corre antes de renderizar para evitar flash de contenido
+  (function() {
+    try {
+      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!s || !s.email) {
+        window.location.replace('login.html');
+      }
+    } catch (_) {
+      window.location.replace('login.html');
+    }
+  })();
+</script>
 </head>
 <body>
 
@@ -92,9 +105,12 @@
     <div class="user-card">
       <div class="user-avatar">E</div>
       <div class="user-info">
-        <div class="user-name">Eli Ramírez</div>
+        <div class="user-name">Eli</div>
         <div class="user-role">Esteticista · Cali</div>
       </div>
+      <button class="logout-btn" id="logoutBtn" aria-label="Cerrar sesión" title="Cerrar sesión">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
     </div>
   </aside>
 
@@ -354,6 +370,12 @@
     const original = btn.textContent;
     btn.textContent = '✓ Copiado';
     setTimeout(() => { btn.textContent = original; }, 2000);
+  });
+
+  // Logout
+  document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    localStorage.removeItem('cardumen_session');
+    window.location.replace('login.html');
   });
 </script>
 

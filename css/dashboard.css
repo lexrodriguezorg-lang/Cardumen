@@ -261,6 +261,19 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
   font-size: 0.75rem; color: var(--ink-mute);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+.logout-btn {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--ink-mute);
+  background: transparent;
+  transition: all 200ms var(--ease-out);
+}
+.logout-btn:hover {
+  color: var(--rust);
+  background: rgba(196, 101, 87, 0.1);
+}
 
 /* ==============================
    MAIN CONTENT
