@@ -18,16 +18,21 @@
 </head>
 <body data-module-num="4">
 
-<button class="menu-mobile-btn" aria-label="Menú">
+<button class="menu-mobile-btn" id="menuOpen" aria-label="Abrir menú">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
   </svg>
 </button>
 
+<div class="toc-backdrop" id="tocBackdrop" aria-hidden="true"></div>
+
 <div class="course-layout">
 
   <!-- ============ LEFT SIDEBAR ============ -->
-  <aside class="toc-sidebar">
+  <aside class="toc-sidebar" id="tocSidebar">
+    <button class="toc-close" id="tocClose" aria-label="Cerrar menú">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
     <a href="../../mi-cardumen.html" class="back-link">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       Mi cardumen
@@ -41,9 +46,9 @@
     <div class="toc-progress">
       <div class="toc-progress-head">
         <span class="label">Progreso del Refuerzo</span>
-        <span class="pct">44%</span>
+        <span class="pct" id="tocPct">0%</span>
       </div>
-      <div class="toc-progress-bar"><div class="toc-progress-fill" style="width: 44%"></div></div>
+      <div class="toc-progress-bar"><div class="toc-progress-fill" id="tocFill" style="width: 0%"></div></div>
     </div>
 
     <div class="toc-label">Módulos</div>
@@ -306,12 +311,12 @@
 
         <!-- Module nav -->
         <div class="module-nav">
-          <a href="#" class="nav-card-bottom">
+          <a href="modulo-3.html" class="nav-card-bottom">
             <span class="nav-arrow">← Anterior</span>
             <div class="nav-num">MÓDULO 3</div>
             <div class="nav-title">Sistema muscular</div>
           </a>
-          <a href="#" class="nav-card-bottom next">
+          <a href="modulo-5.html" class="nav-card-bottom next">
             <span class="nav-arrow">Siguiente →</span>
             <div class="nav-num">MÓDULO 5</div>
             <div class="nav-title">Anatomía facial</div>
@@ -366,140 +371,7 @@
 </div>
 
 <script src="../../js/progress.js"></script>
-<script>
-(function() {
-  const MODULE_NUM = parseInt(document.body.dataset.moduleNum, 10);
-  const progress = CardumenProgress.init('estetica-anatomia');
-
-  // Menú móvil
-  document.querySelector('.menu-mobile-btn')?.addEventListener('click', () => {
-    document.querySelector('.toc-sidebar').classList.toggle('open');
-  });
-
-  // --- Toast ligero ---
-  function toast(msg) {
-    let el = document.getElementById('cardumen-toast');
-    if (!el) {
-      el = document.createElement('div');
-      el.id = 'cardumen-toast';
-      el.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1F1A13;color:#FAF5E9;border:1px solid rgba(212,169,74,0.3);padding:0.9rem 1.4rem;border-radius:10px;font-size:0.9rem;font-family:inherit;z-index:9999;opacity:0;transition:opacity 250ms;box-shadow:0 20px 60px rgba(0,0,0,0.4);max-width:90%;text-align:center;';
-      document.body.appendChild(el);
-    }
-    el.textContent = msg;
-    el.style.opacity = '1';
-    clearTimeout(el._t);
-    el._t = setTimeout(() => { el.style.opacity = '0'; }, 2800);
-  }
-
-  // --- Sync TOC con estado real ---
-  function renderTOC() {
-    document.querySelectorAll('.toc-link[data-module]').forEach(link => {
-      const n = parseInt(link.dataset.module, 10);
-      link.classList.remove('completed', 'locked');
-      if (progress.isCompleted(n)) link.classList.add('completed');
-      if (!progress.isUnlocked(n)) link.classList.add('locked');
-    });
-  }
-  renderTOC();
-
-  // Intercept click en TOC bloqueado
-  document.querySelector('.toc-list')?.addEventListener('click', (e) => {
-    const link = e.target.closest('.toc-link.locked');
-    if (!link) return;
-    e.preventDefault();
-    toast('Completa el módulo anterior y su quiz para desbloquear este.');
-  });
-
-  // --- Quizzes del módulo ---
-  // Regla: todos los quizzes del módulo deben estar en "correcto" para que
-  // el módulo cuente con quizPassed === true. Permitimos reintentar hasta acertar.
-  const quizzes = Array.from(document.querySelectorAll('.quiz'));
-  const quizState = quizzes.map(() => false);
-
-  function refreshQuizAggregate() {
-    if (quizState.every(Boolean)) {
-      progress.setQuizPassed(MODULE_NUM);
-    }
-  }
-
-  quizzes.forEach((quiz, i) => {
-    quiz.querySelectorAll('.quiz-option').forEach(opt => {
-      opt.addEventListener('click', () => {
-        const correct = opt.dataset.correct === 'true';
-        quiz.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('correct', 'wrong'));
-        opt.classList.add(correct ? 'correct' : 'wrong');
-        if (!correct) {
-          quiz.querySelector('[data-correct="true"]')?.classList.add('correct');
-        }
-        quizState[i] = correct;
-        refreshQuizAggregate();
-      });
-    });
-  });
-
-  const hasQuiz = quizzes.length > 0;
-
-  // --- Botón "Marcar completado" ---
-  const completeBtn = document.querySelector('.btn-complete');
-  function paintCompleteBtn() {
-    if (!completeBtn) return;
-    if (progress.isCompleted(MODULE_NUM)) {
-      completeBtn.innerHTML = '✓ Completado — marcar como pendiente';
-      completeBtn.classList.add('is-done');
-    } else {
-      completeBtn.innerHTML = 'Marcar completado <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
-      completeBtn.classList.remove('is-done');
-    }
-  }
-  paintCompleteBtn();
-
-  completeBtn?.addEventListener('click', () => {
-    if (progress.isCompleted(MODULE_NUM)) {
-      progress.unmarkCompleted(MODULE_NUM);
-      paintCompleteBtn();
-      renderTOC();
-      toast('Módulo marcado como pendiente.');
-      return;
-    }
-    const result = progress.tryMarkCompleted(MODULE_NUM, { hasQuiz });
-    if (result.ok) {
-      paintCompleteBtn();
-      renderTOC();
-      toast('✓ Módulo completado. Siguiente desbloqueado.');
-    } else if (result.reason === 'quiz') {
-      toast('Responde los quizzes correctamente antes de marcar completado.');
-    } else if (result.reason === 'locked') {
-      toast('Este módulo aún no está desbloqueado.');
-    }
-  });
-
-  // --- Notas (migradas a progress.setNote para estado unificado) ---
-  const notesEl  = document.querySelector('.notes-widget textarea');
-  const savedMsg = document.querySelector('.notes-saved');
-  if (notesEl) {
-    const noteKey = 'module-' + MODULE_NUM;
-    notesEl.value = progress.getNote(noteKey);
-    let t;
-    notesEl.addEventListener('input', () => {
-      clearTimeout(t);
-      t = setTimeout(() => {
-        progress.setNote(noteKey, notesEl.value);
-        if (savedMsg) {
-          savedMsg.style.display = 'block';
-          setTimeout(() => { savedMsg.style.display = 'none'; }, 2000);
-        }
-      }, 600);
-    });
-  }
-
-  // Right sidebar TOC (scroll indicator simplificado)
-  const items = document.querySelectorAll('.section-toc-item');
-  items.forEach(i => i.addEventListener('click', () => {
-    items.forEach(x => x.classList.remove('active'));
-    i.classList.add('active');
-  }));
-})();
-</script>
+<script src="../../js/module-page.js"></script>
 
 </body>
 </html>
