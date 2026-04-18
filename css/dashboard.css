@@ -1103,13 +1103,8 @@ body.sidebar-open { overflow: hidden; }
   .pide-block { padding: 2rem; }
   .metrics-row { grid-template-columns: 1fr; }
 
-  .menu-mobile {
-    position: fixed; top: 1rem; left: 1rem;
-    z-index: 100;
-    width: 42px; height: 42px; border-radius: 12px;
-    background: var(--ink); color: var(--cream);
-    display: flex; align-items: center; justify-content: center;
-  }
 }
 
-@media (min-width: 769px) { .menu-mobile { display: none; } }
+/* En movil la nav principal es la bottom-nav (inyectada por bottom-nav.js).
+   El hamburguesa .menu-mobile y el sidebar.open quedan deshabilitados. */
+.menu-mobile { display: none !important; }

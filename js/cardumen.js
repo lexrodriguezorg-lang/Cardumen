@@ -11,7 +11,6 @@ const Cardumen = {
     this.refuerzoId = config.refuerzoId;
     this.totalModules = config.totalModules;
     this.loadState();
-    this.applyTheme();
     this.renderProgress();
     this.markCurrentModule();
     this.bindEvents();
@@ -80,28 +79,6 @@ const Cardumen = {
     if (link) link.classList.add('active');
   },
 
-  // --- Modo oscuro ---
-  toggleTheme() {
-    const current = document.documentElement.dataset.theme || 'light';
-    const next = current === 'light' ? 'dark' : 'light';
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem('cardumen_theme', next);
-    this.updateThemeIcon();
-  },
-
-  applyTheme() {
-    const saved = localStorage.getItem('cardumen_theme') || 'light';
-    document.documentElement.dataset.theme = saved;
-    this.updateThemeIcon();
-  },
-
-  updateThemeIcon() {
-    const btn = document.querySelector('#theme-toggle');
-    if (!btn) return;
-    const isDark = document.documentElement.dataset.theme === 'dark';
-    btn.innerHTML = isDark ? '☀️' : '🌙';
-  },
-
   // --- Quizzes ---
   checkQuiz(optionEl, isCorrect) {
     const quiz = optionEl.closest('.quiz');
@@ -126,7 +103,6 @@ const Cardumen = {
         const correct = e.target.dataset.correct === 'true';
         this.checkQuiz(e.target, correct);
       }
-      if (e.target.closest('#theme-toggle')) this.toggleTheme();
       if (e.target.closest('#menu-toggle-mobile')) this.toggleSidebar();
       if (e.target.closest('.mark-complete-btn')) {
         const num = parseInt(document.body.dataset.moduleNum);

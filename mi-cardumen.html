@@ -21,7 +21,7 @@
   })();
 </script>
 </head>
-<body>
+<body data-page="dashboard">
 
 <button class="menu-mobile" id="menuOpen" aria-label="Abrir menú">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -110,9 +110,9 @@
     </div>
 
     <div class="user-card">
-      <div class="user-avatar">E</div>
+      <div class="user-avatar" id="userAvatar">E</div>
       <div class="user-info">
-        <div class="user-name">Eli</div>
+        <div class="user-name" id="userName">Eli</div>
         <div class="user-role">Esteticista · Cali</div>
       </div>
       <button class="logout-btn" id="logoutBtn" aria-label="Cerrar sesión" title="Cerrar sesión">
@@ -127,8 +127,8 @@
     <!-- Top bar -->
     <div class="top-bar anim-in">
       <div class="greeting">
-        <span class="overline">Jueves, 18 de abril</span>
-        <h1>Buenas tardes,<br><em>Eli</em>.</h1>
+        <span class="overline" id="greetingDate">Jueves, 18 de abril</span>
+        <h1 id="greetingTitle">Buenas tardes,<br><em>Eli</em>.</h1>
         <p class="sub">Vas por buen camino en tu Refuerzo de anatomía. Sigue donde te quedaste o explora lo que viene.</p>
       </div>
       <div class="top-actions">
@@ -365,6 +365,34 @@
 </div>
 
 <script>
+  // --- Pinta datos de sesion (nombre, avatar, fecha) ---
+  (function paintSession() {
+    let s = null;
+    try { s = JSON.parse(localStorage.getItem('cardumen_session') || 'null'); } catch(_) {}
+    const name = (s && s.name) ? s.name : 'Eli';
+    const firstName = name.split(/\s+/)[0];
+    const initial = firstName.charAt(0).toUpperCase() || 'E';
+
+    const nameEl   = document.getElementById('userName');
+    const avatarEl = document.getElementById('userAvatar');
+    const greetEl  = document.getElementById('greetingTitle');
+    const dateEl   = document.getElementById('greetingDate');
+
+    if (nameEl)   nameEl.textContent = firstName;
+    if (avatarEl) avatarEl.textContent = initial;
+    if (greetEl) {
+      const hour = new Date().getHours();
+      const saludo = hour < 12 ? 'Buenos días' : hour < 19 ? 'Buenas tardes' : 'Buenas noches';
+      greetEl.innerHTML = saludo + ',<br><em>' + firstName + '</em>.';
+    }
+    if (dateEl) {
+      const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+      const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      const d = new Date();
+      dateEl.textContent = dias[d.getDay()] + ', ' + d.getDate() + ' de ' + meses[d.getMonth()];
+    }
+  })();
+
   // Menú móvil — abrir, cerrar con X, backdrop o ESC
   const sidebar  = document.getElementById('sidebar');
   const backdrop = document.getElementById('sidebarBackdrop');
@@ -417,6 +445,8 @@
     });
   });
 </script>
+
+<script src="js/bottom-nav.js"></script>
 
 </body>
 </html>

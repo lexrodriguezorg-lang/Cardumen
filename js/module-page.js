@@ -139,4 +139,13 @@
     items.forEach(x => x.classList.remove('active'));
     i.classList.add('active');
   }));
+
+  // ---- Bottom nav m\u00f3vil (se inyecta en <900px y solo con sesion) ----
+  (function loadBottomNav() {
+    if (document.getElementById('cardumenBottomNav')) return;
+    const s = document.createElement('script');
+    s.src = '../../js/bottom-nav.js';
+    s.async = true;
+    document.body.appendChild(s);
+  })();
 })();
