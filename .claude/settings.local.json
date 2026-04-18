@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(gh pr create --base main --head claude/focused-hopper-d10dcb --title 'Arreglar 404 de Vercel: aplanar estructura del repo' --body ' *)",
-      "Bash(file assets/logo/*.png)",
-      "WebFetch(domain:cardumen.vercel.app)"
-    ]
-  }
-}
