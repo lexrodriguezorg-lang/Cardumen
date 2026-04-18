@@ -235,6 +235,22 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
   background: rgba(255,255,255,0.15);
   color: var(--gold-soft);
 }
+.nav-item .nav-count.soon {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px dashed rgba(250, 245, 233, 0.2);
+  color: var(--ink-mute);
+  padding: 2px 7px;
+}
+.nav-item[data-coming] {
+  cursor: pointer;
+  opacity: 0.82;
+}
+.nav-item[data-coming]:hover {
+  opacity: 1;
+}
 
 /* Card de usuario al fondo del sidebar */
 .user-card {
@@ -1061,9 +1077,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
 .sidebar-backdrop {
   display: none;
   position: fixed; inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.62);
   z-index: 180;
   opacity: 0;
   transition: opacity 280ms var(--ease-out);

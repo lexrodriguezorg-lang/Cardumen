@@ -939,9 +939,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
 .toc-backdrop {
   display: none;
   position: fixed; inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.62);
   z-index: 180;
   opacity: 0;
   transition: opacity 280ms var(--ease-out);
