@@ -80,10 +80,8 @@
         display: none;
         position: fixed; bottom: 0; left: 0; right: 0;
         z-index: 150;
-        background: rgba(14, 11, 8, 0.92);
+        background: rgba(14, 11, 8, 0.97);
         border-top: 1px solid rgba(250, 245, 233, 0.1);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
         padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
       }
       .cardumen-bottom-nav .cbn-item {

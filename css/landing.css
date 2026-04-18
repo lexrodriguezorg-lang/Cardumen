@@ -708,4 +708,18 @@ footer { padding: 4rem 2.5rem 2rem; max-width: 1320px; margin: 0 auto; border-to
   .menu-top { margin-bottom: 2.5rem; }
   .menu-primary a { font-size: 2.2rem; }
   .menu-aside-block { padding: 1.25rem; }
+
+  /* En mobile el SVG feTurbulence puede rasterizarse como grid visible
+     (Safari iOS, algunos Chrome mobile). Lo quitamos para mobile y
+     confiamos solo en los radiales de color del body::before. */
+  body::after { display: none !important; }
+
+  /* backdrop-filter en mobile se renderiza en tiles y hace efecto
+     cuadriculado. Usamos fondo solido mas opaco como alternativa. */
+  .top-nav {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(14, 11, 8, 0.96);
+  }
+  .top-nav.scrolled { background: rgba(14, 11, 8, 0.98); }
 }
