@@ -67,10 +67,9 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
 .login-top .brand img {
   height: 40px;
   width: auto;
-  filter: brightness(0) invert(1);
-  transition: filter 200ms var(--ease-out);
+  transition: opacity 200ms var(--ease-out);
 }
-.login-top .brand:hover img { filter: brightness(0) invert(0.88) sepia(0.4) saturate(2.5) hue-rotate(15deg); }
+.login-top .brand:hover img { opacity: 0.85; }
 .login-top .back {
   font-size: 0.85rem; color: var(--cream-mute);
   display: inline-flex; align-items: center; gap: 0.4rem;

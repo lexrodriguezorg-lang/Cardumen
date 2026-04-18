@@ -126,9 +126,7 @@ strong { font-weight: 600; color: var(--c-primary); }
   width: 100%; max-width: 200px; height: auto;
   display: block;
 }
-[data-theme="dark"] .sidebar-brand-img img {
-  filter: brightness(0) invert(1);
-}
+[data-theme="dark"] .sidebar-brand-img img { opacity: 0.95; }
 .sidebar-brand .logo {
   width: 40px; height: 40px;
   background: var(--c-primary); border-radius: var(--r-md);
