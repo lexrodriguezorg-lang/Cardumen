@@ -16,10 +16,13 @@
   <a href="index.html" class="nav-brand">
     <img src="assets/logo/cardumen-horizontal.png" alt="Cardumen">
   </a>
-  <button class="menu-trigger" id="menuOpen">
-    <span class="menu-icon"><span></span><span></span></span>
-    Menú
-  </button>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-cta" id="navCta">Entrar</a>
+    <button class="menu-trigger" id="menuOpen">
+      <span class="menu-icon"><span></span><span></span></span>
+      Menú
+    </button>
+  </div>
 </nav>
 
 <!-- MENU FULL-SCREEN -->
@@ -410,6 +413,30 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 20);
   });
+
+  // Login-aware CTA: "Entrar" si no hay sesion, "Mi cardumen" si la hay
+  (function() {
+    const cta = document.getElementById('navCta');
+    if (!cta) return;
+    try {
+      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (s && s.email) {
+        cta.textContent = 'Mi cardumen';
+        cta.href = 'mi-cardumen.html';
+      }
+    } catch (_) {}
+  })();
+
+  // Actualiza tambien el link del menu overlay ("Entrar a mi cardumen")
+  (function() {
+    try {
+      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!(s && s.email)) {
+        const entrar = document.querySelector('.menu-primary a[href="mi-cardumen.html"]');
+        if (entrar) entrar.setAttribute('href', 'login.html');
+      }
+    } catch (_) {}
+  })();
 
   const menu = document.getElementById('menuOverlay');
   document.getElementById('menuOpen').addEventListener('click', () => {
