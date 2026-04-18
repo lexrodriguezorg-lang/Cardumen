@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integración y protocolos — Anatomía Aplicada a la Estética · Cardumen</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="../../css/module.css">
+<script>
+  (function() {
+    try {
+      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!s || !s.email) window.location.replace('../../login.html');
+    } catch (_) { window.location.replace('../../login.html'); }
+  })();
+</script>
+</head>
+<body data-module-num="7">
+
+<button class="menu-mobile-btn" id="menuOpen" aria-label="Abrir menú">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+</button>
+
+<div class="toc-backdrop" id="tocBackdrop" aria-hidden="true"></div>
+
+<div class="course-layout">
+
+  <aside class="toc-sidebar" id="tocSidebar">
+    <button class="toc-close" id="tocClose" aria-label="Cerrar menú">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <a href="../../mi-cardumen.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Mi cardumen
+    </a>
+
+    <div class="course-header">
+      <span class="overline">REFUERZO 001 · ESTÉTICA</span>
+      <h2>Anatomía Aplicada a la Estética</h2>
+    </div>
+
+    <div class="toc-progress">
+      <div class="toc-progress-head">
+        <span class="label">Progreso del Refuerzo</span>
+        <span class="pct" id="tocPct">0%</span>
+      </div>
+      <div class="toc-progress-bar"><div class="toc-progress-fill" id="tocFill" style="width: 0%"></div></div>
+    </div>
+
+    <div class="toc-label">Módulos</div>
+    <ul class="toc-list">
+      <li class="toc-item"><a href="modulo-1.html" class="toc-link" data-module="1"><span class="toc-num"><span>1</span></span><div class="toc-content"><div class="toc-title">Por qué necesitas anatomía</div><div class="toc-meta">12 min</div></div></a></li>
+      <li class="toc-item"><a href="modulo-2.html" class="toc-link" data-module="2"><span class="toc-num"><span>2</span></span><div class="toc-content"><div class="toc-title">Anatomía abdominal</div><div class="toc-meta">22 min</div></div></a></li>
+      <li class="toc-item"><a href="modulo-3.html" class="toc-link" data-module="3"><span class="toc-num"><span>3</span></span><div class="toc-content"><div class="toc-title">Sistema muscular</div><div class="toc-meta">28 min</div></div></a></li>
+      <li class="toc-item"><a href="modulo-4.html" class="toc-link" data-module="4"><span class="toc-num"><span>4</span></span><div class="toc-content"><div class="toc-title">Sistema linfático</div><div class="toc-meta">25 min</div></div></a></li>
+      <li class="toc-item"><a href="modulo-5.html" class="toc-link" data-module="5"><span class="toc-num"><span>5</span></span><div class="toc-content"><div class="toc-title">Anatomía facial</div><div class="toc-meta">24 min</div></div></a></li>
+      <li class="toc-item"><a href="modulo-6.html" class="toc-link" data-module="6"><span class="toc-num"><span>6</span></span><div class="toc-content"><div class="toc-title">La piel como tu campo</div><div class="toc-meta">20 min</div></div></a></li>
+      <li class="toc-item"><a href="modulo-7.html" class="toc-link active" data-module="7"><span class="toc-num"><span>7</span></span><div class="toc-content"><div class="toc-title">Integración y protocolos</div><div class="toc-meta">32 min · En curso</div></div></a></li>
+      <li class="toc-item"><a href="bonus.html" class="toc-link" data-module="8"><span class="toc-num"><span>★</span></span><div class="toc-content"><div class="toc-title">Bonus y referencias</div><div class="toc-meta">Material imprimible</div></div></a></li>
+    </ul>
+  </aside>
+
+  <main class="reading">
+    <div class="reading-inner">
+
+      <div class="reading-top anim-in">
+        <div class="meta-left">
+          <span>Módulo 7 de 9</span>
+          <span class="meta-sep">·</span>
+          <span>32 min de lectura</span>
+        </div>
+      </div>
+
+      <header class="module-title-block anim-in anim-in-1">
+        <span class="overline">MÓDULO 7 · INTEGRACIÓN</span>
+        <h1>De técnicas sueltas<br>a <em>protocolos vivos.</em></h1>
+        <p class="lede">Este módulo no enseña técnicas nuevas. Enseña a pensar. Es donde los seis módulos anteriores se convierten en un oficio con criterio.</p>
+      </header>
+
+      <div class="prose anim-in anim-in-2">
+
+        <p>Hasta aquí estudiaste sistemas: abdominal, muscular, linfático, facial, piel. Cada uno aislado. Pero la realidad de tu cabina nunca es aislada: una clienta con celulitis no tiene solo un problema de grasa, tiene piel con textura, linfa estancada, musculatura tensa y hábitos por detrás. Todos esos sistemas se tocan al mismo tiempo.</p>
+
+        <p>Este módulo es donde aprendes a mirarlos juntos. Y a partir de esa mirada, a construir protocolos que no son recetas, sino <strong>respuestas específicas a cuerpos específicos</strong>.</p>
+
+        <h2>Qué es un protocolo (y qué no)</h2>
+
+        <div class="callout callout-key">
+          <div class="callout-head">
+            <div class="callout-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <span class="callout-title">Protocolo = diagnóstico + secuencia + criterio</span>
+          </div>
+          <p>Un protocolo no es "primero X, después Y, termino con Z". Eso es una receta. Un protocolo es: "leí este cuerpo, decidí que necesitaba estas tres cosas en este orden por estas razones anatómicas específicas". La diferencia está en que sabes por qué.</p>
+          <p>Una receta se aplica igual a todas. Un protocolo se adapta a cada una.</p>
+        </div>
+
+        <h2>La anatomía de un protocolo completo</h2>
+
+        <p>Todo protocolo bien construido tiene cuatro momentos, en este orden:</p>
+
+        <ol>
+          <li><strong>Lectura previa:</strong> observación + palpación + escucha activa de lo que la clienta reporta. Cinco minutos aquí ahorran media hora de error.</li>
+          <li><strong>Preparación:</strong> tu cabina, tu piel, tu respiración, y la piel de la clienta. La preparación correcta hace que la técnica rinda el doble.</li>
+          <li><strong>Ejecución con secuencia clara:</strong> de superficial a profundo, o de drenaje a trabajo muscular, o del lado menos problemático al más problemático. La secuencia nunca es casual.</li>
+          <li><strong>Cierre:</strong> el cierre drena, relaja y consolida. Un protocolo sin cierre deja el sistema abierto.</li>
+        </ol>
+
+        <div class="pullquote">La receta te hace técnica. El protocolo te hace profesional.</div>
+
+        <h2>Tres protocolos tipo: esquema base</h2>
+
+        <p>A continuación tres esquemas base que cruzan los sistemas estudiados. Estos son <em>marcos mentales</em>, no recetas listas — las recetas detalladas se migran desde la fuente del fundador:</p>
+
+        <h3>Protocolo reductor corporal</h3>
+        <p><strong>Objetivo:</strong> reducir medidas en zonas específicas (abdomen, glúteos, muslos).</p>
+        <p><strong>Sistemas involucrados:</strong> hipodermis (grasa), dermis (colágeno), musculatura (tono), sistema linfático (eliminación).</p>
+        <p><strong>Secuencia lógica:</strong> preparar piel → estimular musculatura en la dirección de fibra → trabajar hipodermis con la técnica elegida (cavitación, modelador manual, radiofrecuencia profunda) → drenar linfa hacia ganglios → cierre.</p>
+
+        <h3>Protocolo lifting facial</h3>
+        <p><strong>Objetivo:</strong> reafirmar y reposicionar tejido facial.</p>
+        <p><strong>Sistemas involucrados:</strong> piel (dermis para colágeno), musculatura facial (expresión y estructura), sistema linfático facial.</p>
+        <p><strong>Secuencia lógica:</strong> limpieza y preparación → estimular dermis con técnica elegida (radiofrecuencia, microcorrientes, etc.) → trabajo manual ascendente siguiendo direcciones de lifting → drenaje a ganglios pre y retro auriculares → cierre hidratante.</p>
+
+        <h3>Protocolo post-quirúrgico</h3>
+        <p><strong>Objetivo:</strong> acompañar recuperación de lipo, aumento glúteo o cirugías estéticas.</p>
+        <p><strong>Sistemas involucrados:</strong> linfático (primordial por el edema), piel (dermis con adherencias), musculatura (adherencias y atrofia por reposo).</p>
+        <p><strong>Secuencia lógica:</strong> drenaje linfático suave siempre primero → trabajo muy suave sobre adherencias (cuando el médico autoriza) → nunca técnicas agresivas hasta cicatrización completa.</p>
+
+        <div class="placeholder-block">
+          <div class="placeholder-label">📘 Protocolos detallados paso a paso</div>
+          <p>Las recetas específicas con tiempos, maniobras, combinaciones con aparatología, número de sesiones y progresión se migran desde la fuente original del fundador. Estos tres esquemas son el marco — el detalle entra encima.</p>
+        </div>
+
+        <h2>Cómo se evoluciona como profesional</h2>
+
+        <p>El oficio de la estética no se aprende de una vez. Se evoluciona. Y hay tres marcadores que te dicen que estás creciendo:</p>
+
+        <ul>
+          <li><strong>Cuando empiezas a explicar lo que haces:</strong> la clienta pregunta "¿por qué en esa dirección?" y tú no respondes "así lo enseñaron", respondes con anatomía.</li>
+          <li><strong>Cuando reconoces tus límites:</strong> no tomas trabajos que te exceden y refieres cuando algo no es estético sino médico.</li>
+          <li><strong>Cuando adaptas protocolos sin perderte:</strong> puedes modificar una secuencia frente a una condición inesperada sin perder criterio.</li>
+        </ul>
+
+        <div class="placeholder-block">
+          <div class="placeholder-label">📘 Casos clínicos ilustrativos</div>
+          <p>Casos reales documentados desde la práctica del fundador (con consentimiento), mostrando cómo leer, diagnosticar, protocolizar y ajustar se integran desde la fuente original.</p>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-label">COMPRUEBA TU COMPRENSIÓN</div>
+          <div class="quiz-question">¿Cuál es la diferencia fundamental entre una receta y un protocolo en estética profesional?</div>
+          <ul class="quiz-options">
+            <li class="quiz-option">No hay diferencia, son sinónimos en el oficio</li>
+            <li class="quiz-option" data-correct="true">La receta se aplica igual a todas; el protocolo se adapta a cada cuerpo según lectura anatómica</li>
+            <li class="quiz-option">El protocolo incluye aparatología y la receta solo masaje manual</li>
+            <li class="quiz-option">La receta es más profesional y el protocolo es básico</li>
+          </ul>
+        </div>
+
+        <div class="mark-complete">
+          <div class="mark-complete-text">
+            <h4>¿Listo para el Bonus?</h4>
+            <p>Solo queda el material de referencia — contraindicaciones, glosario y bibliografía para consulta permanente.</p>
+          </div>
+          <button class="btn-complete">
+            Marcar completado
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>
+
+        <div class="module-nav">
+          <a href="modulo-6.html" class="nav-card-bottom">
+            <span class="nav-arrow">← Anterior</span>
+            <div class="nav-num">MÓDULO 6</div>
+            <div class="nav-title">La piel como tu campo</div>
+          </a>
+          <a href="bonus.html" class="nav-card-bottom next">
+            <span class="nav-arrow">Siguiente →</span>
+            <div class="nav-num">BONUS</div>
+            <div class="nav-title">Referencias y glosario</div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <aside class="context-sidebar">
+    <div class="context-section">
+      <div class="label">Tiempo estimado</div>
+      <div class="time-block">
+        <div class="big">32 min</div>
+        <div class="sub">· lectura pausada ·</div>
+      </div>
+    </div>
+
+    <div class="context-section">
+      <div class="label">En esta lección</div>
+      <ul class="section-toc">
+        <li class="section-toc-item active">Qué es un protocolo</li>
+        <li class="section-toc-item">Los cuatro momentos</li>
+        <li class="section-toc-item">Tres protocolos base</li>
+        <li class="section-toc-item">Cómo evolucionas</li>
+      </ul>
+    </div>
+
+    <div class="context-section">
+      <div class="label">Tu nota</div>
+      <div class="notes-widget">
+        <textarea placeholder="Escribe aquí lo que no quieres olvidar..."></textarea>
+        <div class="notes-saved" style="display:none;">Guardado ✓</div>
+      </div>
+    </div>
+
+    <div class="context-section">
+      <div class="quick-action">
+        <h5>¿Te falta un tema relacionado?</h5>
+        <p>Pídelo y lo tenemos en 3 días.</p>
+        <a href="../../pide-refuerzo.html" class="btn-quick">Pedir tema
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<script src="../../js/progress.js"></script>
+<script src="../../js/module-page.js"></script>
+
+</body>
+</html>

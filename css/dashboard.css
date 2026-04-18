@@ -173,7 +173,10 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
   width: 100%;
   max-width: 180px;
   height: auto;
+  filter: brightness(0) invert(1);
+  transition: filter 200ms var(--ease-out);
 }
+.brand:hover img { filter: brightness(0) invert(0.88) sepia(0.4) saturate(2.5) hue-rotate(15deg); }
 
 .sidebar-section { margin-bottom: 2rem; }
 
@@ -1040,6 +1043,35 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
   .pide-block-visual { display: none; }
 }
 
+.sidebar-close {
+  display: none;
+  position: absolute;
+  top: 0.9rem; right: 0.9rem;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(250, 245, 233, 0.08);
+  color: var(--ink);
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms var(--ease-out);
+  z-index: 5;
+}
+.sidebar-close:hover { background: rgba(250, 245, 233, 0.15); }
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 180;
+  opacity: 0;
+  transition: opacity 280ms var(--ease-out);
+}
+.sidebar-backdrop.visible { display: block; opacity: 1; }
+
+body.sidebar-open { overflow: hidden; }
+
 @media (max-width: 768px) {
   .dashboard { grid-template-columns: 1fr; }
   .sidebar {
@@ -1051,6 +1083,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
     box-shadow: var(--shadow-lift);
   }
   .sidebar.open { left: 0; }
+  .sidebar-close { display: flex; }
   .main { padding: 1.5rem 1.25rem 3rem; padding-top: 4rem; }
   .refuerzo-hero, .streak-card { padding: 1.75rem; }
   .cardumen-block { padding: 1.75rem; }

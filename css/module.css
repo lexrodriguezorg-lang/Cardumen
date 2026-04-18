@@ -755,6 +755,26 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
   box-shadow: 0 8px 20px rgba(143, 174, 126, 0.25);
 }
 
+/* Bloque de contenido en migración desde la fuente docx */
+.placeholder-block {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  background: rgba(212, 169, 74, 0.06);
+  border: 1px dashed rgba(212, 169, 74, 0.35);
+  border-radius: 12px;
+  color: rgba(250, 245, 233, 0.7);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+.placeholder-block .placeholder-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
 /* ==============================
    RIGHT SIDEBAR - CONTEXTO
    ============================== */
@@ -901,6 +921,35 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
   .reading { padding: 3rem 3rem 5rem; }
 }
 
+.toc-close {
+  display: none;
+  position: absolute;
+  top: 0.9rem; right: 0.9rem;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(250, 245, 233, 0.08);
+  color: var(--ink);
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms var(--ease-out);
+  z-index: 5;
+}
+.toc-close:hover { background: rgba(250, 245, 233, 0.15); }
+
+.toc-backdrop {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 180;
+  opacity: 0;
+  transition: opacity 280ms var(--ease-out);
+}
+.toc-backdrop.visible { display: block; opacity: 1; }
+
+body.toc-open { overflow: hidden; }
+
 @media (max-width: 900px) {
   .course-layout { grid-template-columns: 1fr; }
   .toc-sidebar {
@@ -912,6 +961,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
     box-shadow: var(--shadow-lift);
   }
   .toc-sidebar.open { left: 0; }
+  .toc-close { display: flex; }
   .reading { padding: 4.5rem 1.5rem 3rem; }
   .pullquote { margin: 2.5rem 0; padding: 1.5rem; font-size: 1.3rem; }
   .prose > p:first-of-type::first-letter { font-size: 4rem; }
