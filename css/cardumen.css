@@ -57,19 +57,6 @@
   --t-normal: 250ms ease;
 }
 
-/* Modo oscuro */
-[data-theme="dark"] {
-  --c-bg: var(--c-bg-dark);
-  --c-bg-card: var(--c-bg-card-dark);
-  --c-text: var(--c-text-dark);
-  --c-text-soft: #B8B5B0;
-  --c-text-mute: #6E7680;
-  --c-border: var(--c-border-dark);
-  --c-border-strong: #3A434C;
-  --c-primary: #4A9FE8;
-  --c-accent: #F0C760;
-}
-
 /* Reset minimalista */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
@@ -95,7 +82,6 @@ h3 { font-size: 1.4rem; margin-top: var(--sp-xl); color: var(--c-primary); }
 h4 { font-size: 1.1rem; margin-top: var(--sp-lg); color: var(--c-text-soft); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
 p { margin-bottom: var(--sp-md); }
 strong { font-weight: 600; color: var(--c-primary); }
-[data-theme="dark"] strong { color: var(--c-accent); }
 
 /* Layout principal */
 .cardumen-app {
@@ -126,7 +112,6 @@ strong { font-weight: 600; color: var(--c-primary); }
   width: 100%; max-width: 200px; height: auto;
   display: block;
 }
-[data-theme="dark"] .sidebar-brand-img img { opacity: 0.95; }
 .sidebar-brand .logo {
   width: 40px; height: 40px;
   background: var(--c-primary); border-radius: var(--r-md);
@@ -137,7 +122,6 @@ strong { font-weight: 600; color: var(--c-primary); }
   font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
   color: var(--c-primary);
 }
-[data-theme="dark"] .sidebar-brand .brand-name { color: var(--c-accent); }
 
 .sidebar-section { margin-bottom: var(--sp-xl); }
 .sidebar-section-title {
