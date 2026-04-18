@@ -48,11 +48,7 @@ body::before {
     radial-gradient(ellipse at 80% 85%, rgba(61, 107, 158, 0.06) 0%, transparent 55%);
 }
 
-body::after {
-  content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.87 0 0 0 0 0.78 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: screen;
-}
+/* body::after con feTurbulence + mix-blend-mode eliminado: cuadriculado. */
 
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -242,9 +238,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  /* Quitar SVG feTurbulence que se rasteriza como grid en mobile */
-  body::after { display: none !important; }
-  /* Quitar backdrop-filter del card — se rendera en tiles */
+  /* Quitar backdrop-filter del card — se rendera en tiles en mobile */
   .login-card {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -253,7 +247,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
 }
 @media (max-width: 520px) {
   .login-top { padding: 1.25rem 1.25rem; }
-  .login-top .brand img { height: 28px; }
+  .login-top .brand img { height: 36px; }
   .login-card { padding: 2.25rem 1.5rem 2rem; border-radius: 16px; }
   .login-title { font-size: 2rem; }
   .login-foot { padding: 1.25rem; font-size: 0.65rem; }
