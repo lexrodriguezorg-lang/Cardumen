@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pide tu Refuerzo — Cardumen</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/logo/favicon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/cardumen.css">
+<style>
+  body { padding: var(--sp-2xl); max-width: 720px; margin: 0 auto; }
+  .form-group { margin-bottom: var(--sp-lg); }
+  label {
+    display: block; font-weight: 600; margin-bottom: var(--sp-sm);
+    color: var(--c-primary);
+  }
+  label .help { font-weight: 400; color: var(--c-text-mute); font-size: 0.85rem; margin-left: 6px; }
+  input, textarea, select {
+    width: 100%; padding: 12px 16px;
+    border: 2px solid var(--c-border); border-radius: var(--r-sm);
+    font-size: 1rem; font-family: var(--font-body);
+    background: var(--c-bg-card); color: var(--c-text);
+    transition: border-color var(--t-fast);
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none; border-color: var(--c-primary);
+  }
+  textarea { min-height: 100px; resize: vertical; }
+  .options-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--sp-sm);
+  }
+  .option-tile {
+    padding: var(--sp-md); border: 2px solid var(--c-border);
+    border-radius: var(--r-sm); cursor: pointer; text-align: center;
+    transition: all var(--t-fast); background: var(--c-bg-card);
+  }
+  .option-tile:hover { border-color: var(--c-primary); }
+  .option-tile.selected {
+    border-color: var(--c-accent); background: var(--c-accent-soft);
+    color: var(--c-primary-dark); font-weight: 600;
+  }
+  .submit-area {
+    margin-top: var(--sp-2xl); padding-top: var(--sp-xl);
+    border-top: 1px solid var(--c-border);
+  }
+</style>
+</head>
+<body>
+
+<header style="text-align:center; margin-bottom: var(--sp-2xl);">
+  <a href="index.html" style="display: inline-block; margin-bottom: var(--sp-lg);">
+    <img src="assets/logo/cardumen-horizontal.png" alt="Cardumen" style="height:48px; width:auto;">
+  </a>
+  <h1>Pide tu Refuerzo</h1>
+  <p style="color: var(--c-text-soft); font-size: 1.1rem; margin-top: var(--sp-md);">
+    Cuéntanos qué te falta. Lo construimos en 3 días.<br>
+    <strong>Si lo pides tú, eres la primera en usarlo y tu link genera saldo cada vez que una compañera se suma.</strong>
+  </p>
+</header>
+
+<form id="brief-form">
+
+  <div class="form-group">
+    <label>1. ¿Cuál es el tema central del Refuerzo? <span class="help">(en una línea)</span></label>
+    <input type="text" name="tema" placeholder="Ej: Drenaje linfático post-liposucción">
+  </div>
+
+  <div class="form-group">
+    <label>2. ¿Para quién es? <span class="help">(perfil específico, no "todos")</span></label>
+    <input type="text" name="perfil" placeholder="Ej: Esteticistas con 2+ años, atendiendo postoperatorios">
+  </div>
+
+  <div class="form-group">
+    <label>3. ¿Qué nivel?</label>
+    <div class="options-grid">
+      <div class="option-tile" data-field="nivel" data-value="basico">Básico</div>
+      <div class="option-tile" data-field="nivel" data-value="intermedio">Intermedio</div>
+      <div class="option-tile" data-field="nivel" data-value="avanzado">Avanzado</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>4. Tres problemas concretos que NO logras resolver hoy:</label>
+    <textarea name="problemas" placeholder="Ej: 1) No sé exactamente cuándo empezar el drenaje post-liposucción. 2) No sé cuántas sesiones recomendar. 3) No sé identificar fibrosis vs inflamación normal."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>5. Tres cosas que SÍ deberías saber hacer al terminar:</label>
+    <textarea name="objetivos" placeholder="Ej: 1) Diseñar protocolo completo de 10 sesiones. 2) Reconocer banderas rojas. 3) Hablar con el cirujano usando lenguaje médico apropiado."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>6. ¿Hay algún libro o curso que ya cubre esto? <span class="help">¿Qué le falta?</span></label>
+    <textarea name="alternativas" placeholder="Opcional. Si conoces material existente, cuéntanos qué le faltó para que el nuestro lo supere."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>7. ¿Hay contraindicaciones, normativa o riesgos legales en este tema? <span class="help">(clave para no inventar reglas)</span></label>
+    <textarea name="legal" placeholder="Ej: En Colombia el postoperatorio antes de los 15 días requiere autorización del cirujano."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>8. Tono deseado:</label>
+    <div class="options-grid">
+      <div class="option-tile" data-field="tono" data-value="tecnico">Técnico</div>
+      <div class="option-tile" data-field="tono" data-value="calido">Cálido</div>
+      <div class="option-tile" data-field="tono" data-value="didactico">Didáctico</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>9. Largo aproximado:</label>
+    <div class="options-grid">
+      <div class="option-tile" data-field="largo" data-value="mini">Mini · 30 págs · $29.000</div>
+      <div class="option-tile" data-field="largo" data-value="completo">Completo · 60 págs · $49.000</div>
+      <div class="option-tile" data-field="largo" data-value="pro">Pro · 100+ págs · $89.000</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>10. Tu correo <span class="help">(para avisarte cuando esté listo y darte acceso prioritario)</span></label>
+    <input type="email" name="email" placeholder="tu@correo.com" required>
+  </div>
+
+  <div class="submit-area">
+    <div class="callout callout-key" style="margin-bottom: var(--sp-lg);">
+      <div class="callout-title">★ Lo que pasa después</div>
+      <p>1. Recibimos tu brief y validamos el tema con tutoras especialistas.</p>
+      <p>2. En 24h te confirmamos viabilidad y precio final.</p>
+      <p>3. En 3 días hábiles tienes tu Refuerzo en tu cuenta Cardumen.</p>
+      <p>4. Te enviamos tu link único de referidos: cada compañera que se suma con tu link te genera saldo para pedir más Refuerzos.</p>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="width:100%; padding: 16px; font-size: 1.05rem;">
+      Enviar mi brief →
+    </button>
+  </div>
+
+</form>
+
+<script src="js/cardumen.js"></script>
+<script>
+  Cardumen.applyTheme();
+
+  // Manejo de option tiles
+  document.querySelectorAll('.option-tile').forEach(tile => {
+    tile.addEventListener('click', () => {
+      const field = tile.dataset.field;
+      document.querySelectorAll(`.option-tile[data-field="${field}"]`).forEach(t => t.classList.remove('selected'));
+      tile.classList.add('selected');
+    });
+  });
+
+  // Submit
+  document.getElementById('brief-form').addEventListener('submit', e => {
+    e.preventDefault();
+    Cardumen.toast('✓ Brief enviado. Te respondemos en 24h.');
+    // Aquí va integración real con backend
+  });
+</script>
+</body>
+</html>
