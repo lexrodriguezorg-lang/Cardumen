@@ -6,30 +6,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  --ink: #1A1814;
-  --ink-soft: #4A4438;
-  --ink-mute: #8B8577;
-  --paper: #F4EFE6;
-  --paper-warm: #EDE5D5;
-  --cream: #FDF9F0;
+  /* DARK coherente con landing */
+  --ink: #FAF5E9;
+  --ink-soft: rgba(250, 245, 233, 0.7);
+  --ink-mute: rgba(250, 245, 233, 0.45);
+  --paper: #0E0B08;
+  --paper-warm: #15110C;
+  --cream: #1F1A13;
 
-  --navy: #1C3B5E;
-  --navy-deep: #0F2339;
-  --navy-light: #2C5581;
+  --navy: #3D6B9E;
+  --navy-deep: #2C5080;
+  --navy-light: #5B89BC;
 
-  --gold: #C89B3F;
-  --gold-deep: #A17E2A;
+  --gold: #D4A94A;
+  --gold-deep: #B78A2E;
   --gold-soft: #E8D19C;
-  --gold-mist: #F3E8C9;
+  --gold-mist: rgba(212, 169, 74, 0.14);
 
-  --coral: #D16E4E;
-  --coral-soft: #E8B29A;
+  --coral: #E88870;
+  --coral-soft: #F0A694;
 
-  --moss: #5C7A4F;
-  --rust: #B04A3B;
+  --moss: #8FAE7E;
+  --rust: #C46557;
 
-  --hairline: rgba(26, 24, 20, 0.08);
-  --hairline-strong: rgba(26, 24, 20, 0.15);
+  --hairline: rgba(250, 245, 233, 0.08);
+  --hairline-strong: rgba(250, 245, 233, 0.15);
 
   --display: 'Fraunces', 'Georgia', serif;
   --body: 'DM Sans', -apple-system, sans-serif;
