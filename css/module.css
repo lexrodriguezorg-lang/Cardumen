@@ -964,14 +964,9 @@ body.toc-open { overflow: hidden; }
   .pullquote { margin: 2.5rem 0; padding: 1.5rem; font-size: 1.3rem; }
   .prose > p:first-of-type::first-letter { font-size: 4rem; }
   .module-nav { grid-template-columns: 1fr; }
-  .menu-mobile-btn {
-    position: fixed; top: 1rem; left: 1rem; z-index: 100;
-    width: 42px; height: 42px; border-radius: 12px;
-    background: var(--ink); color: var(--cream);
-    display: flex; align-items: center; justify-content: center;
-  }
 }
-@media (min-width: 901px) { .menu-mobile-btn { display: none; } }
+/* En movil la nav principal es bottom-nav. El hamburguesa queda desactivado. */
+.menu-mobile-btn { display: none !important; }
 
 /* Animaciones */
 @keyframes slideUp {
