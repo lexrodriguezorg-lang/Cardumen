@@ -89,11 +89,12 @@ Ver **PENDIENTE.md** para detalle ejecutable de cada punto.
 6. Bordes hairline `rgba(26,24,20,0.08)`
 
 ### Logos en `/assets/logo/`
-- cardumen-full.png (con tagline)
-- cardumen-horizontal.png (sin tagline)
-- cardumen-symbol.png (solo cardumen)
-- cardumen-mono.png (navy monocromo)
-- cardumen-white.png (blanco)
+**Sistema de identidad — 3 logos válidos (únicos):**
+- `cardumen-white.png` — usar en **fondos oscuros** (mayoría del sitio)
+- `cardumen-horizontal.png` — usar en **fondos claros** (versión navy+dorado)
+- `cardumen-symbol.png` — ícono / símbolo suelto
+
+Cualquier otro archivo en `assets/logo/` que no sea uno de esos tres (aparte de favicons) es legacy y debe borrarse. Nunca aplicar filter CSS al logo.
 - favicon-*.png (16/32/64/192/512)
 
 **Metáfora del logo**: pez líder dorado + 6-8 peces navy detrás = usuaria líder + comunidad siguiendo = referido.
