@@ -24,42 +24,35 @@
     return false;
   }
 
+  // Todas las rutas son absolutas — funcionan desde cualquier path,
+  // sin importar cleanUrls/trailingSlash de Vercel.
+  const REFUERZO = '/refuerzos/estetica-anatomia/';
+
   // Resolver URL al modulo en curso (si hay) o al primer modulo del refuerzo
   function resolveEstudiarHref() {
     try {
       const s = JSON.parse(localStorage.getItem('cardumen_estetica-anatomia') || 'null');
       const done = (s && Array.isArray(s.completed)) ? s.completed : [];
-      // Siguiente modulo no completado, o el 1 si arranca fresh
       for (let n = 1; n <= 8; n++) {
         if (!done.includes(n)) {
           const file = n === 8 ? 'bonus.html' : 'modulo-' + n + '.html';
-          return pathPrefix() + 'refuerzos/estetica-anatomia/' + file;
+          return REFUERZO + file;
         }
       }
-      return pathPrefix() + 'refuerzos/estetica-anatomia/bonus.html';
+      return REFUERZO + 'bonus.html';
     } catch (_) {
-      return pathPrefix() + 'refuerzos/estetica-anatomia/modulo-1.html';
+      return REFUERZO + 'modulo-1.html';
     }
   }
 
-  // Prefijo relativo para que el link funcione en paginas anidadas
-  function pathPrefix() {
-    // Si estamos en /refuerzos/estetica-anatomia/X, necesitamos ../../
-    const depth = (path.match(/\//g) || []).length - 1;
-    if (depth >= 2) return '../../';
-    return '';
-  }
-
-  const pp = pathPrefix();
-
   const items = [
-    { key: 'dashboard',  label: 'Inicio',     href: pp + 'mi-cardumen.html',
+    { key: 'dashboard',  label: 'Mi estudio', href: '/mi-cardumen.html',
       svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>' },
     { key: 'estudiar',   label: 'Estudiar',   href: resolveEstudiarHref(),
       svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 013 3v14H7a3 3 0 01-3-3V4z"/><path d="M4 16h14"/></svg>' },
-    { key: 'biblioteca', label: 'Biblioteca', href: pp + 'index.html#biblioteca',
+    { key: 'biblioteca', label: 'Biblioteca', href: '/index.html#biblioteca',
       svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="4" height="16" rx="1"/><rect x="9" y="4" width="4" height="16" rx="1"/><path d="M15 5l4 1 3 13-4 1z"/></svg>' },
-    { key: 'perfil',     label: 'Cuenta',     href: pp + 'perfil.html',
+    { key: 'perfil',     label: 'Cuenta',     href: '/perfil.html',
       svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>' }
   ];
 
@@ -87,10 +80,8 @@
         display: none;
         position: fixed; bottom: 0; left: 0; right: 0;
         z-index: 150;
-        background: rgba(14, 11, 8, 0.92);
+        background: rgba(14, 11, 8, 0.97);
         border-top: 1px solid rgba(250, 245, 233, 0.1);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
         padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
       }
       .cardumen-bottom-nav .cbn-item {

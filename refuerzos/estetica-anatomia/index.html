@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anatomía Aplicada a la Estética — Refuerzo 001 · Cardumen</title>
 <meta name="description" content="El mapa que nunca te dieron en clase. 9 módulos de anatomía aplicada a la estética profesional.">
-<link rel="icon" href="../../favicon.ico" type="image/x-icon">
-<link rel="icon" type="image/png" sizes="192x192" href="../../assets/logo/favicon-192.png">
-<link rel="stylesheet" href="../../css/refuerzo.css">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/logo/favicon-192.png">
+<link rel="stylesheet" href="/css/refuerzo.css">
 <script>
   (function() {
     try {
       const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
-      if (!s || !s.email) window.location.replace('../../login.html');
-    } catch (_) { window.location.replace('../../login.html'); }
+      if (!s || !s.email) window.location.replace('/login.html');
+    } catch (_) { window.location.replace('/login.html'); }
   })();
 </script>
 </head>
@@ -21,12 +21,12 @@
 
 <!-- TOP BAR -->
 <header class="refuerzo-top" id="refuerzoTop">
-  <a href="../../index.html" class="brand" aria-label="Cardumen">
-    <img src="../../assets/logo/cardumen-white.png" alt="Cardumen">
+  <a href="/index.html" class="brand" aria-label="Cardumen">
+    <img src="/assets/logo/cardumen-horizontal.png" alt="Cardumen">
   </a>
-  <a href="../../mi-cardumen.html" class="back">
+  <a href="/mi-cardumen.html" class="back">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    Mi cardumen
+    Mi estudio
   </a>
 </header>
 
@@ -42,7 +42,7 @@
     <span class="sep">·</span>
     <span>Estética profesional</span>
   </div>
-  <a href="modulo-1.html" class="hero-cta" id="heroCta">
+  <a href="/refuerzos/estetica-anatomia/modulo-1.html" class="hero-cta" id="heroCta">
     <span id="heroCtaLabel">Empezar a estudiar</span>
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
   </a>
@@ -123,28 +123,29 @@
       <h3>¿Te falta un<br>tema <em>relacionado?</em></h3>
       <p>Cardumen escucha. Si hay algo que este Refuerzo no cubre, pídelo y lo construimos en tres días.</p>
     </div>
-    <a href="../../pide-refuerzo.html" class="pide-btn">
+    <a href="/pide-refuerzo.html" class="pide-btn">
       Pedir mi tema
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     </a>
   </div>
 </section>
 
-<script src="../../js/progress.js"></script>
+<script src="/js/progress.js"></script>
 <script>
 (function() {
   const progress = CardumenProgress.init('estetica-anatomia');
   const TOTAL = 9;
 
+  const BASE = '/refuerzos/estetica-anatomia/';
   const modulos = [
-    { num: 1, title: 'Por qué necesitas anatomía',       meta: '12 min · Fundamentos',        href: 'modulo-1.html' },
-    { num: 2, title: 'Anatomía abdominal',               meta: '22 min · Órganos y cuadrantes', href: 'modulo-2.html' },
-    { num: 3, title: 'Sistema muscular',                 meta: '28 min · Fibras y direcciones', href: 'modulo-3.html' },
-    { num: 4, title: 'Sistema linfático',                meta: '25 min · Drenaje con criterio', href: 'modulo-4.html' },
-    { num: 5, title: 'Anatomía facial',                  meta: '24 min · Lifting y ganglios',   href: 'modulo-5.html' },
-    { num: 6, title: 'La piel como tu campo',            meta: '20 min · Capas y técnicas',     href: 'modulo-6.html' },
-    { num: 7, title: 'Integración y protocolos',         meta: '32 min · Pensar en protocolo',  href: 'modulo-7.html' },
-    { num: 8, title: 'Bonus: referencias y glosario',    meta: 'Material imprimible',           href: 'bonus.html' }
+    { num: 1, title: 'Por qué necesitas anatomía',       meta: '12 min · Fundamentos',        href: BASE + 'modulo-1.html' },
+    { num: 2, title: 'Anatomía abdominal',               meta: '22 min · Órganos y cuadrantes', href: BASE + 'modulo-2.html' },
+    { num: 3, title: 'Sistema muscular',                 meta: '28 min · Fibras y direcciones', href: BASE + 'modulo-3.html' },
+    { num: 4, title: 'Sistema linfático',                meta: '25 min · Drenaje con criterio', href: BASE + 'modulo-4.html' },
+    { num: 5, title: 'Anatomía facial',                  meta: '24 min · Lifting y ganglios',   href: BASE + 'modulo-5.html' },
+    { num: 6, title: 'La piel como tu campo',            meta: '20 min · Capas y técnicas',     href: BASE + 'modulo-6.html' },
+    { num: 7, title: 'Integración y protocolos',         meta: '32 min · Pensar en protocolo',  href: BASE + 'modulo-7.html' },
+    { num: 8, title: 'Bonus: referencias y glosario',    meta: 'Material imprimible',           href: BASE + 'bonus.html' }
   ];
 
   // Siguiente modulo a estudiar: el primero no completado y desbloqueado
@@ -190,7 +191,7 @@
     document.getElementById('heroCta').setAttribute('href', modulos[currentIdx].href);
   } else if (currentIdx === -1) {
     document.getElementById('heroCtaLabel').textContent = '¡Completaste el Refuerzo!';
-    document.getElementById('heroCta').setAttribute('href', 'bonus.html');
+    document.getElementById('heroCta').setAttribute('href', BASE + 'bonus.html');
   }
 
   // Top bar: clase scrolled al bajar
@@ -201,7 +202,7 @@
 })();
 </script>
 
-<script src="../../js/bottom-nav.js"></script>
+<script src="/js/bottom-nav.js"></script>
 
 </body>
 </html>

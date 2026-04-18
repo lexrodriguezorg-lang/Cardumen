@@ -52,12 +52,24 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
   display: flex; justify-content: space-between; align-items: center;
 }
 .stub-brand img { height: 42px; width: auto; }
-.stub-back {
-  font-size: 0.85rem; color: var(--cream-mute);
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  transition: color 200ms var(--ease-out);
+.stub-nav {
+  display: inline-flex; align-items: center; gap: 0.5rem;
 }
-.stub-back:hover { color: var(--gold); }
+.stub-back {
+  font-size: 0.82rem; color: var(--cream-mute);
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid var(--cream-line);
+  border-radius: 100px;
+  transition: all 200ms var(--ease-out);
+}
+.stub-back:hover { color: var(--gold); border-color: var(--gold); background: rgba(212, 169, 74, 0.08); }
+.stub-home { color: var(--cream); }
+@media (max-width: 520px) {
+  .stub-nav { gap: 0.35rem; }
+  .stub-back { padding: 0.5rem 0.8rem; font-size: 0.75rem; }
+  .stub-back svg { width: 12px; height: 12px; }
+}
 
 .stub-shell {
   position: relative; z-index: 3;

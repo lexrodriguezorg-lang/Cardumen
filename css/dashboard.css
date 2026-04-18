@@ -1085,6 +1085,9 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
 body.sidebar-open { overflow: hidden; }
 
 @media (max-width: 768px) {
+  /* Quitar SVG feTurbulence que se rasteriza como grid visible en mobile */
+  body::after { display: none !important; }
+
   .dashboard { grid-template-columns: 1fr; }
   .sidebar {
     position: fixed;
@@ -1102,9 +1105,20 @@ body.sidebar-open { overflow: hidden; }
   .cardumen-block::before { display: none; }
   .pide-block { padding: 2rem; }
   .metrics-row { grid-template-columns: 1fr; }
-
+  /* Hamburguesa sin backdrop-filter (causa tiles en mobile). Fondo solido. */
+  .menu-mobile {
+    position: fixed; top: 0.9rem; left: 0.9rem;
+    z-index: 100;
+    width: 40px; height: 40px; border-radius: 12px;
+    background: rgba(31, 26, 19, 0.96);
+    border: 1px solid rgba(250, 245, 233, 0.12);
+    color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+  }
 }
 
-/* En movil la nav principal es la bottom-nav (inyectada por bottom-nav.js).
-   El hamburguesa .menu-mobile y el sidebar.open quedan deshabilitados. */
-.menu-mobile { display: none !important; }
+/* En desktop el sidebar es fijo; hamburguesa oculta.
+   En movil (<=768px) el hamburguesa aparece y abre el sidebar rico
+   (Biblioteca, Pedir tema, Referidas, Saldo, Perfil, Ajustes, Logout).
+   Convive con la bottom-nav de 4 items para navegacion principal. */
+.menu-mobile { display: none; }
