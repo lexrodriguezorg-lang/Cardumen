@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi perfil — Cardumen</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="css/stub.css">
+<script>
+  (function() {
+    try {
+      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!s || !s.email) window.location.replace('login.html');
+    } catch (_) { window.location.replace('login.html'); }
+  })();
+</script>
+</head>
+<body data-page="perfil">
+
+<header class="stub-top">
+  <a href="index.html" class="stub-brand">
+    <img src="assets/logo/cardumen-white.png" alt="Cardumen">
+  </a>
+  <a href="mi-cardumen.html" class="stub-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Mi cardumen
+  </a>
+</header>
+
+<main class="stub-shell">
+  <div class="stub-card">
+    <div class="stub-kicker">PERFIL</div>
+    <h1>Tu cuenta,<br><em>en construcción.</em></h1>
+    <p class="stub-lede">Aquí vas a poder editar tu nombre, foto, correo de recuperación, cambiar contraseña y revisar tu historial de Refuerzos. Lo estamos construyendo junto al sistema de referidos.</p>
+
+    <div class="stub-info">
+      <div class="stub-info-row">
+        <span class="label">Correo de acceso</span>
+        <span class="value" id="userEmail">—</span>
+      </div>
+      <div class="stub-info-row">
+        <span class="label">Nombre</span>
+        <span class="value" id="userName">—</span>
+      </div>
+      <div class="stub-info-row">
+        <span class="label">Refuerzos activos</span>
+        <span class="value">1</span>
+      </div>
+    </div>
+
+    <div class="stub-actions">
+      <a href="mi-cardumen.html" class="stub-btn stub-btn-primary">Volver al dashboard</a>
+      <button class="stub-btn stub-btn-ghost" id="logoutBtn">Cerrar sesión</button>
+    </div>
+  </div>
+</main>
+
+<script src="js/bottom-nav.js"></script>
+<script>
+  try {
+    const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+    if (s) {
+      document.getElementById('userEmail').textContent = s.email || '—';
+      document.getElementById('userName').textContent = s.name || '—';
+    }
+  } catch (_) {}
+
+  document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    localStorage.removeItem('cardumen_session');
+    window.location.replace('login.html');
+  });
+</script>
+
+</body>
+</html>

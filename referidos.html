@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis referidos — Cardumen</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="css/stub.css">
+<script>
+  (function() {
+    try {
+      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!s || !s.email) window.location.replace('login.html');
+    } catch (_) { window.location.replace('login.html'); }
+  })();
+</script>
+</head>
+<body data-page="referidos">
+
+<header class="stub-top">
+  <a href="index.html" class="stub-brand">
+    <img src="assets/logo/cardumen-white.png" alt="Cardumen">
+  </a>
+  <a href="mi-cardumen.html" class="stub-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Mi cardumen
+  </a>
+</header>
+
+<main class="stub-shell">
+  <div class="stub-card">
+    <div class="stub-kicker">CARDUMEN COMUNIDAD</div>
+    <h1>Tus referidas<br><em>en construcción.</em></h1>
+    <p class="stub-lede">Aquí vas a ver cuántas compañeras entraron con tu link, tu saldo acumulado, el historial de pagos y cómo se distribuye tu red. Estamos afinando la integración con Nequi antes de activarlo.</p>
+
+    <div class="stub-info">
+      <div class="stub-info-row">
+        <span class="label">Tu link de referido</span>
+        <span class="value mono">cardumen.co/r/—</span>
+      </div>
+      <div class="stub-info-row">
+        <span class="label">Referidas activas</span>
+        <span class="value">0</span>
+      </div>
+      <div class="stub-info-row">
+        <span class="label">Saldo acumulado</span>
+        <span class="value">$0 COP</span>
+      </div>
+    </div>
+
+    <div class="stub-actions">
+      <a href="mi-cardumen.html" class="stub-btn stub-btn-primary">Volver al dashboard</a>
+      <a href="pide-refuerzo.html" class="stub-btn stub-btn-ghost">Pedir un tema</a>
+    </div>
+  </div>
+</main>
+
+<script src="js/bottom-nav.js"></script>
+
+</body>
+</html>
