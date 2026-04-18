@@ -71,10 +71,9 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
   height: 42px;
   width: auto;
   opacity: 1;
-  filter: brightness(0) invert(1);
-  transition: filter 200ms var(--ease-out);
+  transition: opacity 200ms var(--ease-out);
 }
-.nav-brand:hover img { filter: brightness(0) invert(0.88) sepia(0.4) saturate(2.5) hue-rotate(15deg); }
+.nav-brand:hover img { opacity: 0.85; }
 .nav-actions { display: inline-flex; align-items: center; gap: 0.75rem; }
 
 .nav-cta {
@@ -134,7 +133,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
   position: relative; z-index: 2;
 }
 .menu-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4rem; }
-.menu-top img { height: 44px; width: auto; opacity: 1; filter: brightness(0) invert(1); }
+.menu-top img { height: 48px; width: auto; opacity: 1; }
 .menu-close {
   display: inline-flex; align-items: center; gap: 0.75rem;
   padding: 0.7rem 1.35rem; border: 1px solid var(--cream-line);
@@ -672,7 +671,6 @@ footer { padding: 4rem 2.5rem 2rem; max-width: 1320px; margin: 0 auto; border-to
   width: auto;
   margin-bottom: 1.25rem;
   opacity: 1;
-  filter: brightness(0) invert(1);
 }
 .footer-brand p {
   font-family: var(--display); font-style: italic; color: var(--cream-mute);
