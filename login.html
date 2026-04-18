@@ -126,13 +126,13 @@
     }
 
     const entry = access.codes[code];
-    if (!entry || entry.email.toLowerCase() !== email) {
-      showError('Correo y código no coinciden. Revisa que sean los que te enviamos.');
+    if (!entry) {
+      showError('Código inválido. Revisa que sea el que te enviamos por WhatsApp.');
       return;
     }
 
     const session = {
-      email: entry.email,
+      email: email,
       name: entry.name,
       refuerzos: entry.refuerzos,
       loggedInAt: new Date().toISOString()

@@ -1,8 +1,7 @@
 {
-  "_comment": "MVP: credenciales validas. Email + codigo en mayusculas. Comparacion case-insensitive en login.js. Al migrar a Supabase esta validacion va server-side.",
+  "_comment": "MVP: el CODIGO valida el acceso. El email lo escribe la usuaria y queda ligado a su sesion. Al migrar a Supabase la validacion va server-side.",
   "codes": {
     "CARDUMEN001": {
-      "email": "eli@cardumen.co",
       "name": "Eli",
       "refuerzos": ["estetica-anatomia"]
     }
