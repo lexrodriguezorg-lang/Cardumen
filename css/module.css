@@ -223,6 +223,23 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
 }
 .toc-link.completed .toc-num span { display: none; }
 
+.toc-link.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.toc-link.locked:hover { background: transparent; }
+.toc-link.locked .toc-title,
+.toc-link.locked .toc-meta { color: rgba(250, 245, 233, 0.4); }
+.toc-link.locked .toc-num {
+  background: transparent;
+  border: 1px dashed rgba(250, 245, 233, 0.25);
+  color: transparent;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23FAF5E9' stroke-opacity='0.55' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.toc-link.locked .toc-num span { display: none; }
+
 .toc-content {
   flex: 1;
   min-width: 0;
@@ -728,6 +745,14 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
   background: var(--navy-deep);
   transform: translateY(-1px);
   box-shadow: 0 8px 20px rgba(28, 59, 94, 0.25);
+}
+.btn-complete.is-done {
+  background: var(--moss);
+  color: var(--cream);
+}
+.btn-complete.is-done:hover {
+  background: rgba(143, 174, 126, 0.85);
+  box-shadow: 0 8px 20px rgba(143, 174, 126, 0.25);
 }
 
 /* ==============================

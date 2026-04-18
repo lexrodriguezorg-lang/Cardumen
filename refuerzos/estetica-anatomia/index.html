@@ -10,6 +10,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../css/cardumen.css">
+<script>
+  // Auth guard — redirige al login si no hay sesion
+  (function() {
+    try {
+      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!s || !s.email) window.location.replace('../../login.html');
+    } catch (_) { window.location.replace('../../login.html'); }
+  })();
+</script>
 </head>
 <body data-module-num="0">
 
@@ -122,9 +131,29 @@
   </main>
 </div>
 
+<script src="../../js/progress.js"></script>
 <script src="../../js/cardumen.js"></script>
 <script>
   Cardumen.init({ refuerzoId: 'estetica-anatomia', totalModules: 9 });
+
+  // Locking: marca los modulos bloqueados en la nav e intercepta sus clicks.
+  (function applyLocking() {
+    const progress = CardumenProgress.init('estetica-anatomia');
+    document.querySelectorAll('.module-nav a[data-module]').forEach(a => {
+      const num = parseInt(a.dataset.module, 10);
+      if (Number.isNaN(num)) return;
+      if (!progress.isUnlocked(num)) {
+        a.classList.add('locked');
+        a.setAttribute('aria-disabled', 'true');
+      }
+    });
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('.module-nav a.locked');
+      if (!link) return;
+      e.preventDefault();
+      Cardumen.toast('Completa el modulo anterior y su quiz para desbloquear este.');
+    });
+  })();
 </script>
 </body>
 </html>
