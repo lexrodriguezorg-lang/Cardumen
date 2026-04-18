@@ -16,32 +16,42 @@ Promesa: "Lo que faltó en clase, te lo construimos." Los usuarios son profesion
 
 **Tagline:** *Estudiamos juntos, llegamos lejos.*
 
-**Persona piloto:** Eli Ramírez, esteticista en Cali (pareja del fundador). Primera validadora del Refuerzo 001.
+**Persona piloto:** Eli, esteticista en Cali (pareja del fundador). Primera validadora del Refuerzo 001.
 
-## 2. ESTADO ACTUAL (v3 — 18 abril 2026)
+## 2. ESTADO ACTUAL (v4 — abril 2026)
 
 ### Completado con nivel editorial premium
-- ✅ Logo Cardumen con 5 variantes (full, horizontal, símbolo, mono, blanco) limpias, transparentes reales
-- ✅ Paleta editorial cálida (ink + paper + navy + gold + coral, con moss y rust como estados)
-- ✅ Tipografía distintiva: Fraunces + DM Sans + JetBrains Mono
-- ✅ Landing pública `index.html` con hero+mockup, manifiesto, cómo funciona, preview "así se siente estudiar", biblioteca curada, validación, CTA final
-- ✅ Dashboard del cliente `mi-cardumen.html` para Eli Ramírez
-- ✅ Vista del módulo `refuerzos/estetica-anatomia/modulo-4.html` editorial (3 columnas, drop cap, callouts, quiz, notas persistentes)
-- ✅ Favicons completos
-- ✅ Responsive
+- ✅ Logo Cardumen (variantes horizontal, white, symbol, full, mono). Regla crítica: **nunca aplicar filter CSS que quite el pez dorado líder**. Usar `cardumen-white.png` en fondo oscuro, `cardumen-horizontal.png` en claro.
+- ✅ Paleta dark editorial permanente (ink #0E0B08 + cream #FAF5E9 + navy #3D6B9E + gold #D4A94A + coral #E88870 + moss). Toggle de tema eliminado — dark fijo.
+- ✅ Tipografía: Fraunces + DM Sans + JetBrains Mono
+- ✅ Deploy funcional en Vercel (`cardumen.vercel.app`) tras aplanar estructura del repo
+- ✅ **Landing** `index.html` con menú full-screen que adapta link según sesión (Entrar / Mi cardumen)
+- ✅ **Login** `/login.html` con email + código alfanumérico, validación en `data/access.json`, sesión persistente en `localStorage.cardumen_session`. El código `CARDUMEN001` da acceso a Eli al Refuerzo 001.
+- ✅ **Dashboard** `mi-cardumen.html` con saludo dinámico según hora + nombre de sesión, sidebar lateral en desktop, logout, links funcionales (Biblioteca, Pedir tema, Cómo funciona; Referidas/Saldo/Perfil/Ajustes marcados "pronto" con toast).
+- ✅ **Portada del Refuerzo 001** (`refuerzos/estetica-anatomia/index.html`) **rediseñada v4**: hero full-screen emocional con identidad coral+dorado, sección "Lo que vas a lograr" con 4 cards, listado dinámico de los 9 módulos con estado real (completed/current/locked) leído de `localStorage.cardumen_estetica-anatomia`.
+- ✅ **9 módulos creados** (`modulo-1.html` a `modulo-7.html`, `modulo-4.html`, `bonus.html`) con estructura editorial v3 compartida: 3 columnas, callouts tipados, quizzes con gate de completado, notas persistentes, locking progresivo. Contenido editorial + anatomía general completo; secciones específicas del docx marcadas con `.placeholder-block` para migración.
+- ✅ **Sistema de locking** (`js/progress.js` + `js/module-page.js`): módulo 1 siempre abierto, los demás se desbloquean al completar el previo Y aprobar su quiz. Progress compartido entre páginas.
+- ✅ **Navegación app-style**: en desktop sidebar fijo + menú overlay; en móvil bottom-nav fijo tipo Instagram con 4 items (Inicio, Estudiar, Biblioteca, Cuenta). Inyectado dinámicamente por `js/bottom-nav.js` solo con sesión activa.
+- ✅ **Auth guard sincrónico** en `<head>` de las 12 páginas protegidas (dashboard, refuerzo index, 8 módulos, perfil, referidos) — evita flash de contenido.
+- ✅ **Stubs** `perfil.html` y `referidos.html` editoriales dark, muestran datos de sesión y explican "en construcción" hasta tener backend Supabase.
+- ✅ Favicons + responsive
 
 ### Pendiente
-- ⏳ Migrar módulos 1, 2, 3, 5, 6, 7 y Bonus al formato `modulo-4.html` (tarea para Code)
-- ⏳ 2 Refuerzos nuevos: Postoperatorio + Aparatología Invima, y Drenaje Oncoestético
-- ⏳ `pide-refuerzo.html` sigue con estética v1, requiere rediseño
-- ⏳ `refuerzos/estetica-anatomia/index.html` (home del refuerzo) sigue con estética v1, requiere rediseño
-- ⏳ Páginas faltantes: referidos, perfil, cómo funciona, acceso/login
-- ⏳ Sistema de login simple (email + código 6 dígitos post-pago Nequi)
-- ⏳ Validación manual Nequi + WhatsApp Business
+- ⏳ Contenido específico de los módulos 2-7 y Bonus migrado desde `Anatomia_Aplicada_a_la_Estetica.docx` (las secciones `.placeholder-block` marcan dónde pegar)
+- ⏳ Bibliografía verificada real en `bonus.html` (NO inventar referencias)
 - ⏳ 8 diagramas anatómicos de Lovart
-- ⏳ Bibliografía verificada real
+- ⏳ Rediseñar `pide-refuerzo.html` al dark editorial (sigue v1 light)
+- ⏳ Página `venta.html` (landing long-form de venta separada del home del curso)
+- ⏳ `perfil.html` funcional (editar nombre, apellidos, foto, recuperar código)
+- ⏳ `referidos.html` funcional (link propio, referidas traídas, saldo, historial)
+- ⏳ Dashboard métricas reales (progreso 44%, racha, sparklines — hoy son mockup editorial)
+- ⏳ 2 Refuerzos nuevos: Postoperatorio + Aparatología Invima, y Drenaje Oncoestético
+- ⏳ Validación manual Nequi + WhatsApp Business
+- ⏳ Migración login a Supabase (backend real con códigos de un solo uso)
 - ⏳ Compra dominio cardumen.co en Hostinger
 - ⏳ Deploy a Hostinger vía FTP
+
+Ver **PENDIENTE.md** para detalle ejecutable de cada punto.
 
 ## 3. IDENTIDAD VISUAL
 
