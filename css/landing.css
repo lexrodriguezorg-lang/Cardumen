@@ -47,11 +47,8 @@ body::before {
     radial-gradient(ellipse at 50% 100%, rgba(232, 136, 112, 0.04) 0%, transparent 50%);
   pointer-events: none; z-index: 0;
 }
-body::after {
-  content: ''; position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.87 0 0 0 0 0.78 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 1; mix-blend-mode: screen;
-}
+/* body::after con feTurbulence + mix-blend-mode eliminado: generaba
+   cuadriculado visible sobre logos en mobile. */
 main, nav, section, header, footer, .nav-content { position: relative; z-index: 2; }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -708,11 +705,6 @@ footer { padding: 4rem 2.5rem 2rem; max-width: 1320px; margin: 0 auto; border-to
   .menu-top { margin-bottom: 2.5rem; }
   .menu-primary a { font-size: 2.2rem; }
   .menu-aside-block { padding: 1.25rem; }
-
-  /* En mobile el SVG feTurbulence puede rasterizarse como grid visible
-     (Safari iOS, algunos Chrome mobile). Lo quitamos para mobile y
-     confiamos solo en los radiales de color del body::before. */
-  body::after { display: none !important; }
 
   /* backdrop-filter en mobile se renderiza en tiles y hace efecto
      cuadriculado. Usamos fondo solido mas opaco como alternativa. */
