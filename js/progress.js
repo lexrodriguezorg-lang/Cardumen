@@ -90,5 +90,26 @@ window.CardumenProgress = {
   setNote(key, value) {
     this.state.notes[key] = value;
     this.save();
+  },
+
+  /**
+   * Artefactos independientes (simuladores, exploradores) que viven fuera
+   * del state principal para no inflarlo. Cada artefacto guarda su propio
+   * flag en localStorage['cardumen_<id>'] con { completed, date, ...extra }.
+   * Util para condicionar mark-completed de un modulo a que los
+   * artefactos clave fueron completados.
+   */
+  hasArtefactoCompleted(id) {
+    try {
+      const data = JSON.parse(localStorage.getItem('cardumen_' + id) || 'null');
+      return !!(data && data.completed);
+    } catch (_) { return false; }
+  },
+
+  setArtefactoCompleted(id, extra) {
+    try {
+      const data = Object.assign({ completed: true, date: new Date().toISOString() }, extra || {});
+      localStorage.setItem('cardumen_' + id, JSON.stringify(data));
+    } catch (_) {}
   }
 };

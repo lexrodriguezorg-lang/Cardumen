@@ -6,6 +6,7 @@
 <title>Anatomía abdominal — Anatomía Aplicada a la Estética · Cardumen</title>
 <link rel="icon" href="../../favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="../../css/module.css">
+<link rel="stylesheet" href="../../css/modulo2.css">
 <script>
   (function() {
     try {
@@ -74,9 +75,9 @@
       </div>
 
       <header class="module-title-block anim-in anim-in-1">
-        <span class="overline">MÓDULO 2 · ANATOMÍA ABDOMINAL</span>
-        <h1>El mapa que <em>no te enseñaron</em> sobre el abdomen.</h1>
-        <p class="lede">Cada vez que tocas un abdomen estás trabajando sobre órganos vivos. Este módulo es el plano que te dice qué hay debajo, y cómo eso cambia cada técnica.</p>
+        <span class="overline">MÓDULO 02 · ANATOMÍA ABDOMINAL</span>
+        <h1>Lo que está debajo de <em>tus manos</em>.</h1>
+        <p class="lede" style="font-style: italic;">Antes de aplastar, de amasar, de drenar, tienes que saber qué hay ahí dentro.</p>
       </header>
 
       <div class="prose anim-in anim-in-2">
@@ -89,33 +90,220 @@
 
         <p>La anatomía clínica divide el abdomen en cuatro cuadrantes usando dos líneas imaginarias que se cruzan en el ombligo: una vertical y otra horizontal. Este mapa no es académico: es la base para decidir qué tipo de presión aplicar en cada zona.</p>
 
+        <!-- ============================================================
+             ARTEFACTO 1 · MAPA INTERACTIVO DE CUADRANTES
+             ============================================================ -->
+        <div class="artefacto" id="artefacto-1">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <div style="font-size: 11px; letter-spacing: 0.16em; color: var(--color-text-tertiary); margin-bottom: 8px;">EXPLORADOR INTERACTIVO</div>
+            <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 500; color: var(--color-text-primary);">Toca cada cuadrante</div>
+            <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; font-style: italic;">Descubre qué hay debajo antes de poner tus manos</div>
+          </div>
+
+          <div class="artefacto-grid-2col" style="align-items: start;">
+
+            <svg id="abdomen-svg" viewBox="0 0 300 440" style="width: 100%; max-width: 280px; justify-self: center;">
+              <defs>
+                <linearGradient id="torso-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--color-background-secondary)" stop-opacity="0.6"/>
+                  <stop offset="100%" stop-color="var(--color-background-secondary)" stop-opacity="0.3"/>
+                </linearGradient>
+              </defs>
+              <path d="M 70 40 Q 60 60 60 100 L 60 360 Q 60 400 90 420 L 210 420 Q 240 400 240 360 L 240 100 Q 240 60 230 40 Z" fill="url(#torso-grad)" stroke="var(--color-border-secondary)" stroke-width="1"/>
+              <path d="M 70 75 Q 150 88 230 75" fill="none" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+              <path d="M 70 95 Q 150 108 230 95" fill="none" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+              <path d="M 70 385 Q 150 405 230 385" fill="none" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+              <path id="q1" d="M 60 140 L 150 140 L 150 250 L 60 250 Z" fill="transparent" stroke="none" style="cursor: pointer; transition: fill 0.3s;" data-q="1"/>
+              <path id="q2" d="M 150 140 L 240 140 L 240 250 L 150 250 Z" fill="transparent" stroke="none" style="cursor: pointer; transition: fill 0.3s;" data-q="2"/>
+              <path id="q3" d="M 60 250 L 150 250 L 150 360 L 60 360 Z" fill="transparent" stroke="none" style="cursor: pointer; transition: fill 0.3s;" data-q="3"/>
+              <path id="q4" d="M 150 250 L 240 250 L 240 360 L 150 360 Z" fill="transparent" stroke="none" style="cursor: pointer; transition: fill 0.3s;" data-q="4"/>
+              <line x1="150" y1="140" x2="150" y2="360" stroke="#D4A94A" stroke-width="1" stroke-dasharray="3 3" opacity="0.6" pointer-events="none"/>
+              <line x1="60" y1="250" x2="240" y2="250" stroke="#D4A94A" stroke-width="1" stroke-dasharray="3 3" opacity="0.6" pointer-events="none"/>
+              <circle cx="150" cy="250" r="4" fill="#D4A94A" pointer-events="none"/>
+              <circle cx="150" cy="250" r="2" fill="var(--color-background-primary)" pointer-events="none"/>
+              <text x="105" y="200" text-anchor="middle" fill="#D4A94A" style="font-style: italic; font-size: 18px; font-family: var(--font-serif); pointer-events: none;">I</text>
+              <text x="195" y="200" text-anchor="middle" fill="#D4A94A" style="font-style: italic; font-size: 18px; font-family: var(--font-serif); pointer-events: none;">II</text>
+              <text x="105" y="310" text-anchor="middle" fill="#D4A94A" style="font-style: italic; font-size: 18px; font-family: var(--font-serif); pointer-events: none;">III</text>
+              <text x="195" y="310" text-anchor="middle" fill="#D4A94A" style="font-style: italic; font-size: 18px; font-family: var(--font-serif); pointer-events: none;">IV</text>
+              <g id="flag-3" style="opacity: 0; transition: opacity 0.3s;" pointer-events="none">
+                <circle cx="130" cy="290" r="6" fill="#E24B4A"/>
+                <text x="130" y="294" text-anchor="middle" fill="#fff" style="font-size: 9px; font-weight: 700;">!</text>
+              </g>
+            </svg>
+
+            <div id="info-panel" style="background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); border-radius: 12px; padding: 1.25rem; min-height: 280px;">
+              <div id="info-empty" style="text-align: center; padding: 3rem 1rem; color: var(--color-text-tertiary); font-size: 13px; font-style: italic;">
+                Toca un cuadrante para saber qué hay debajo.
+              </div>
+              <div id="info-content" style="display: none;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                  <span id="info-roman" style="font-family: var(--font-serif); font-size: 22px; color: #D4A94A; font-style: italic;"></span>
+                  <span id="info-pos" style="font-size: 10px; letter-spacing: 0.14em; color: var(--color-text-tertiary);"></span>
+                </div>
+                <div id="info-title" style="font-family: var(--font-serif); font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px;"></div>
+                <div id="info-organs" style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 14px;"></div>
+                <div id="info-flag" style="display: none; background: rgba(226, 75, 74, 0.08); border-left: 3px solid #E24B4A; padding: 10px 12px; border-radius: 0 6px 6px 0; margin-top: 12px;">
+                  <div style="font-size: 10px; letter-spacing: 0.14em; color: #E24B4A; font-weight: 600; margin-bottom: 4px;">⚠ BANDERA ROJA</div>
+                  <div id="flag-text" style="font-size: 12px; color: var(--color-text-secondary); line-height: 1.5;"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
         <div class="callout callout-key">
           <div class="callout-head">
             <div class="callout-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
             </div>
-            <span class="callout-title">Los 4 cuadrantes y qué hay debajo</span>
+            <span class="callout-title">Los 4 cuadrantes en síntesis</span>
           </div>
-          <p><strong>Cuadrante superior derecho (CSD):</strong> hígado (estructura firme, no se comprime) y vesícula. Presión superficial segura, profunda con criterio.</p>
-          <p><strong>Cuadrante superior izquierdo (CSI):</strong> estómago, bazo, páncreas. Zona sensible, especialmente postprandial (después de comer).</p>
-          <p><strong>Cuadrante inferior derecho (CID):</strong> inicio del intestino grueso (ciego) y apéndice. Si la clienta reporta dolor agudo localizado aquí, detén el trabajo y refiere.</p>
-          <p><strong>Cuadrante inferior izquierdo (CII):</strong> sigmoide (tramo final del colon) y descendente. Zona clave en masajes para mejorar tránsito.</p>
+          <p><strong>I · Superior derecho:</strong> hígado (no se comprime), vesícula, colon transverso derecho, duodeno. Presión superficial segura, profunda con criterio.</p>
+          <p><strong>II · Superior izquierdo:</strong> estómago, bazo, cola del páncreas, colon transverso izquierdo. Sensible — especialmente postprandial.</p>
+          <p><strong>III · Inferior derecho:</strong> apéndice, ciego, íleon final, ovario derecho en mujeres. Dolor agudo aquí: bandera roja, deriva a médico.</p>
+          <p><strong>IV · Inferior izquierdo:</strong> sigmoide, recto, tránsito terminal, ovario izquierdo. Zona clave para trabajo de tránsito intestinal.</p>
         </div>
 
-        <div class="placeholder-block">
-          <div class="placeholder-label">📘 Contenido extendido</div>
-          <p>El detalle de cada órgano con sus referencias de palpación exacta, ejemplos clínicos y precauciones específicas se migrará desde la fuente original del fundador. Esta sección queda preparada para recibirlo.</p>
-        </div>
-
-        <h2>El recorrido del colon: lo que hace la diferencia en un masaje reductor</h2>
+        <h2>El recorrido del colon: lo que hace la diferencia</h2>
 
         <p>Si alguna vez te han explicado que el masaje abdominal debe hacerse "en el sentido de las manecillas del reloj", esta es la razón anatómica: el colon sigue un recorrido específico que va hacia arriba por el lado derecho (colon ascendente), cruza por debajo del estómago (transverso) y baja por el izquierdo (descendente) hasta el sigmoide.</p>
 
         <p>Trabajar en ese sentido acompaña el movimiento natural de los contenidos intestinales. Hacerlo al revés puede generar incomodidad e incluso empeorar cuadros de estreñimiento.</p>
 
-        <div class="pullquide pullquote">El abdomen no es un músculo suelto: es una caja que protege funciones. Trabajas la caja, respetas el contenido.</div>
+        <div class="callout callout-key">
+          <div class="callout-head">
+            <div class="callout-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <span class="callout-title">Dato clave — El colon sigue el reloj</span>
+          </div>
+          <p>El colon se mueve en una dirección única: <strong>ciego → ascendente → transverso → descendente → sigmoide</strong>. Tu masaje acompaña ese trayecto, nunca lo contradice.</p>
+        </div>
 
-        <h2>La musculatura abdominal por encima</h2>
+        <!-- ============================================================
+             ARTEFACTO 2 · RECORRIDO DEL COLON ANIMADO
+             ============================================================ -->
+        <div class="artefacto" id="artefacto-2">
+          <div style="text-align: center; margin-bottom: 1.25rem;">
+            <div style="font-size: 11px; letter-spacing: 0.16em; color: var(--color-text-tertiary); margin-bottom: 8px;">ARTEFACTO · RECORRIDO</div>
+            <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 500; color: var(--color-text-primary);">El colon sigue el reloj</div>
+            <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; font-style: italic;">Activa el flujo para ver por dónde van tus manos</div>
+          </div>
+
+          <div class="artefacto-grid-2col" style="align-items: center;">
+
+            <svg viewBox="0 0 300 380" style="width: 100%; max-width: 280px; justify-self: center;">
+              <path d="M 70 40 Q 60 60 60 100 L 60 320 Q 60 360 90 380 L 210 380 Q 240 360 240 320 L 240 100 Q 240 60 230 40 Z" fill="var(--color-background-secondary)" fill-opacity="0.4" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+              <path d="M 95 300 Q 90 260 92 230 L 92 180 Q 92 150 100 140 L 180 140 Q 205 140 205 165 L 205 240 Q 205 285 190 310" fill="none" stroke="var(--color-border-secondary)" stroke-width="18" stroke-linecap="round" opacity="0.5"/>
+              <path d="M 95 300 Q 90 260 92 230 L 92 180 Q 92 150 100 140 L 180 140 Q 205 140 205 165 L 205 240 Q 205 285 190 310" fill="none" stroke="#D4A94A" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 4">
+                <animate attributeName="stroke-dashoffset" from="100" to="0" dur="4s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="95" cy="300" r="5" fill="#D4A94A"/>
+              <circle cx="190" cy="310" r="5" fill="#E24B4A"/>
+              <text x="150" y="110" text-anchor="middle" fill="var(--color-text-secondary)" style="font-size: 10px; letter-spacing: 0.1em;">COLON TRANSVERSO</text>
+              <line x1="95" y1="305" x2="60" y2="325" stroke="var(--color-text-tertiary)" stroke-width="0.5" stroke-dasharray="2 2"/>
+              <text x="55" y="328" text-anchor="end" fill="var(--color-text-tertiary)" style="font-size: 10px;">Inicio</text>
+              <text x="55" y="340" text-anchor="end" fill="var(--color-text-tertiary)" style="font-size: 10px; font-style: italic;">(ciego)</text>
+              <line x1="190" y1="315" x2="245" y2="335" stroke="var(--color-text-tertiary)" stroke-width="0.5" stroke-dasharray="2 2"/>
+              <text x="250" y="338" fill="var(--color-text-tertiary)" style="font-size: 10px;">Fin</text>
+              <text x="250" y="350" fill="var(--color-text-tertiary)" style="font-size: 10px; font-style: italic;">(sigmoide)</text>
+            </svg>
+
+            <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.65;">
+              <div style="font-family: var(--font-serif); font-style: italic; font-size: 15px; color: var(--color-text-primary); margin-bottom: 12px;">"Tus manos siguen la misma ruta que el alimento."</div>
+              <p style="margin: 0 0 10px 0;">El colon empieza abajo a la derecha (ciego), sube, cruza bajo las costillas, baja, y termina en el sigmoide.</p>
+              <p style="margin: 0 0 14px 0;">Cuando drenas o masajeas para estimular tránsito, siempre vas en ese mismo sentido. <strong style="color: var(--color-text-primary);">Nunca al contrario.</strong></p>
+              <div style="background: rgba(212, 169, 74, 0.08); border-left: 2px solid #D4A94A; padding: 8px 10px; border-radius: 0 4px 4px 0; font-size: 12px; font-style: italic; color: var(--color-text-secondary);">
+                Trabajar en sentido contrario puede generar reflujo y empeorar la retención.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="pullquote">El abdomen no es un músculo suelto: es una caja que protege funciones. Trabajas la caja, respetas el contenido.</div>
+
+        <h2>Las capas de la pared abdominal</h2>
+
+        <p>Cuando tus manos tocan un abdomen, están atravesando capas. Desde la piel hasta el peritoneo hay seis niveles, y cada técnica trabaja unos específicos — nunca todos. Conocer la profundidad que elegiste es tan importante como elegir la dirección.</p>
+
+        <!-- ============================================================
+             ARTEFACTO 3 · CAPAS DE LA PARED ABDOMINAL + SLIDER
+             ============================================================ -->
+        <div class="artefacto" id="artefacto-3">
+          <div style="text-align: center; margin-bottom: 1.25rem;">
+            <div style="font-size: 11px; letter-spacing: 0.16em; color: var(--color-text-tertiary); margin-bottom: 8px;">ARTEFACTO · CAPAS</div>
+            <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 500; color: var(--color-text-primary);">Qué atraviesan tus manos</div>
+            <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; font-style: italic;">Ajusta la presión y ve qué capa estás trabajando</div>
+          </div>
+
+          <div style="max-width: 540px; margin: 0 auto;">
+            <div style="display: flex; flex-direction: column; gap: 3px; margin-bottom: 1.5rem;">
+              <div class="layer" data-level="1" style="background: #F5C4B3; color: #712B13; padding: 14px 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; opacity: 0.5;">
+                <div>
+                  <div style="font-family: var(--font-serif); font-size: 15px; font-weight: 500;">Piel</div>
+                  <div style="font-size: 11px; opacity: 0.75; margin-top: 2px;">La barrera visible</div>
+                </div>
+                <div style="font-size: 10px; letter-spacing: 0.12em; font-weight: 600;">1</div>
+              </div>
+              <div class="layer" data-level="2" style="background: #FAC775; color: #633806; padding: 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; opacity: 0.5;">
+                <div>
+                  <div style="font-family: var(--font-serif); font-size: 15px; font-weight: 500;">Tejido subcutáneo</div>
+                  <div style="font-size: 11px; opacity: 0.75; margin-top: 2px;">Grasa, vasos, linfa superficial</div>
+                </div>
+                <div style="font-size: 10px; letter-spacing: 0.12em; font-weight: 600;">2</div>
+              </div>
+              <div class="layer" data-level="3" style="background: #9FE1CB; color: #085041; padding: 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; opacity: 0.5;">
+                <div>
+                  <div style="font-family: var(--font-serif); font-size: 15px; font-weight: 500;">Fascia superficial</div>
+                  <div style="font-size: 11px; opacity: 0.75; margin-top: 2px;">Capa fibrosa de separación</div>
+                </div>
+                <div style="font-size: 10px; letter-spacing: 0.12em; font-weight: 600;">3</div>
+              </div>
+              <div class="layer" data-level="4" style="background: #D4537E; color: #4B1528; padding: 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; opacity: 0.5;">
+                <div>
+                  <div style="font-family: var(--font-serif); font-size: 15px; font-weight: 500;">Músculo</div>
+                  <div style="font-size: 11px; opacity: 0.75; margin-top: 2px;">Recto, oblicuos, transverso</div>
+                </div>
+                <div style="font-size: 10px; letter-spacing: 0.12em; font-weight: 600;">4</div>
+              </div>
+              <div class="layer" data-level="5" style="background: #CECBF6; color: #3C3489; padding: 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; opacity: 0.5;">
+                <div>
+                  <div style="font-family: var(--font-serif); font-size: 15px; font-weight: 500;">Fascia profunda</div>
+                  <div style="font-size: 11px; opacity: 0.75; margin-top: 2px;">Envuelve el músculo</div>
+                </div>
+                <div style="font-size: 10px; letter-spacing: 0.12em; font-weight: 600;">5</div>
+              </div>
+              <div class="layer" data-level="6" style="background: var(--color-background-secondary); color: var(--color-text-secondary); padding: 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; opacity: 0.3; border: 1px dashed var(--color-border-secondary);">
+                <div>
+                  <div style="font-family: var(--font-serif); font-size: 15px; font-weight: 500;">Peritoneo y vísceras</div>
+                  <div style="font-size: 11px; opacity: 0.75; margin-top: 2px;">Zona médica — nunca cabina</div>
+                </div>
+                <div style="font-size: 10px; letter-spacing: 0.12em; font-weight: 600;">6</div>
+              </div>
+            </div>
+
+            <div style="background: var(--color-background-secondary); border-radius: 12px; padding: 1.25rem 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div style="font-size: 12px; letter-spacing: 0.14em; color: var(--color-text-tertiary); font-weight: 500;">NIVEL DE PRESIÓN</div>
+                <div id="presion-label" style="font-family: var(--font-serif); font-size: 15px; color: var(--color-text-primary); font-weight: 500;">Suave</div>
+              </div>
+              <input type="range" id="presion-slider" min="1" max="3" value="1" style="width: 100%; cursor: pointer;"/>
+              <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--color-text-tertiary); margin-top: 6px; letter-spacing: 0.08em;">
+                <span>SUAVE</span>
+                <span>MEDIA</span>
+                <span>FIRME</span>
+              </div>
+              <div id="tecnica-info" style="margin-top: 16px; padding: 12px 14px; background: var(--color-background-primary); border-radius: 8px; border-left: 3px solid #D4A94A;">
+                <div id="tecnica-title" style="font-family: var(--font-serif); font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px;">Drenaje linfático</div>
+                <div id="tecnica-desc" style="font-size: 12px; color: var(--color-text-secondary); line-height: 1.5;">Trabajas capas 1 y 2 con presión muy suave. Mueves la linfa superficial hacia ganglios. No comprime, solo acompaña.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2>La musculatura abdominal</h2>
 
         <p>Por encima de la capa orgánica, el abdomen tiene una musculatura en capas que sí puedes trabajar con más decisión. Las tres capas principales son:</p>
 
@@ -127,52 +315,128 @@
 
         <p>Conocer la dirección de las fibras es clave para decidir si tu maniobra está trabajando el músculo o simplemente arrastrando piel sobre él.</p>
 
-        <div class="placeholder-block">
-          <div class="placeholder-label">📘 Protocolos específicos</div>
-          <p>Los protocolos de trabajo muscular detallados (dirección, intensidad, duración por zona, combinación con aparatología) se migran desde la fuente original del fundador. Estructura preparada para recibirlos.</p>
+        <h2>Técnicas según objetivo</h2>
+
+        <p>En cabina no hay una técnica universal. Cada objetivo pide una combinación distinta de profundidad, dirección y presión. El criterio anatómico es lo que separa la técnica aprendida de memoria de la decisión informada. Antes de que hagas el quiz final, pon a prueba ese criterio con tres casos reales de cabina.</p>
+
+        <!-- ============================================================
+             ARTEFACTO 4 · SIMULADOR "DECIDE TU TÉCNICA"
+             ============================================================ -->
+        <div class="artefacto" id="artefacto-4" style="max-width: 560px; margin: 3rem auto;">
+          <div style="text-align: center; margin-bottom: 1.25rem;">
+            <div style="font-size: 11px; letter-spacing: 0.16em; color: var(--color-text-tertiary); margin-bottom: 8px;">SIMULADOR · CABINA REAL</div>
+            <div style="font-family: var(--font-serif); font-size: 22px; font-weight: 500; color: var(--color-text-primary);">Decide tu técnica</div>
+            <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; font-style: italic;">Tres clientas. Tres casos. ¿Cómo trabajas cada uno?</div>
+          </div>
+
+          <div id="caso-container" style="background: var(--color-background-secondary); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--color-border-tertiary);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <div id="caso-num" style="font-size: 10px; letter-spacing: 0.18em; color: #D4A94A; font-weight: 600;">CASO 1 DE 3</div>
+              <div id="score-display" style="font-size: 12px; color: var(--color-text-secondary);">Aciertos: <span id="score" style="color: var(--color-text-primary); font-weight: 500;">0</span>/3</div>
+            </div>
+            <div id="caso-scenario" style="background: var(--color-background-primary); border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; border-left: 3px solid #D4A94A;">
+              <div style="font-size: 11px; letter-spacing: 0.12em; color: var(--color-text-tertiary); font-weight: 600; margin-bottom: 6px;">CLIENTA</div>
+              <div id="caso-texto" style="font-family: var(--font-serif); font-size: 15px; line-height: 1.55; color: var(--color-text-primary); font-style: italic;">—</div>
+            </div>
+            <div style="font-size: 11px; letter-spacing: 0.14em; color: var(--color-text-tertiary); font-weight: 600; margin-bottom: 10px;">¿QUÉ HACES?</div>
+            <div id="opciones" style="display: flex; flex-direction: column; gap: 8px;"></div>
+            <div id="feedback" style="display: none; margin-top: 16px; padding: 14px; border-radius: 8px; font-size: 13px; line-height: 1.55;"></div>
+            <div id="next-wrap" style="display: none; margin-top: 16px; text-align: right;">
+              <button id="next-btn" style="background: #D4A94A; color: #0E0B08; border: none; padding: 10px 20px; border-radius: 100px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit;">
+                Siguiente caso →
+              </button>
+            </div>
+          </div>
+
+          <div id="final" style="display: none; text-align: center; padding: 2rem 1rem;">
+            <div style="font-family: var(--font-serif); font-size: 28px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px;" id="final-title">Excelente criterio.</div>
+            <div id="final-sub" style="font-size: 14px; color: var(--color-text-secondary); font-style: italic; margin-bottom: 20px;">Acertaste todas. Ya piensas como esteticista con criterio anatómico.</div>
+            <button id="reset-btn" style="background: transparent; color: var(--color-text-primary); border: 1px solid var(--color-border-secondary); padding: 10px 20px; border-radius: 100px; font-size: 13px; cursor: pointer; font-family: inherit;">
+              Volver a empezar
+            </button>
+          </div>
         </div>
 
-        <h2>Banderas rojas: cuándo detenerse</h2>
+        <h2>Banderas rojas</h2>
 
         <div class="callout callout-warning">
           <div class="callout-head">
             <div class="callout-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
             </div>
-            <span class="callout-title">Señales de alarma en cabina</span>
+            <span class="callout-title">Cuándo detenerse en cabina</span>
           </div>
-          <p><strong>Dolor agudo localizado</strong> (especialmente en cuadrante inferior derecho): suspender y referir.</p>
-          <p><strong>Masa palpable no identificable:</strong> no masajear sobre ella, referir para valoración médica.</p>
-          <p><strong>Abdomen distendido y doloroso al tacto ligero:</strong> posible obstrucción o inflamación, no es zona de trabajo estético.</p>
+          <p><strong>Dolor agudo localizado</strong> (especialmente cuadrante inferior derecho): suspende y deriva.</p>
+          <p><strong>Masa palpable no identificable:</strong> no masajees sobre ella, refiere para valoración médica.</p>
+          <p><strong>Abdomen distendido y doloroso al tacto ligero:</strong> posible obstrucción o inflamación — no es zona estética.</p>
           <p><strong>Embarazo no declarado previamente:</strong> protocolo completamente distinto. Siempre preguntar antes.</p>
         </div>
 
-        <h2>Errores frecuentes</h2>
+        <!-- ============================================================
+             QUIZ FINAL · 3 PREGUNTAS
+             ============================================================ -->
+        <div class="m2-quiz" id="m2Quiz">
+          <div class="m2-quiz-head">
+            <div class="kicker">QUIZ FINAL · MÓDULO 02</div>
+            <h3>Comprueba tu criterio</h3>
+            <div class="score">Aciertos: <strong id="m2Score">0</strong> / 3 · <span style="font-style: italic;">mínimo 2 para desbloquear el siguiente módulo</span></div>
+          </div>
 
-        <ul>
-          <li><strong>Presión indiscriminada:</strong> aplicar la misma fuerza en todos los cuadrantes sin considerar qué hay debajo.</li>
-          <li><strong>Ignorar el sentido del colon:</strong> trabajar con movimientos anti-horarios en masaje reductor o digestivo.</li>
-          <li><strong>No preguntar por última comida:</strong> trabajar sobre un estómago lleno puede causar reflujo y malestar.</li>
-          <li><strong>Trabajar sobre cicatriz reciente:</strong> zona post-quirúrgica reciente no tolera técnicas convencionales — requiere protocolo especial.</li>
-        </ul>
+          <div class="m2-q" data-q-idx="0"
+            data-feedback-ok="Exacto. El colon va en sentido horario visto desde fuera del cuerpo: ciego (abajo-derecha) → ascendente → transverso → descendente → sigmoide. Tus manos siguen ese camino."
+            data-feedback-error="Revisa la sección del recorrido del colon. La dirección importa.">
+            <div class="m2-q-num">PREGUNTA 01</div>
+            <div class="m2-q-text">¿Cuál es la dirección correcta para estimular el tránsito intestinal con masaje abdominal?</div>
+            <ul class="m2-q-options">
+              <li class="m2-q-option" data-correct="false">De izquierda a derecha, en línea recta</li>
+              <li class="m2-q-option" data-correct="true">En sentido de las manecillas del reloj, siguiendo el recorrido del colon</li>
+              <li class="m2-q-option" data-correct="false">En espiral desde el ombligo hacia afuera</li>
+              <li class="m2-q-option" data-correct="false">En sentido contrario a las manecillas del reloj</li>
+            </ul>
+            <div class="m2-q-feedback"></div>
+          </div>
 
-        <div class="quiz">
-          <div class="quiz-label">COMPRUEBA TU COMPRENSIÓN</div>
-          <div class="quiz-question">¿Cuál es el sentido correcto al trabajar el abdomen en un masaje reductor o de estimulación intestinal?</div>
-          <ul class="quiz-options">
-            <li class="quiz-option" data-correct="true">Siguiendo el recorrido del colon: ascendente por el lado derecho, transverso, descendente por el izquierdo</li>
-            <li class="quiz-option">Siempre de afuera hacia el ombligo, sin importar el lado</li>
-            <li class="quiz-option">En sentido anti-horario para relajar la zona</li>
-            <li class="quiz-option">La dirección no importa si la presión es adecuada</li>
-          </ul>
+          <div class="m2-q" data-q-idx="1"
+            data-feedback-ok="Correcto. El cuadrante inferior derecho es la zona del apéndice. Dolor agudo reciente puede ser apendicitis. Cabina no es lugar. Médico primero."
+            data-feedback-error="Revisa las banderas rojas. El dolor agudo reciente en esa zona específica es bandera roja.">
+            <div class="m2-q-num">PREGUNTA 02</div>
+            <div class="m2-q-text">Una clienta llega con dolor agudo reciente en el cuadrante inferior derecho. ¿Qué haces?</div>
+            <ul class="m2-q-options">
+              <li class="m2-q-option" data-correct="false">Aplico drenaje suave para aliviar</li>
+              <li class="m2-q-option" data-correct="false">Masaje reductor para disolver la tensión</li>
+              <li class="m2-q-option" data-correct="true">No trabajo la zona y le sugiero consultar con un médico</li>
+              <li class="m2-q-option" data-correct="false">Calor local para relajar</li>
+            </ul>
+            <div class="m2-q-feedback"></div>
+          </div>
+
+          <div class="m2-q" data-q-idx="2"
+            data-feedback-ok="Exacto. El transverso es el más profundo y funciona como una faja interna. Cuando está activo, aplana el abdomen desde adentro. El recto forma el 'six pack' pero no aplana; los oblicuos dan forma a la cintura pero tampoco aplanan."
+            data-feedback-error="Revisa la sección de músculos. Hay uno que funciona como faja interna.">
+            <div class="m2-q-num">PREGUNTA 03</div>
+            <div class="m2-q-text">¿Cuál de estos músculos, cuando está reactivado, aplana más el abdomen?</div>
+            <ul class="m2-q-options">
+              <li class="m2-q-option" data-correct="false">Recto del abdomen</li>
+              <li class="m2-q-option" data-correct="false">Oblicuo externo</li>
+              <li class="m2-q-option" data-correct="false">Oblicuo interno</li>
+              <li class="m2-q-option" data-correct="true">Transverso del abdomen</li>
+            </ul>
+            <div class="m2-q-feedback"></div>
+          </div>
+
+          <div class="m2-quiz-result" id="m2QuizResult">
+            <h4 id="m2QuizResultTitle">¡Quiz aprobado!</h4>
+            <p id="m2QuizResultText">Tu criterio está afilado.</p>
+          </div>
         </div>
 
+        <!-- Mark complete -->
         <div class="mark-complete">
           <div class="mark-complete-text">
             <h4>¿Listo para avanzar?</h4>
-            <p>Marca este módulo cuando tengas claros los cuatro cuadrantes y sepas distinguir trabajar "sobre órganos" de "sobre músculo".</p>
+            <p>Marca este módulo cuando hayas completado el simulador clínico y el quiz con al menos 2 de 3 aciertos.</p>
           </div>
-          <button class="btn-complete">
+          <button class="btn-complete" id="m2CompleteBtn">
             Marcar completado
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           </button>
@@ -200,7 +464,7 @@
       <div class="label">Tiempo estimado</div>
       <div class="time-block">
         <div class="big">22 min</div>
-        <div class="sub">· lectura pausada ·</div>
+        <div class="sub">· lectura + interacción ·</div>
       </div>
     </div>
 
@@ -209,9 +473,10 @@
       <ul class="section-toc">
         <li class="section-toc-item active">Los 4 cuadrantes</li>
         <li class="section-toc-item">Recorrido del colon</li>
+        <li class="section-toc-item">Capas de la pared</li>
         <li class="section-toc-item">Musculatura abdominal</li>
+        <li class="section-toc-item">Técnicas según objetivo</li>
         <li class="section-toc-item">Banderas rojas</li>
-        <li class="section-toc-item">Errores frecuentes</li>
       </ul>
     </div>
 
@@ -237,7 +502,381 @@
 </div>
 
 <script src="../../js/progress.js"></script>
-<script src="../../js/module-page.js"></script>
+
+<!-- ============================================================
+     MÓDULO 2 — LÓGICA ESPECÍFICA
+     No carga module-page.js: maneja quiz custom 3-preguntas +
+     validación mark-complete que exige quiz ≥2/3 + artefacto 4 OK.
+     ============================================================ -->
+<script>
+(function() {
+  const MODULE_NUM = 2;
+  const TOTAL_MODULES = 9;
+  const progress = CardumenProgress.init('estetica-anatomia');
+
+  // ---- Sidebar mobile (idéntico a module-page.js) ----
+  const tocSidebar = document.getElementById('tocSidebar');
+  const tocBackdrop = document.getElementById('tocBackdrop');
+  const tocOpenBtn = document.getElementById('menuOpen');
+  const tocCloseBtn = document.getElementById('tocClose');
+  function openToc()  { tocSidebar?.classList.add('open'); tocBackdrop?.classList.add('visible'); document.body.classList.add('toc-open'); }
+  function closeToc() { tocSidebar?.classList.remove('open'); tocBackdrop?.classList.remove('visible'); document.body.classList.remove('toc-open'); }
+  tocOpenBtn?.addEventListener('click', openToc);
+  tocCloseBtn?.addEventListener('click', closeToc);
+  tocBackdrop?.addEventListener('click', closeToc);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeToc(); });
+  tocSidebar?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeToc));
+
+  // ---- Toast ----
+  function toast(msg) {
+    let el = document.getElementById('cardumen-toast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'cardumen-toast';
+      el.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1F1A13;color:#FAF5E9;border:1px solid rgba(212,169,74,0.3);padding:0.9rem 1.4rem;border-radius:10px;font-size:0.9rem;font-family:inherit;z-index:9999;opacity:0;transition:opacity 250ms;box-shadow:0 20px 60px rgba(0,0,0,0.4);max-width:90%;text-align:center;';
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.opacity = '1';
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.style.opacity = '0'; }, 3200);
+  }
+
+  // ---- TOC render ----
+  function renderTOC() {
+    document.querySelectorAll('.toc-link[data-module]').forEach(link => {
+      const n = parseInt(link.dataset.module, 10);
+      link.classList.remove('completed', 'locked');
+      if (progress.isCompleted(n)) link.classList.add('completed');
+      if (!progress.isUnlocked(n)) link.classList.add('locked');
+    });
+    const pctEl = document.getElementById('tocPct');
+    const fillEl = document.getElementById('tocFill');
+    const done = [1,2,3,4,5,6,7,8].filter(n => progress.isCompleted(n)).length;
+    const pct = Math.round((done / TOTAL_MODULES) * 100);
+    if (pctEl) pctEl.textContent = pct + '%';
+    if (fillEl) fillEl.style.width = pct + '%';
+  }
+  renderTOC();
+
+  document.querySelector('.toc-list')?.addEventListener('click', e => {
+    const link = e.target.closest('.toc-link.locked');
+    if (!link) return;
+    e.preventDefault();
+    toast('Completa el módulo anterior y su quiz para desbloquear este.');
+  });
+
+  // ---- Notas ----
+  const notesEl = document.querySelector('.notes-widget textarea');
+  const savedMsg = document.querySelector('.notes-saved');
+  if (notesEl) {
+    const noteKey = 'module-2';
+    notesEl.value = progress.getNote(noteKey);
+    let t;
+    notesEl.addEventListener('input', () => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        progress.setNote(noteKey, notesEl.value);
+        if (savedMsg) { savedMsg.style.display = 'block'; setTimeout(() => savedMsg.style.display = 'none', 2000); }
+      }, 600);
+    });
+  }
+
+  // ---- Right sidebar TOC ----
+  const items = document.querySelectorAll('.section-toc-item');
+  items.forEach(i => i.addEventListener('click', () => {
+    items.forEach(x => x.classList.remove('active'));
+    i.classList.add('active');
+  }));
+
+  // ============================================================
+  // ARTEFACTO 1 · Mapa interactivo de cuadrantes
+  // ============================================================
+  (function artefacto1() {
+    const data = {
+      '1': { roman: 'I', pos: 'SUPERIOR DERECHO', title: 'Hígado y vesícula', organs: 'Debajo de tus manos: la mayor parte del hígado, la vesícula biliar, el extremo derecho del colon transverso y parte del duodeno.', flag: null },
+      '2': { roman: 'II', pos: 'SUPERIOR IZQUIERDO', title: 'Estómago y bazo', organs: 'Aquí se aloja el estómago, el bazo, la cola del páncreas y el extremo izquierdo del colon transverso.', flag: null },
+      '3': { roman: 'III', pos: 'INFERIOR DERECHO', title: 'Apéndice y ciego', organs: 'Zona del apéndice, ciego, parte final del íleon. En mujeres, también el ovario derecho.', flag: 'Dolor agudo reciente aquí puede ser apendicitis. No masajees ni drenes: deriva a médico.' },
+      '4': { roman: 'IV', pos: 'INFERIOR IZQUIERDO', title: 'Sigmoide y recto', organs: 'Colon sigmoide, recto, parte terminal del tránsito intestinal. En mujeres, ovario izquierdo.', flag: null }
+    };
+    const colors = {
+      '1': 'rgba(212, 169, 74, 0.15)',
+      '2': 'rgba(19, 158, 117, 0.15)',
+      '3': 'rgba(226, 75, 74, 0.15)',
+      '4': 'rgba(55, 138, 221, 0.15)'
+    };
+    let active = null;
+    function select(q) {
+      ['1','2','3','4'].forEach(n => {
+        document.getElementById('q' + n).setAttribute('fill', n === q ? colors[n] : 'transparent');
+      });
+      document.getElementById('flag-3').style.opacity = q === '3' ? '1' : '0';
+      const d = data[q];
+      document.getElementById('info-empty').style.display = 'none';
+      document.getElementById('info-content').style.display = 'block';
+      document.getElementById('info-roman').textContent = d.roman;
+      document.getElementById('info-pos').textContent = d.pos;
+      document.getElementById('info-title').textContent = d.title;
+      document.getElementById('info-organs').textContent = d.organs;
+      const flag = document.getElementById('info-flag');
+      if (d.flag) {
+        flag.style.display = 'block';
+        document.getElementById('flag-text').textContent = d.flag;
+      } else {
+        flag.style.display = 'none';
+      }
+      active = q;
+    }
+    ['1','2','3','4'].forEach(n => {
+      const el = document.getElementById('q' + n);
+      if (!el) return;
+      el.addEventListener('click', () => select(n));
+      el.addEventListener('mouseenter', () => { if (active !== n) el.setAttribute('fill', colors[n]); });
+      el.addEventListener('mouseleave', () => { if (active !== n) el.setAttribute('fill', 'transparent'); });
+    });
+  })();
+
+  // ============================================================
+  // ARTEFACTO 3 · Capas con slider
+  // ============================================================
+  (function artefacto3() {
+    const slider = document.getElementById('presion-slider');
+    if (!slider) return;
+    const label = document.getElementById('presion-label');
+    const title = document.getElementById('tecnica-title');
+    const desc = document.getElementById('tecnica-desc');
+    const box = document.getElementById('tecnica-info');
+    const layers = document.querySelectorAll('.layer');
+    const info = {
+      1: { label: 'Suave', active: [1, 2], title: 'Drenaje linfático', desc: 'Trabajas capas 1 y 2 con presión muy suave. Mueves la linfa superficial hacia ganglios. No comprime, solo acompaña.', color: '#D4A94A' },
+      2: { label: 'Media', active: [2, 3], title: 'Modelaje reductivo', desc: 'Trabajas capas 2 y 3. Movilizas grasa y liberas fascia superficial. Presión firme pero sin dolor.', color: '#139E75' },
+      3: { label: 'Firme', active: [3, 4], title: 'Liberación muscular', desc: 'Trabajas capas 3 y 4. Técnica deportiva o maderoterapia. Requiere formación específica y nunca trabaja capas 5 o 6.', color: '#D4537E' }
+    };
+    function update(val) {
+      const d = info[val];
+      label.textContent = d.label;
+      title.textContent = d.title;
+      desc.textContent = d.desc;
+      box.style.borderLeftColor = d.color;
+      layers.forEach(l => {
+        const lv = parseInt(l.dataset.level);
+        if (d.active.indexOf(lv) > -1) { l.style.opacity = '1'; l.style.transform = 'translateX(4px)'; }
+        else { l.style.opacity = '0.35'; l.style.transform = 'translateX(0)'; }
+      });
+    }
+    slider.addEventListener('input', e => update(e.target.value));
+    update(1);
+  })();
+
+  // ============================================================
+  // ARTEFACTO 4 · Simulador "Decide tu técnica"
+  // ============================================================
+  (function artefacto4() {
+    const casos = [
+      {
+        texto: 'Llega una clienta de 34 años. Pide drenaje reductivo. Menciona estreñimiento crónico y retención constante en abdomen bajo.',
+        opciones: [
+          { t: 'Masaje profundo en todo el abdomen, en línea recta', ok: false, exp: 'La línea recta no respeta el recorrido anatómico. Y el masaje profundo en estreñimiento puede ser contraproducente.' },
+          { t: 'Drenaje superficial siguiendo el sentido horario del colon', ok: true, exp: 'Exacto. El colon va en sentido horario: ciego → ascendente → transverso → descendente → sigmoide. Tus manos siguen esa ruta con presión suave-media.' },
+          { t: 'Calor local primero, después técnica random', ok: false, exp: 'El calor puede ayudar pero sin técnica anatómica el resultado es azar. Siempre aplicas con criterio de recorrido.' }
+        ]
+      },
+      {
+        texto: 'Clienta nueva de 28 años. Durante la evaluación menciona un dolor agudo que empezó hace unas horas en el costado inferior derecho. Quiere "que le pase rápido".',
+        opciones: [
+          { t: 'Drenaje suave local para aliviar la zona', ok: false, exp: 'Esa es la zona del apéndice. Dolor agudo reciente ahí es bandera roja, no cabina. El drenaje puede empeorar o enmascarar un cuadro grave.' },
+          { t: 'Masaje reductivo firme para "deshacer" la tensión', ok: false, exp: 'Nunca masaje firme en zona de posible apendicitis. Puede ser peligroso y derivar en complicaciones médicas.' },
+          { t: 'No trabajas la zona y le recomiendas consultar con un médico', ok: true, exp: 'Correcto. Dolor agudo reciente en cuadrante inferior derecho es bandera roja. Tu trabajo es derivar, no diagnosticar. La salud de tu clienta primero.' }
+        ]
+      },
+      {
+        texto: 'Clienta de 40 años, tres meses postparto, con diástasis abdominal confirmada. Pide trabajo en abdomen para "recuperar figura".',
+        opciones: [
+          { t: 'Presión profunda en línea media para "cerrar" la separación', ok: false, exp: 'Totalmente contraindicado. La presión profunda en línea media en diástasis puede agravar la separación. Peor resultado.' },
+          { t: 'Drenaje perimetral suave y técnica específica para diástasis', ok: true, exp: 'Bien. Diástasis requiere técnica específica: drenaje perimetral, nunca presión directa en la línea media, y siempre acompañado de activación del transverso profundo.' },
+          { t: 'Maderoterapia intensa en toda la pared abdominal', ok: false, exp: 'Contraindicado en diástasis. La maderoterapia intensa puede agravar el cuadro y retrasar la recuperación.' }
+        ]
+      }
+    ];
+    let idx = 0, score = 0, answered = false;
+
+    function render() {
+      answered = false;
+      document.getElementById('caso-num').textContent = 'CASO ' + (idx + 1) + ' DE 3';
+      document.getElementById('caso-texto').textContent = '"' + casos[idx].texto + '"';
+      document.getElementById('feedback').style.display = 'none';
+      document.getElementById('next-wrap').style.display = 'none';
+      const opsDiv = document.getElementById('opciones');
+      opsDiv.innerHTML = '';
+      casos[idx].opciones.forEach((op, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'opcion-btn';
+        btn.style.cssText = 'text-align:left;padding:12px 16px;background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:8px;font-size:13px;color:var(--color-text-primary);cursor:pointer;font-family:inherit;line-height:1.45;transition:all 0.2s;';
+        btn.textContent = op.t;
+        btn.addEventListener('mouseenter', () => { if (!answered) btn.style.borderColor = '#D4A94A'; });
+        btn.addEventListener('mouseleave', () => { if (!answered) btn.style.borderColor = 'var(--color-border-tertiary)'; });
+        btn.addEventListener('click', () => answer(i, btn));
+        opsDiv.appendChild(btn);
+      });
+    }
+    function answer(i, btn) {
+      if (answered) return;
+      answered = true;
+      const op = casos[idx].opciones[i];
+      const fb = document.getElementById('feedback');
+      document.querySelectorAll('.opcion-btn').forEach(b => { b.style.cursor = 'default'; b.style.opacity = '0.5'; });
+      btn.style.opacity = '1';
+      if (op.ok) {
+        score++;
+        document.getElementById('score').textContent = score;
+        btn.style.borderColor = '#139E75';
+        btn.style.background = 'rgba(19, 158, 117, 0.08)';
+        fb.style.background = 'rgba(19, 158, 117, 0.08)';
+        fb.style.borderLeft = '3px solid #139E75';
+        fb.innerHTML = '<div style="font-size:10px;letter-spacing:0.14em;color:#139E75;font-weight:600;margin-bottom:6px;">✓ CORRECTO</div><div style="color:var(--color-text-secondary);">' + op.exp + '</div>';
+      } else {
+        btn.style.borderColor = '#E24B4A';
+        btn.style.background = 'rgba(226, 75, 74, 0.08)';
+        fb.style.background = 'rgba(226, 75, 74, 0.08)';
+        fb.style.borderLeft = '3px solid #E24B4A';
+        fb.innerHTML = '<div style="font-size:10px;letter-spacing:0.14em;color:#E24B4A;font-weight:600;margin-bottom:6px;">✗ REVISA</div><div style="color:var(--color-text-secondary);">' + op.exp + '</div>';
+      }
+      fb.style.padding = '14px';
+      fb.style.borderRadius = '8px';
+      fb.style.display = 'block';
+      document.getElementById('next-wrap').style.display = idx < 2 ? 'block' : 'none';
+      if (idx === 2) {
+        setTimeout(showFinal, 1800);
+        progress.setArtefactoCompleted('artefacto4_modulo2', { score: score });
+      }
+    }
+    function showFinal() {
+      document.getElementById('caso-container').style.display = 'none';
+      document.getElementById('final').style.display = 'block';
+      const t = document.getElementById('final-title');
+      const s = document.getElementById('final-sub');
+      if (score === 3)      { t.textContent = 'Excelente criterio.'; s.textContent = 'Acertaste todas. Ya piensas como esteticista con criterio anatómico.'; }
+      else if (score === 2) { t.textContent = 'Vas por buen camino.'; s.textContent = 'Acertaste 2 de 3. Relee la sección de banderas rojas antes del quiz final.'; }
+      else                  { t.textContent = 'Hay que repasar.';     s.textContent = 'Acertaste ' + score + ' de 3. Vuelve al módulo y concéntrate en los casos de cuidado especial.'; }
+    }
+    document.getElementById('next-btn').addEventListener('click', () => { idx++; if (idx < 3) render(); });
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      idx = 0; score = 0;
+      document.getElementById('score').textContent = '0';
+      document.getElementById('caso-container').style.display = 'block';
+      document.getElementById('final').style.display = 'none';
+      render();
+    });
+    render();
+  })();
+
+  // ============================================================
+  // QUIZ FINAL 3 PREGUNTAS — score, setQuizPassed(2) si ≥2/3
+  // ============================================================
+  (function quizFinal() {
+    const qs = Array.from(document.querySelectorAll('#m2Quiz .m2-q'));
+    const quizState = qs.map(() => null); // null=no answered, true=correct, false=wrong
+    const scoreEl = document.getElementById('m2Score');
+    const resultBox = document.getElementById('m2QuizResult');
+    const resultTitle = document.getElementById('m2QuizResultTitle');
+    const resultText = document.getElementById('m2QuizResultText');
+
+    function updateScore() {
+      const n = quizState.filter(v => v === true).length;
+      scoreEl.textContent = n;
+      return n;
+    }
+    function allAnswered() { return quizState.every(v => v !== null); }
+
+    function finalize() {
+      const score = updateScore();
+      if (score >= 2) progress.setQuizPassed(MODULE_NUM);
+      resultBox.classList.add('show');
+      if (score === 3)      { resultTitle.textContent = 'Quiz aprobado con excelencia.'; resultText.textContent = 'Tres de tres. Tu criterio anatómico está sólido.'; }
+      else if (score === 2) { resultTitle.textContent = 'Quiz aprobado.'; resultText.textContent = 'Dos de tres es suficiente para avanzar. Relee lo que fallaste antes de aplicar en cabina.'; }
+      else                  { resultTitle.textContent = 'Quiz no aprobado todavía.'; resultText.textContent = 'Necesitas mínimo 2 de 3. Relee el módulo y vuelve a intentarlo. No hay prisa.'; resultBox.style.borderColor = 'rgba(226, 75, 74, 0.3)'; }
+    }
+
+    qs.forEach((q, idx) => {
+      const options = q.querySelectorAll('.m2-q-option');
+      const feedback = q.querySelector('.m2-q-feedback');
+      options.forEach(opt => {
+        opt.addEventListener('click', () => {
+          if (quizState[idx] !== null) return; // ya respondió
+          const correct = opt.dataset.correct === 'true';
+          options.forEach(o => {
+            o.classList.add('disabled');
+            if (o.dataset.correct === 'true') o.classList.add('correct');
+          });
+          if (!correct) opt.classList.add('wrong');
+          quizState[idx] = correct;
+          feedback.textContent = '';
+          feedback.innerHTML = '<span class="tag">' + (correct ? '✓ CORRECTO' : '✗ REVISA') + '</span>' + (correct ? q.dataset.feedbackOk : q.dataset.feedbackError);
+          feedback.className = 'm2-q-feedback ' + (correct ? 'ok' : 'err');
+          feedback.style.display = 'block';
+          updateScore();
+          if (allAnswered()) finalize();
+        });
+      });
+    });
+  })();
+
+  // ============================================================
+  // MARK COMPLETE — valida quiz ≥2 + artefacto 4 completado
+  // ============================================================
+  (function completeButton() {
+    const btn = document.getElementById('m2CompleteBtn');
+    if (!btn) return;
+    function paint() {
+      if (progress.isCompleted(MODULE_NUM)) {
+        btn.innerHTML = '✓ Completado — marcar como pendiente';
+        btn.classList.add('is-done');
+      } else {
+        btn.innerHTML = 'Marcar completado <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+        btn.classList.remove('is-done');
+      }
+    }
+    paint();
+    btn.addEventListener('click', () => {
+      if (progress.isCompleted(MODULE_NUM)) {
+        progress.unmarkCompleted(MODULE_NUM);
+        paint(); renderTOC();
+        toast('Módulo marcado como pendiente.');
+        return;
+      }
+      // Reglas extras del módulo 2: simulador clínico + quiz aprobado
+      if (!progress.hasArtefactoCompleted('artefacto4_modulo2')) {
+        toast('Completa el simulador "Decide tu técnica" antes de marcar completado.');
+        return;
+      }
+      if (!progress.isQuizPassed(MODULE_NUM)) {
+        toast('Necesitas al menos 2 de 3 aciertos en el quiz final.');
+        return;
+      }
+      // tryMarkCompleted con hasQuiz false porque ya validamos manualmente
+      const result = progress.tryMarkCompleted(MODULE_NUM, { hasQuiz: false });
+      if (result.ok) {
+        paint(); renderTOC();
+        toast('✓ Módulo 2 completado. Módulo 3 desbloqueado.');
+      } else if (result.reason === 'locked') {
+        toast('Este módulo aún no está desbloqueado.');
+      }
+    });
+  })();
+
+  // ============================================================
+  // Bottom nav mobile
+  // ============================================================
+  (function loadBottomNav() {
+    if (document.getElementById('cardumenBottomNav')) return;
+    const s = document.createElement('script');
+    s.src = '../../js/bottom-nav.js';
+    s.async = true;
+    document.body.appendChild(s);
+  })();
+
+})();
+</script>
 
 </body>
 </html>
