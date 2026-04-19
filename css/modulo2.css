@@ -1,0 +1,183 @@
+/* ============================================================
+   CARDUMEN — Modulo 2 artefactos (anatomia abdominal)
+   Carga DESPUES de module.css. Aliases para que los artefactos
+   (escritos con var(--color-xxx) generico) usen las vars de
+   la paleta dark editorial + coral del Refuerzo 001.
+   ============================================================ */
+
+:root {
+  --color-background-primary:  var(--ink);
+  --color-background-secondary: var(--ink-2, var(--paper-warm));
+  --color-text-primary:        var(--cream);
+  --color-text-secondary:      var(--cream-mute, var(--ink-soft));
+  --color-text-tertiary:       var(--cream-dim, var(--ink-mute));
+  --color-border-tertiary:     var(--cream-line, var(--hairline));
+  --color-border-secondary:    var(--cream-faint, var(--hairline-strong));
+  --font-sans:                 var(--body);
+  --font-serif:                var(--display);
+}
+
+/* ------- Wrapper de cada artefacto dentro de la prose ------- */
+.artefacto {
+  margin: 3rem 0;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(180deg, rgba(31, 26, 19, 0.55) 0%, rgba(21, 17, 12, 0.75) 100%);
+  border: 1px solid var(--cream-line);
+  border-radius: 18px;
+}
+
+/* ------- Grid 2 columnas (artefacto 1 y 2) — responsive ------- */
+.artefacto-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 2rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+@media (max-width: 700px) {
+  .artefacto-grid-2col {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem;
+  }
+  .artefacto { padding: 1.5rem 1rem; margin: 2rem -0.5rem; }
+}
+
+/* ------- Slider accent en artefacto 3 ------- */
+.artefacto input[type="range"]#presion-slider {
+  accent-color: #D4A94A;
+}
+
+/* ------- Quiz 3-preguntas custom del modulo 2 ------- */
+.m2-quiz {
+  margin: 3.5rem 0 2rem;
+  padding: 2rem 1.75rem;
+  background: linear-gradient(180deg, rgba(31, 26, 19, 0.6) 0%, rgba(21, 17, 12, 0.8) 100%);
+  border: 1px solid var(--cream-line);
+  border-radius: 18px;
+}
+.m2-quiz-head {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+.m2-quiz-head .kicker {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+.m2-quiz-head h3 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: var(--cream);
+  letter-spacing: -0.005em;
+}
+.m2-quiz-head .score {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--cream-mute);
+}
+.m2-quiz-head .score strong { color: var(--cream); font-weight: 600; }
+
+.m2-q {
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--cream-line);
+}
+.m2-q:first-of-type { border-top: none; padding-top: 0.25rem; }
+.m2-q-num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: #D4A94A;
+  margin-bottom: 0.5rem;
+}
+.m2-q-text {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  line-height: 1.4;
+  color: var(--cream);
+  margin-bottom: 1rem;
+  letter-spacing: -0.005em;
+}
+.m2-q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.m2-q-option {
+  padding: 0.75rem 1rem;
+  background: rgba(250, 245, 233, 0.02);
+  border: 1px solid var(--cream-line);
+  border-radius: 10px;
+  color: var(--cream);
+  font-size: 0.93rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: all 200ms var(--ease-out, ease);
+  text-align: left;
+}
+.m2-q-option:hover:not(.disabled):not(.correct):not(.wrong) {
+  border-color: #D4A94A;
+  background: rgba(212, 169, 74, 0.04);
+}
+.m2-q-option.correct {
+  border-color: #139E75;
+  background: rgba(19, 158, 117, 0.12);
+  color: var(--cream);
+}
+.m2-q-option.wrong {
+  border-color: #E24B4A;
+  background: rgba(226, 75, 74, 0.12);
+}
+.m2-q-option.disabled { cursor: default; }
+.m2-q-feedback {
+  display: none;
+  margin-top: 0.9rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--cream-mute);
+}
+.m2-q-feedback.ok  { background: rgba(19, 158, 117, 0.08); border-left: 3px solid #139E75; }
+.m2-q-feedback.err { background: rgba(226, 75, 74, 0.08);  border-left: 3px solid #E24B4A; }
+.m2-q-feedback .tag {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.m2-q-feedback.ok .tag  { color: #139E75; }
+.m2-q-feedback.err .tag { color: #E24B4A; }
+
+.m2-quiz-result {
+  display: none;
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(212, 169, 74, 0.08) 0%, rgba(232, 136, 112, 0.06) 100%);
+  border: 1px solid rgba(212, 169, 74, 0.25);
+  border-radius: 12px;
+  text-align: center;
+}
+.m2-quiz-result.show { display: block; }
+.m2-quiz-result h4 {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin-bottom: 0.35rem;
+}
+.m2-quiz-result p { color: var(--cream-mute); font-size: 0.9rem; }
+
+@media (max-width: 700px) {
+  .m2-quiz { padding: 1.5rem 1.1rem; margin: 2.5rem -0.5rem 1.5rem; }
+  .m2-q-text { font-size: 1rem; }
+}
