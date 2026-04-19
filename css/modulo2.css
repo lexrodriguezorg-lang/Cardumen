@@ -181,3 +181,38 @@
   .m2-quiz { padding: 1.5rem 1.1rem; margin: 2.5rem -0.5rem 1.5rem; }
   .m2-q-text { font-size: 1rem; }
 }
+
+/* ------- Responsive fine-tuning mobile pequeño y tap targets ------- */
+@media (max-width: 700px) {
+  /* Artefacto 1: panel info pegado debajo del SVG sin min-height fija */
+  #artefacto-1 #info-panel { min-height: auto !important; padding: 1rem !important; }
+  #artefacto-1 svg { max-width: 240px !important; }
+  /* Títulos de artefactos más ajustados */
+  .artefacto > div:first-child > div:nth-child(2) { font-size: 19px !important; line-height: 1.2; }
+  .artefacto > div:first-child > div:nth-child(3) { font-size: 12px !important; }
+  /* Artefacto 3 — layers más compactos */
+  #artefacto-3 .layer { padding: 12px 14px !important; }
+  #artefacto-3 .layer > div:first-child > div:first-child { font-size: 14px !important; }
+  /* Artefacto 3 — slider con tap target decente */
+  #artefacto-3 input[type="range"] { height: 28px; padding: 8px 0; }
+  /* Artefacto 4 — botones de opción con tap target ≥44px */
+  #artefacto-4 .opcion-btn { min-height: 44px; padding: 14px 16px !important; }
+  #artefacto-4 #next-btn, #artefacto-4 #reset-btn { min-height: 44px; }
+  /* Quiz final — opciones con tap target cómodo */
+  .m2-q-option { min-height: 44px; padding: 0.85rem 1rem; }
+  /* Escenario del simulador — tipografía más grande para lectura cómoda */
+  #artefacto-4 #caso-texto { font-size: 14px !important; line-height: 1.6 !important; }
+}
+
+@media (max-width: 480px) {
+  .artefacto { padding: 1.25rem 0.85rem; margin: 1.75rem -0.25rem; border-radius: 14px; }
+  #artefacto-1 svg { max-width: 220px !important; }
+  #artefacto-2 svg { max-width: 220px !important; }
+  /* Kickers más cortos en pantalla pequeña */
+  .artefacto > div:first-child > div:first-child { letter-spacing: 0.12em !important; font-size: 10px !important; }
+  /* Quiz título compacto */
+  .m2-quiz-head h3 { font-size: 1.25rem; }
+  .m2-quiz-head .score { font-size: 0.8rem; }
+  /* Simulador: escenario y opciones sin padding excesivo */
+  #artefacto-4 > div { padding: 1.25rem !important; }
+}
