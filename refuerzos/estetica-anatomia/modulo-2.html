@@ -747,7 +747,7 @@
       document.getElementById('next-wrap').style.display = idx < 2 ? 'block' : 'none';
       if (idx === 2) {
         setTimeout(showFinal, 1800);
-        try { localStorage.setItem('cardumen_artefacto4_modulo2', JSON.stringify({ completed: true, score: score, date: new Date().toISOString() })); } catch(e) {}
+        progress.setArtefactoCompleted('artefacto4_modulo2', { score: score });
       }
     }
     function showFinal() {
@@ -844,10 +844,8 @@
         toast('Módulo marcado como pendiente.');
         return;
       }
-      // Reglas extras del módulo 2
-      let a4 = null;
-      try { a4 = JSON.parse(localStorage.getItem('cardumen_artefacto4_modulo2') || 'null'); } catch(_) {}
-      if (!a4 || !a4.completed) {
+      // Reglas extras del módulo 2: simulador clínico + quiz aprobado
+      if (!progress.hasArtefactoCompleted('artefacto4_modulo2')) {
         toast('Completa el simulador "Decide tu técnica" antes de marcar completado.');
         return;
       }

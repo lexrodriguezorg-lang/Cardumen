@@ -4,14 +4,19 @@
 
 ## Alta prioridad
 
-### 1. Migrar contenido del docx a los módulos
-Los módulos 2, 3, 5, 6, 7 y Bonus tienen estructura editorial completa pero sus secciones específicas de anatomía/protocolos están marcadas con `<div class="placeholder-block">...</div>`. Esos bloques se identifican con un label dorado "📘 Contenido extendido" / "📘 Protocolos específicos" / etc.
+### 1. Migrar contenido del docx a los módulos restantes
+Los módulos 3, 5, 6, 7 y Bonus tienen estructura editorial completa pero sus secciones específicas de anatomía/protocolos están marcadas con `<div class="placeholder-block">...</div>`. Esos bloques se identifican con un label dorado "📘 Contenido extendido" / "📘 Protocolos específicos" / etc.
+
+El **módulo 2** ya fue completado con contenido real + 4 artefactos interactivos + quiz de 3 preguntas. Usarlo como referencia de profundidad editorial esperada para los demás.
 
 Fuente: `Anatomia_Aplicada_a_la_Estetica.docx` (no está en el repo — lo tiene el fundador).
 
 **Cómo hacerlo:** abrir cada `.placeholder-block`, reemplazar con párrafos + callouts del docx. Mantener los selectores `.callout`, `.callout-key`, `.callout-warning`, `.callout-tip`, `.data-table-wrap`, `.pullquote` ya estilizados. No crear nuevos componentes — usar los existentes.
 
 **No inventar bibliografía** bajo ninguna circunstancia (regla del fundador).
+
+### 1.b Artefactos interactivos pendientes (módulo 2)
+El fundador mencionó 3 artefactos adicionales del módulo 2 para una próxima iteración (chat "Cardumen · Refuerzo 001 contenido"): los 4 músculos abdominales + glosario flotante + quiz gamificado. Esperan código desde esa conversación.
 
 ### 2. Afinar quizzes por módulo
 Cada módulo tiene un quiz pedagógico conceptual que escribí yo (Claude). Probablemente el fundador quiera cambiarlos por preguntas específicas del docx. El formato del quiz:
