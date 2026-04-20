@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen · Mi cardumen</title>
+<script>
+  (function() {
+    try {
+      var s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!s || !s.email) window.location.replace('login.html');
+    } catch (_) { window.location.replace('login.html'); }
+  })();
+</script>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); min-height: 100vh; }
+  .dash { max-width: 1360px; margin: 0 auto; padding: 120px 6vw 100px; }
+  .hello { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 56px; flex-wrap: wrap; }
+  .hello .greet { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+  .hello h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; letter-spacing: -0.03em; margin: 16px 0 0; max-width: 18ch; }
+  .hello h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .hello .stats { display: flex; gap: 40px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-mute); }
+  .hello .stats .v { font-family: var(--font-display); font-weight: 300; font-size: 2.2rem; color: var(--gold); display: block; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
+
+  .section { margin-bottom: 80px; }
+  .sec-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 32px; padding-bottom: 18px; border-bottom: 1px solid var(--cream-line); }
+  .sec-head h2 { font-family: var(--font-display); font-weight: 300; font-size: 1.7rem; letter-spacing: -0.02em; margin: 0; }
+  .sec-head h2 em { font-style: italic; color: var(--gold); }
+  .sec-head .more { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-mute); }
+  .sec-head .more:hover { color: var(--gold); }
+
+  /* Active refuerzos */
+  .active-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .rcard { background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 28px; cursor: pointer; transition: all .3s var(--ease-out); display: flex; flex-direction: column; gap: 20px; text-decoration: none; }
+  .rcard:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .rcard .top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .rcard .num { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; }
+  .rcard h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; line-height: 1.15; letter-spacing: -0.02em; color: var(--cream); margin: 0; }
+  .rcard h3 em { font-style: italic; color: var(--gold); }
+  .rcard .by { font-family: var(--font-body); font-style: italic; font-size: 12.5px; color: var(--cream-mute); }
+  .rcard .circle-wrap { display: flex; align-items: center; gap: 18px; padding: 16px 0; border-top: 1px solid var(--cream-line); }
+  .rcard .ring { width: 54px; height: 54px; position: relative; flex-shrink: 0; }
+  .rcard .pct-t { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 300; font-size: 1rem; color: var(--gold); letter-spacing: -0.02em; }
+  .rcard .pct-info { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-mute); line-height: 1.7; }
+  .rcard .pct-info em { color: var(--cream); font-style: normal; }
+  .rcard .cta-sm { padding: 12px 18px; border-radius: var(--r-pill); background: transparent; border: 1px solid var(--cream-line); color: var(--cream); font-family: var(--font-body); font-size: 12.5px; text-align: center; letter-spacing: 0.02em; }
+  .rcard:hover .cta-sm { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+  /* Certificados */
+  .certs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .cert { aspect-ratio: 3/4; border-radius: 12px; background: linear-gradient(145deg, #1E140D, #0E0B08); border: 1px solid rgba(212,169,74,0.2); padding: 22px 18px; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+  .cert::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, rgba(212,169,74,0.15), transparent 60%); pointer-events: none; }
+  .cert.empty { background: transparent; border: 1px dashed var(--cream-line); opacity: 0.5; }
+  .cert .k { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); position: relative; z-index: 2; }
+  .cert h4 { font-family: var(--font-display); font-weight: 400; font-size: 1.05rem; color: var(--cream); letter-spacing: -0.015em; line-height: 1.2; margin: 10px 0 0; position: relative; z-index: 2; }
+  .cert h4 em { font-style: italic; color: var(--gold); }
+  .cert .sig { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 11px; color: var(--cream-mute); position: relative; z-index: 2; }
+  .cert .sig strong { color: var(--gold); font-weight: 400; }
+  .cert .seal { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-style: italic; color: var(--gold); font-size: 16px; position: relative; z-index: 2; }
+  .cert.empty .k { color: var(--cream-mute); }
+  .cert.empty h4 { color: var(--cream-mute); }
+
+  /* Ruta IA */
+  .ruta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .rsug { background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-lg); padding: 22px; display: flex; flex-direction: column; gap: 12px; cursor: pointer; transition: border-color .3s; }
+  .rsug:hover { border-color: var(--gold); }
+  .rsug .tag-ia { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+  .rsug .tag-ia::before { content: ''; width: 5px; height: 5px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 6px var(--gold); }
+  .rsug h4 { font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; letter-spacing: -0.015em; margin: 0; line-height: 1.2; color: var(--cream); }
+  .rsug h4 em { font-style: italic; color: var(--gold); }
+  .rsug .why { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 13px; color: var(--cream-soft); line-height: 1.5; }
+  .rsug .foot { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-mute); padding-top: 12px; border-top: 1px solid var(--cream-line); }
+  .rsug .foot .p { color: var(--cream); }
+
+  /* Bottom split: notas + saldo */
+  .split { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; }
+  .notes-list { display: flex; flex-direction: column; gap: 14px; }
+  .note { background: var(--ink-2); border-left: 2px solid var(--gold); padding: 16px 20px; border-radius: 0 12px 12px 0; }
+  .note .src { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .note .txt { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.05rem; line-height: 1.45; color: var(--cream); letter-spacing: -0.005em; }
+  .note .date { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; color: var(--cream-dim); margin-top: 10px; text-transform: uppercase; }
+
+  .saldo { background: linear-gradient(145deg, var(--ink-2), var(--ink)); border: 1px solid var(--gold); border-radius: var(--r-2xl); padding: 28px; position: relative; overflow: hidden; }
+  .saldo::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(212,169,74,0.15), transparent 60%); pointer-events: none; }
+  .saldo .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .saldo .big { font-family: var(--font-display); font-weight: 300; font-size: 3rem; color: var(--cream); letter-spacing: -0.04em; line-height: 1; margin: 14px 0 6px; }
+  .saldo .sub { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 14px; color: var(--cream-mute); }
+  .saldo .line { height: 1px; background: var(--cream-line); margin: 20px 0; }
+  .saldo .row { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; color: var(--cream-mute); text-transform: uppercase; margin-bottom: 10px; }
+  .saldo .row .v { color: var(--cream); }
+  .saldo .cta-out { margin-top: 20px; width: 100%; padding: 12px; border-radius: var(--r-pill); background: var(--gold); color: var(--ink); border: none; font-family: var(--font-body); font-weight: 500; font-size: 13px; letter-spacing: 0.02em; cursor: pointer; }
+
+  @media (max-width: 960px) { .active-grid, .certs, .ruta { grid-template-columns: 1fr 1fr; } .split { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .active-grid, .certs, .ruta { grid-template-columns: 1fr; } }
+</style></head>
+<body>
+
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links">
+    <a href="dashboard-estudiante.html" class="link active">Mi cardumen</a>
+    <a href="biblioteca.html" class="link">Biblioteca</a>
+    <a href="pedir.html" class="link">Pedir Refuerzo</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--ink);font-size:14px;font-weight:500">VM</div>
+  </div>
+</nav>
+
+<div class="dash" data-screen-label="Dashboard Estudiante">
+
+  <header class="hello">
+    <div>
+      <div class="greet">Bienvenido de vuelta</div>
+      <h1>Hola, <em>Valentina</em>.<br>Dónde <em>quedaste</em>.</h1>
+    </div>
+    <div class="stats">
+      <div><span class="v">3</span>Refuerzos activos</div>
+      <div><span class="v">1</span>Certificado</div>
+      <div><span class="v">24h</span>Estudiadas</div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="sec-head">
+      <h2>Tus <em>Refuerzos activos</em></h2>
+      <a href="biblioteca.html" class="more">Explorar biblioteca →</a>
+    </div>
+    <div class="active-grid">
+
+      <a class="rcard" href="modulo.html">
+        <div class="top">
+          <span class="num">R·001 · Módulo 2 / 9</span>
+          <span class="tag tag-gold">Activo</span>
+        </div>
+        <h3>Anatomía aplicada a la <em>estética</em></h3>
+        <div class="by">Curado por Dra. Lina Parra</div>
+        <div class="circle-wrap">
+          <svg class="ring" viewBox="0 0 54 54">
+            <circle cx="27" cy="27" r="22" fill="none" stroke="rgba(250,245,233,0.1)" stroke-width="2.5"/>
+            <circle cx="27" cy="27" r="22" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="138" stroke-dashoffset="123" transform="rotate(-90 27 27)" stroke-linecap="round"/>
+          </svg>
+          <div class="pct-t">11%</div>
+          <div class="pct-info"><em>Últ:</em> hace 2h<br>28m restantes hoy</div>
+        </div>
+        <div class="cta-sm">Continuar módulo 2</div>
+      </a>
+
+      <a class="rcard" href="#">
+        <div class="top">
+          <span class="num">R·002 · Módulo 5 / 7</span>
+          <span class="tag" style="background:rgba(61,107,158,0.1);color:var(--navy);border-color:rgba(61,107,158,0.3)">Hoy</span>
+        </div>
+        <h3>Drenaje linfático <em>manual</em></h3>
+        <div class="by">Curado por Eli Ramírez</div>
+        <div class="circle-wrap">
+          <svg class="ring" viewBox="0 0 54 54">
+            <circle cx="27" cy="27" r="22" fill="none" stroke="rgba(250,245,233,0.1)" stroke-width="2.5"/>
+            <circle cx="27" cy="27" r="22" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="138" stroke-dashoffset="39" transform="rotate(-90 27 27)" stroke-linecap="round"/>
+          </svg>
+          <div class="pct-t">72%</div>
+          <div class="pct-info"><em>Últ:</em> ayer<br>Casi terminas</div>
+        </div>
+        <div class="cta-sm">Continuar módulo 5</div>
+      </a>
+
+      <a class="rcard" href="#">
+        <div class="top">
+          <span class="num">R·005 · Módulo 1 / 5</span>
+          <span class="tag">Nuevo</span>
+        </div>
+        <h3>La voz del <em>clínico</em></h3>
+        <div class="by">Curado por Mariana Gómez</div>
+        <div class="circle-wrap">
+          <svg class="ring" viewBox="0 0 54 54">
+            <circle cx="27" cy="27" r="22" fill="none" stroke="rgba(250,245,233,0.1)" stroke-width="2.5"/>
+            <circle cx="27" cy="27" r="22" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="138" stroke-dashoffset="131" transform="rotate(-90 27 27)" stroke-linecap="round"/>
+          </svg>
+          <div class="pct-t">5%</div>
+          <div class="pct-info"><em>Iniciado</em><br>hace 3 días</div>
+        </div>
+        <div class="cta-sm">Retomar</div>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <h2>Certificados <em>firmados</em></h2>
+      <span class="more">1 de 3 completados</span>
+    </div>
+    <div class="certs">
+      <div class="cert">
+        <div>
+          <div class="k">Cert · C·001</div>
+          <h4>Introducción al <em>sistema linfático</em></h4>
+        </div>
+        <div>
+          <div class="seal">✓</div>
+          <div class="sig" style="margin-top:10px">Firmado por<br><strong>Eli Ramírez</strong></div>
+        </div>
+      </div>
+      <div class="cert empty"><div class="k">Próximo · R·001</div><h4>Al completar anatomía estética</h4></div>
+      <div class="cert empty"><div class="k">Próximo · R·002</div><h4>Al completar drenaje linfático</h4></div>
+      <div class="cert empty"><div class="k">— · vacío</div><h4>Tu siguiente certificado</h4></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <h2>Ruta sugerida por <em>la IA</em></h2>
+      <span class="more">Basado en lo que estudias</span>
+    </div>
+    <div class="ruta">
+      <a class="rsug">
+        <div class="tag-ia">Sugerencia · 01</div>
+        <h4>La piel — lee <em>lo que te dice</em></h4>
+        <div class="why">"Porque estás cerrando R·001 y este es el complemento natural para consulta estética."</div>
+        <div class="foot"><span>R·004 · Intermedio</span><span class="p">$175k</span></div>
+      </a>
+      <a class="rsug">
+        <div class="tag-ia">Sugerencia · 02</div>
+        <h4>Fibrosis post-quirúrgica <em>avanzada</em></h4>
+        <div class="why">"Te vi trabajar el caso del módulo 02 — este Refuerzo profundiza en grados III y IV."</div>
+        <div class="foot"><span>Solicitar · 8 semanas</span><span class="p">Pedir</span></div>
+      </a>
+      <a class="rsug">
+        <div class="tag-ia">Sugerencia · 03</div>
+        <h4>La voz del <em>clínico</em></h4>
+        <div class="why">"Ya lo iniciaste. Si lo terminas este mes, desbloqueas tu segundo certificado."</div>
+        <div class="foot"><span>R·005 · Básico</span><span class="p">En curso</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <h2>Tus <em>notas</em> recientes</h2>
+      <a class="more">Ver todas · 14 notas →</a>
+    </div>
+    <div class="split">
+      <div class="notes-list">
+        <div class="note"><div class="src">R·001 · Módulo 2</div><div class="txt">"Clave: no confundir panículo areolar con lamelar. El areolar cede al drenaje, el lamelar necesita RF o US."</div><div class="date">Hace 2 horas</div></div>
+        <div class="note"><div class="src">R·002 · Módulo 4</div><div class="txt">"La dirección del drenaje sigue los ganglios, no la lógica. Del centro hacia las cadenas."</div><div class="date">Ayer · 19:40</div></div>
+        <div class="note"><div class="src">R·001 · Módulo 1</div><div class="txt">"La subcisión temprana es 'cortar una cicatriz que aún se está escribiendo'."</div><div class="date">Hace 3 días</div></div>
+      </div>
+      <div class="saldo">
+        <div class="k">Saldo · Referidos</div>
+        <div class="big">$324.000</div>
+        <div class="sub">— por 3 amigos que iniciaron tu Refuerzo favorito.</div>
+        <div class="line"></div>
+        <div class="row"><span>R·001 · 2 alumnos</span><span class="v">$216.000</span></div>
+        <div class="row"><span>R·002 · 1 alumno</span><span class="v">$108.000</span></div>
+        <div class="row"><span>Próximo pago</span><span class="v">15 feb</span></div>
+        <button class="cta-out">Retirar saldo</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+<footer class="editfoot">
+  <span>© 2026 · Cardumen</span>
+  <em>— tu cardumen —</em>
+  <span>Valentina M. · desde enero</span>
+</footer>
+</body></html>
