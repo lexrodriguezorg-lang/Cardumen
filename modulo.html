@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen · Módulo 02 · Anatomía Abdominal</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: #FAF5E9; color: #2A1F14; min-height: 100vh; }
+  ::selection { background: var(--gold); color: var(--ink); }
+
+  /* Top reading bar replaces appnav */
+  .readbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 14px 32px; background: rgba(250,245,233,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(20,14,8,0.08); display: flex; align-items: center; justify-content: space-between; }
+  .readbar .crumb { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #6B5A42; display: flex; align-items: center; gap: 12px; }
+  .readbar .crumb a { color: #6B5A42; }
+  .readbar .crumb a:hover { color: var(--gold-deep); }
+  .readbar .crumb em { color: var(--gold-deep); font-style: normal; }
+  .readbar .right { display: flex; align-items: center; gap: 20px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: #6B5A42; }
+  .readbar .bar { width: 160px; height: 3px; background: rgba(20,14,8,0.1); border-radius: 2px; overflow: hidden; }
+  .readbar .bar i { display: block; height: 100%; width: 38%; background: var(--gold-deep); }
+
+  /* 3-column layout */
+  .shell { display: grid; grid-template-columns: 260px 1fr 280px; gap: 0; min-height: 100vh; padding-top: 56px; }
+
+  /* Left: index */
+  .idx { border-right: 1px solid rgba(20,14,8,0.08); padding: 40px 28px; position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto; }
+  .idx .label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #6B5A42; margin-bottom: 20px; }
+  .idx h4 { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; color: #2A1F14; margin: 0 0 24px; letter-spacing: -0.015em; line-height: 1.2; }
+  .idx h4 em { font-style: italic; color: var(--gold-deep); }
+  .idx .lst { display: flex; flex-direction: column; gap: 2px; }
+  .idx .item { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 10px 8px; border-radius: 8px; font-family: var(--font-body); font-size: 13px; line-height: 1.35; color: #4A3A28; cursor: pointer; transition: all .2s; border: 1px solid transparent; }
+  .idx .item:hover { background: rgba(20,14,8,0.04); }
+  .idx .item.current { background: rgba(212,169,74,0.16); border-color: rgba(179,127,48,0.3); color: #2A1F14; }
+  .idx .item.done { color: #8C7654; }
+  .idx .item .n { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: #8C7654; text-transform: uppercase; padding-top: 2px; }
+  .idx .item.current .n { color: var(--gold-deep); }
+  .idx .item.done .n::before { content: '✓ '; color: var(--gold-deep); }
+  .idx .item em { font-style: italic; color: var(--gold-deep); }
+
+  .idx .progress { margin-top: 40px; padding-top: 28px; border-top: 1px solid rgba(20,14,8,0.08); }
+  .idx .circ { width: 72px; height: 72px; position: relative; }
+  .idx .pct { font-family: var(--font-display); font-weight: 300; font-size: 1.3rem; color: var(--gold-deep); letter-spacing: -0.03em; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+
+  /* Center: content */
+  .reading { padding: 72px 72px 160px; max-width: 760px; margin: 0 auto; }
+  .reading .kicker { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-deep); display: inline-flex; align-items: center; gap: 12px; }
+  .reading .kicker::before { content: ''; width: 20px; height: 1px; background: var(--gold-deep); }
+  .reading h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 4.5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.03em; color: #2A1F14; margin: 28px 0 28px; }
+  .reading h1 em { font-style: italic; color: var(--gold-deep); font-weight: 400; }
+  .reading .dek { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.3rem; color: #4A3A28; line-height: 1.4; max-width: 44ch; margin-bottom: 32px; }
+  .reading .byline-small { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #6B5A42; padding: 18px 0; border-top: 1px solid rgba(20,14,8,0.1); border-bottom: 1px solid rgba(20,14,8,0.1); margin-bottom: 48px; display: flex; justify-content: space-between; }
+  .reading .byline-small em { font-family: var(--font-display); font-style: italic; color: var(--gold-deep); text-transform: none; letter-spacing: 0; font-size: 13px; }
+
+  .reading p { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: #2A1F14; margin: 0 0 24px; text-wrap: pretty; max-width: 60ch; }
+  .reading p.dropcap::first-letter { font-family: var(--font-display); font-weight: 400; font-size: 4.2rem; float: left; line-height: 0.85; padding: 6px 10px 0 0; color: var(--gold-deep); font-style: italic; }
+  .reading h2 { font-family: var(--font-display); font-weight: 400; font-size: 1.7rem; color: #2A1F14; margin: 48px 0 16px; letter-spacing: -0.015em; }
+  .reading h2 em { font-style: italic; color: var(--gold-deep); }
+  .reading blockquote { border-left: 2px solid var(--gold-deep); padding: 4px 0 4px 24px; margin: 32px 0; font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.4rem; line-height: 1.35; color: #4A3A28; max-width: 48ch; }
+  .reading blockquote cite { display: block; font-family: var(--font-mono); font-size: 11px; font-style: normal; letter-spacing: 0.16em; text-transform: uppercase; color: #8C7654; margin-top: 14px; }
+
+  /* Artefacts */
+  .artefact { margin: 48px 0; border: 1px solid rgba(20,14,8,0.12); border-radius: var(--r-2xl); background: #fff; overflow: hidden; }
+  .artefact .head { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; background: #F3ECD9; border-bottom: 1px solid rgba(20,14,8,0.08); }
+  .artefact .head .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-deep); }
+  .artefact .head .tool { font-family: var(--font-mono); font-size: 10px; color: #8C7654; letter-spacing: 0.14em; text-transform: uppercase; }
+  .artefact .stage { padding: 40px; min-height: 340px; position: relative; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 50%, #FFFBF0 0%, #fff 80%); }
+  .artefact .foot { padding: 16px 24px; border-top: 1px solid rgba(20,14,8,0.08); font-family: var(--font-body); font-style: italic; font-size: 13px; color: #6B5A42; }
+
+  /* Artefact 1: clickable abdomen */
+  .anat-stage { width: 100%; max-width: 480px; position: relative; }
+  .anat-svg-big { width: 100%; height: auto; display: block; }
+  .anat-hot { cursor: pointer; transition: all .2s; }
+  .anat-hot:hover { fill: rgba(212,169,74,0.3); }
+  .anat-label-big { position: absolute; background: #2A1F14; color: #FAF5E9; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; padding: 6px 12px; border-radius: 4px; text-transform: uppercase; pointer-events: none; box-shadow: 0 4px 16px -4px rgba(0,0,0,0.3); }
+  .anat-label-big em { color: var(--gold); font-style: normal; }
+  .anat-label-big::after { content: ''; position: absolute; width: 0; height: 0; border: 5px solid transparent; }
+  .l-a { top: 14%; right: -4%; }  .l-a::after { left: -9px; top: 10px; border-right-color: #2A1F14; }
+  .l-b { top: 44%; left: -6%; }   .l-b::after { right: -9px; top: 10px; border-left-color: #2A1F14; }
+  .l-c { bottom: 10%; right: 8%; } .l-c::after { left: -9px; top: 10px; border-right-color: #2A1F14; }
+
+  /* Artefact 2: case quiz */
+  .case-stage { width: 100%; max-width: 560px; }
+  .case-patient { padding: 20px 24px; background: #F3ECD9; border-radius: 12px; margin-bottom: 20px; font-family: var(--font-body); font-size: 14px; color: #2A1F14; line-height: 1.6; }
+  .case-patient strong { color: var(--gold-deep); font-weight: 600; }
+  .case-q { font-family: var(--font-display); font-weight: 400; font-size: 1.25rem; color: #2A1F14; margin-bottom: 16px; letter-spacing: -0.01em; }
+  .case-q em { font-style: italic; color: var(--gold-deep); }
+  .case-opts { display: flex; flex-direction: column; gap: 8px; }
+  .case-opt { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border: 1px solid rgba(20,14,8,0.15); border-radius: 12px; font-family: var(--font-body); font-size: 14px; color: #2A1F14; cursor: pointer; transition: all .2s; background: #fff; }
+  .case-opt:hover { border-color: var(--gold-deep); }
+  .case-opt .letter { font-family: var(--font-mono); font-size: 11px; color: #8C7654; letter-spacing: 0.16em; min-width: 24px; }
+  .case-opt.picked { background: rgba(212,169,74,0.12); border-color: var(--gold-deep); }
+  .case-opt.picked .letter { color: var(--gold-deep); }
+
+  /* Right: contextual panel */
+  .ctx { border-left: 1px solid rgba(20,14,8,0.08); padding: 40px 24px; position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto; }
+  .ctx section { margin-bottom: 32px; }
+  .ctx .label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #6B5A42; margin-bottom: 14px; }
+  .ctx .time-big { font-family: var(--font-display); font-weight: 300; font-size: 2.6rem; color: var(--gold-deep); letter-spacing: -0.03em; line-height: 1; }
+  .ctx .time-big em { font-family: var(--font-body); font-style: normal; font-weight: 400; font-size: 0.9rem; color: #8C7654; letter-spacing: 0.05em; margin-left: 6px; }
+  .ctx .toc a { display: block; padding: 8px 0 8px 12px; border-left: 1px solid rgba(20,14,8,0.1); font-family: var(--font-body); font-size: 12.5px; color: #4A3A28; line-height: 1.4; transition: all .2s; }
+  .ctx .toc a.active { border-color: var(--gold-deep); color: var(--gold-deep); font-weight: 500; }
+  .ctx .toc a:hover { color: var(--gold-deep); border-color: var(--gold-deep); }
+  .notes textarea { width: 100%; min-height: 100px; background: #FFFBF0; border: 1px solid rgba(20,14,8,0.12); border-radius: 10px; padding: 14px; font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 14px; color: #2A1F14; resize: vertical; outline: none; line-height: 1.5; }
+  .notes textarea:focus { border-color: var(--gold-deep); }
+
+  /* Tutor button */
+  .tutor-btn { position: fixed; bottom: 28px; right: 28px; z-index: 40; background: var(--ink); color: var(--cream); border-radius: var(--r-pill); padding: 14px 22px; display: inline-flex; align-items: center; gap: 12px; cursor: pointer; border: 1px solid var(--gold); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4), var(--glow-gold); font-family: var(--font-body); font-size: 13.5px; font-weight: 500; transition: all .2s; text-decoration: none; }
+  .tutor-btn:hover { transform: translateY(-2px); }
+  .tutor-btn .glow { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 8px var(--gold); animation: pulse 2s infinite; }
+  .tutor-btn em { font-family: var(--font-display); font-style: italic; color: var(--gold); font-weight: 400; }
+
+  @media (max-width: 1100px) { .shell { grid-template-columns: 220px 1fr; } .ctx { display: none; } }
+  @media (max-width: 780px) { .shell { grid-template-columns: 1fr; } .idx { display: none; } .reading { padding: 48px 24px 120px; } }
+</style></head>
+<body>
+
+<nav class="readbar">
+  <div class="crumb"><a href="refuerzo-r001.html">R·001</a> · <em>Módulo 02</em> · Anatomía abdominal</div>
+  <div class="right">
+    <span>Avance</span>
+    <div class="bar"><i></i></div>
+    <span>38%</span>
+  </div>
+</nav>
+
+<div class="shell" data-screen-label="Vista Módulo">
+
+  <!-- LEFT: module index -->
+  <aside class="idx">
+    <div class="label">Refuerzo · R·001</div>
+    <h4>Anatomía aplicada a la <em>estética</em></h4>
+    <div class="lst">
+      <div class="item done"><span class="n">01</span><span>La capa invisible</span></div>
+      <div class="item current"><span class="n">02</span><span>Anatomía <em>abdominal</em></span></div>
+      <div class="item"><span class="n">03</span><span>La cara como territorio</span></div>
+      <div class="item"><span class="n">04</span><span>Peligros y zonas rojas</span></div>
+      <div class="item"><span class="n">05</span><span>Fibrosis: qué es y qué no</span></div>
+      <div class="item"><span class="n">06</span><span>Drenaje, cuándo sí y cuándo no</span></div>
+      <div class="item"><span class="n">07</span><span>RF y ultrasonido: la física</span></div>
+      <div class="item"><span class="n">08</span><span>Subcisión razonada</span></div>
+      <div class="item"><span class="n">09</span><span>El cierre — tu protocolo</span></div>
+    </div>
+    <div class="progress">
+      <div class="label">Refuerzo completo</div>
+      <svg class="circ" viewBox="0 0 72 72">
+        <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(20,14,8,0.1)" stroke-width="3"/>
+        <circle cx="36" cy="36" r="30" fill="none" stroke="var(--gold-deep)" stroke-width="3" stroke-dasharray="188.4" stroke-dashoffset="167" transform="rotate(-90 36 36)" stroke-linecap="round"/>
+      </svg>
+      <div class="pct">11%</div>
+    </div>
+  </aside>
+
+  <!-- CENTER: reading -->
+  <main class="reading">
+    <span class="kicker">Módulo 02 · de 09</span>
+    <h1>Anatomía <em>abdominal</em> — el mapa antes del procedimiento.</h1>
+    <p class="dek">Antes de tocar, entender. Antes de intervenir, ver la capa. Este módulo es el mapa que, por alguna razón, nadie dibujó en la facultad.</p>
+    <div class="byline-small">
+      <span>Curado por <em>Dra. Lina Parra</em></span>
+      <span>32 min · Lectura + artefactos</span>
+    </div>
+
+    <p class="dropcap">El abdomen no es una superficie, es un estratigrafía. Cuando un clínico habla de "cavitación en el flanco" o de "subcisión superficial", está haciendo geología sobre cuerpos vivos: una decisión de profundidad, una de dirección, una de respeto al plano siguiente. Lo que vamos a hacer en este módulo es construir ese mapa, capa por capa, hasta que tu mano sepa dónde está antes de que tus ojos lo confirmen.</p>
+
+    <p>Un error frecuente — y caro — es tratar la pared abdominal como si fuera una lámina uniforme de grasa entre la piel y el músculo. No lo es. Tiene dos paneles de grasa con comportamientos clínicos distintos: el <strong>panículo areolar</strong>, más superficial, blando, que responde bien al drenaje manual; y el <strong>panículo lamelar</strong>, más profundo, fibroso, que necesita otra conversación terapéutica. Confundirlos es la diferencia entre un tratamiento y un hematoma.</p>
+
+    <h2>El músculo no es <em>uno</em>, es un sistema.</h2>
+    <p>Hover sobre cada punto del diagrama para ver capa, inserción y — lo más importante — qué significa en consulta. Las tres estructuras marcadas son las que más veces se confunden.</p>
+
+    <!-- ARTEFACT 1 -->
+    <div class="artefact">
+      <div class="head"><span class="k">Artefacto 01 · Diagrama interactivo</span><span class="tool">Hover · Click para detalle</span></div>
+      <div class="stage">
+        <div class="anat-stage">
+          <svg class="anat-svg-big" viewBox="0 0 400 360" fill="none">
+            <defs><linearGradient id="abd" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#E88870"/><stop offset="1" stop-color="#D4A94A"/></linearGradient></defs>
+            <!-- Abdomen outline -->
+            <path d="M90 40 Q200 20 310 40 L300 320 Q200 340 100 320 Z" stroke="url(#abd)" stroke-width="1.6" fill="rgba(212,169,74,0.04)"/>
+            <!-- Linea alba -->
+            <line x1="200" y1="40" x2="200" y2="330" stroke="#B45A40" stroke-width="1" stroke-dasharray="4 4"/>
+            <!-- Rectus segments -->
+            <g class="anat-hot">
+              <rect x="160" y="60" width="80" height="46" fill="rgba(232,136,112,0.08)" stroke="#B45A40" stroke-width="0.8"/>
+              <rect x="160" y="110" width="80" height="46" fill="rgba(232,136,112,0.08)" stroke="#B45A40" stroke-width="0.8"/>
+              <rect x="160" y="160" width="80" height="46" fill="rgba(232,136,112,0.08)" stroke="#B45A40" stroke-width="0.8"/>
+              <rect x="160" y="210" width="80" height="46" fill="rgba(232,136,112,0.08)" stroke="#B45A40" stroke-width="0.8"/>
+            </g>
+            <!-- External oblique hint -->
+            <path d="M90 80 Q130 140 100 260" stroke="#D4A94A" stroke-width="1" stroke-dasharray="3 3"/>
+            <path d="M310 80 Q270 140 300 260" stroke="#D4A94A" stroke-width="1" stroke-dasharray="3 3"/>
+            <!-- Hotspots -->
+            <circle cx="200" cy="90" r="8" fill="#D4A94A" stroke="#FAF5E9" stroke-width="2"/>
+            <circle cx="120" cy="180" r="8" fill="#D4A94A" stroke="#FAF5E9" stroke-width="2"/>
+            <circle cx="260" cy="280" r="8" fill="#E88870" stroke="#FAF5E9" stroke-width="2"/>
+          </svg>
+          <div class="anat-label-big l-a"><em>A</em> · M. recto abdominal</div>
+          <div class="anat-label-big l-b"><em>B</em> · M. oblicuo externo</div>
+          <div class="anat-label-big l-c"><em>C</em> · Zona crítica · vasos epigástricos</div>
+        </div>
+      </div>
+      <div class="foot">Punto <strong>C</strong> es la razón por la que nunca se pincha en profundidad sobre la línea paramediana inferior sin ecografía.</div>
+    </div>
+
+    <h2>El caso — decide, <em>y te explicamos</em>.</h2>
+    <p>Llega una paciente a consulta. La descripción es real, editada para proteger su identidad. Tienes tres opciones. El sistema te muestra el razonamiento clínico después de que elijas — incluido el error que quiere enseñarte.</p>
+
+    <!-- ARTEFACT 2 -->
+    <div class="artefact">
+      <div class="head"><span class="k">Artefacto 02 · Caso clínico</span><span class="tool">Elige una opción</span></div>
+      <div class="stage" style="align-items: flex-start; padding: 36px">
+        <div class="case-stage">
+          <div class="case-patient"><strong>Paciente</strong> · F, 34 años, 6 semanas post-lipo 360. Fibrosis grado II en flanco derecho. Dolor leve a la palpación profunda. Sin signos de infección. Primera consulta contigo.</div>
+          <div class="case-q">¿Cuál es tu <em>primera intervención</em>?</div>
+          <div class="case-opts">
+            <div class="case-opt"><span class="letter">A</span><span>Ultrasonido focalizado 5 sesiones</span></div>
+            <div class="case-opt picked"><span class="letter">B</span><span>Drenaje manual + RF bipolar, evaluar en 2 sem.</span></div>
+            <div class="case-opt"><span class="letter">C</span><span>Subcisión inmediata en el flanco</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="foot">Tras elegir, el módulo expande el razonamiento clínico, contraindicaciones y el protocolo de seguimiento de la Dra. Parra.</div>
+    </div>
+
+    <blockquote>
+      "La anatomía no se aprende para recitarla en un examen — se aprende para que tu mano, cuando toca, ya sepa qué toca."
+      <cite>— Dra. Lina Parra · módulo 02</cite>
+    </blockquote>
+
+    <h2>Qué <em>te llevas</em> de este módulo.</h2>
+    <p>Al cerrarlo, deberías poder identificar las tres estructuras críticas sin mirar el diagrama, saber por qué el caso de arriba no se resuelve con subcisión y tener claros los dos planos de grasa con su implicación terapéutica. En el módulo 03 pasamos a cara — que es otra geología.</p>
+
+    <div style="display:flex;gap:14px;margin-top:48px;padding-top:32px;border-top:1px solid rgba(20,14,8,0.1);">
+      <button class="btn-ghost" style="color:#2A1F14;border-color:rgba(20,14,8,0.15)">← Módulo 01</button>
+      <button class="btn-gold" style="margin-left:auto">Continuar · Módulo 03 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+    </div>
+  </main>
+
+  <!-- RIGHT: contextual -->
+  <aside class="ctx">
+    <section>
+      <div class="label">Tiempo estimado</div>
+      <div class="time-big">32<em>min</em></div>
+    </section>
+
+    <section class="toc">
+      <div class="label">En este módulo</div>
+      <a href="#">El abdomen como estratigrafía</a>
+      <a href="#" class="active">El músculo no es uno</a>
+      <a href="#">El caso — decide y explicamos</a>
+      <a href="#">Qué te llevas del módulo</a>
+    </section>
+
+    <section class="notes">
+      <div class="label">Tus notas</div>
+      <textarea placeholder="— escribe aquí. Se guardan en tu perfil."></textarea>
+      <div style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;color:#8C7654;margin-top:10px">2 notas en este Refuerzo</div>
+    </section>
+
+    <section>
+      <div class="label">Descargables</div>
+      <a href="#" style="font-family:var(--font-display);font-style:italic;font-size:14px;color:var(--gold-deep);display:block;padding:6px 0">— Mapa abdominal en PDF</a>
+      <a href="#" style="font-family:var(--font-display);font-style:italic;font-size:14px;color:var(--gold-deep);display:block;padding:6px 0">— Protocolo fibrosis II</a>
+    </section>
+  </aside>
+</div>
+
+<a class="tutor-btn" href="tutor.html">
+  <span class="glow"></span>
+  Pregunta a la <em>tutora</em>
+</a>
+
+</body></html>

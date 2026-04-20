@@ -1,497 +1,132 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardumen — Estudiamos juntos, llegamos lejos</title>
-<meta name="description" content="La red viva donde profesionales piden el tema que su formación no cubrió. Refuerzos entregados en 3 días.">
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="icon" type="image/png" sizes="192x192" href="assets/logo/favicon-192.png">
-<link rel="stylesheet" href="css/landing.css">
-<link rel="stylesheet" href="css/pitch.css">
-</head>
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen · Mapa del producto</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); min-height: 100vh; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 120px 6vw 100px; }
+  .head { margin-bottom: 72px; padding-bottom: 40px; border-bottom: 1px solid var(--cream-line); }
+  .head .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); display: inline-flex; align-items: center; gap: 10px; }
+  .head .k::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+  .head h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(3rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.035em; margin: 28px 0 20px; max-width: 18ch; }
+  .head h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .head .sub { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.3rem; color: var(--cream-soft); max-width: 52ch; line-height: 1.45; }
+
+  .group { margin-bottom: 64px; }
+  .group-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--cream-mute); margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid var(--cream-line); display: flex; justify-content: space-between; }
+  .group-label em { color: var(--gold); font-style: normal; font-family: var(--font-display); text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 400; }
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .c { background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 26px; transition: all .3s var(--ease-out); text-decoration: none; display: flex; flex-direction: column; gap: 14px; min-height: 200px; position: relative; overflow: hidden; }
+  .c:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .c .num { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .c h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.45rem; color: var(--cream); letter-spacing: -0.02em; margin: 0; line-height: 1.1; }
+  .c h3 em { font-style: italic; color: var(--gold); }
+  .c p { font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--cream-soft); margin: 0; flex: 1; }
+  .c .foot { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-mute); display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid var(--cream-line); }
+  .c .foot .arr { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--cream-line); display: flex; align-items: center; justify-content: center; transition: all .2s; color: var(--cream); }
+  .c:hover .foot .arr { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+  @media (max-width: 960px) { .cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+</style></head>
 <body>
 
-<!-- NAV TOP -->
-<nav class="top-nav" id="topNav">
-  <a href="index.html" class="nav-brand">
-    <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-  </a>
-  <button class="menu-trigger" id="menuOpen">
-    <span class="menu-icon"><span></span><span></span></span>
-    Menú
-  </button>
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links"><a href="index.html" class="link active">Mapa</a></div>
+  <button class="cta">v1</button>
 </nav>
 
-<!-- MENU FULL-SCREEN -->
-<div class="menu-overlay" id="menuOverlay">
-  <div class="menu-inner">
-    <div class="menu-top">
-      <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-      <button class="menu-close" id="menuClose">
-        Cerrar
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-    </div>
+<div class="wrap">
 
-    <div class="menu-body">
-      <ul class="menu-primary">
-        <li><a href="#biblioteca">Biblioteca</a></li>
-        <li><a href="#como">Cómo <em>funciona</em></a></li>
-        <li><a href="#validacion">Quién <em>valida</em></a></li>
-        <li><a href="mi-cardumen.html">Entrar a <em>mi estudio</em></a></li>
-        <li><a href="pide-refuerzo.html">Pedir un <em>tema</em></a></li>
-        <li><a href="docentes.html">Para <em>docentes</em></a></li>
-        <li><a href="instituciones.html">Para <em>instituciones</em></a></li>
-        <li><a href="expertos.html">Para <em>expertos</em></a></li>
-      </ul>
+  <header class="head">
+    <div class="k">Cardumen · Mapa del producto</div>
+    <h1>Diez pantallas, <em>un ecosistema</em>.</h1>
+    <p class="sub">— el recorrido completo, en el orden en que lo vive el usuario. Abre cualquiera para revisar.</p>
+  </header>
 
-      <div class="menu-aside">
-        <div class="menu-aside-block">
-          <h4>¿ERES NUEVA AQUÍ?</h4>
-          <p>Empieza por el Refuerzo 001: Anatomía Aplicada a la Estética.</p>
-          <p class="small">Nueve módulos · 2h 45 min · Validado por tres esteticistas activas.</p>
-          <a href="refuerzos/estetica-anatomia/index.html" class="menu-aside-cta">
-            Empezar
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M5 12h14M13 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-foot">
-      <div>
-        <a href="mailto:hola@cardumen.co">hola@cardumen.co</a>
-        <a href="#">Instagram</a>
-        <a href="#">WhatsApp</a>
-      </div>
-      <div class="tagline">Estudiamos juntos, llegamos lejos.</div>
+  <div class="group">
+    <div class="group-label"><span>00 · Público</span><em>el primer contacto</em></div>
+    <div class="cards">
+      <a class="c" href="Landing Cardumen.html">
+        <div class="num">01</div><h3>Landing <em>pública</em></h3>
+        <p>El hero editorial con la bifurcación a experto o estudiante. Punto de entrada.</p>
+        <div class="foot"><span>Landing</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="expertos.html">
+        <div class="num">02</div><h3>Página <em>expertos</em></h3>
+        <p>Tres caminos: creador, curador, referente. Matemática de ingresos + flujo de 4 pasos.</p>
+        <div class="foot"><span>Público</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="estudiantes.html">
+        <div class="num">03</div><h3>Página <em>estudiantes</em></h3>
+        <p>Tres accesos: pedir, biblioteca, ruta institucional. Cuatro beneficios + demos.</p>
+        <div class="foot"><span>Público</span><span class="arr">→</span></div>
+      </a>
     </div>
   </div>
+
+  <div class="group">
+    <div class="group-label"><span>01 · Descubrimiento</span><em>entrar a la biblioteca</em></div>
+    <div class="cards">
+      <a class="c" href="pedir.html">
+        <div class="num">04</div><h3>Pedir un <em>Refuerzo</em></h3>
+        <p>Flujo conversacional de 5 pasos. Termina con cotización estimada.</p>
+        <div class="foot"><span>Chat guiado</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="biblioteca.html">
+        <div class="num">05</div><h3>Biblioteca de <em>Refuerzos</em></h3>
+        <p>Grid editorial. 6 publicados, 3 en construcción. Filtros mínimos.</p>
+        <div class="foot"><span>Catálogo</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="refuerzo-r001.html">
+        <div class="num">06</div><h3>Portada · <em>R·001</em></h3>
+        <p>Anatomía aplicada a la estética. 9 módulos, artefactos, contador de alumnos.</p>
+        <div class="foot"><span>Refuerzo</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label"><span>02 · Estudio</span><em>donde el alumno pasa el tiempo</em></div>
+    <div class="cards">
+      <a class="c" href="modulo.html">
+        <div class="num">07</div><h3>Vista de <em>módulo</em></h3>
+        <p>Módulo 2 · Anatomía abdominal. 3 columnas, 2 artefactos interactivos, notas.</p>
+        <div class="foot"><span>La clave</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="tutor.html">
+        <div class="num">08</div><h3>Tutor <em>IA abierto</em></h3>
+        <p>Panel lateral editorial. Conversación con contexto del módulo.</p>
+        <div class="foot"><span>Chat</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="dashboard-estudiante.html">
+        <div class="num">09</div><h3>Dashboard <em>estudiante</em></h3>
+        <p>Refuerzos activos · certificados coleccionables · ruta IA · notas · saldo.</p>
+        <div class="foot"><span>Logueado</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label"><span>03 · Monetización</span><em>el experto en control</em></div>
+    <div class="cards">
+      <a class="c" href="dashboard-experto.html">
+        <div class="num">10</div><h3>Dashboard <em>experto</em></h3>
+        <p>KPIs · Refuerzos por rol · gráfico 6m · próximo pago · link único · captions.</p>
+        <div class="foot"><span>Logueado</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
 </div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-grid">
-    <div class="hero-text anim-in">
-      <span class="kicker">REFUERZO EDUCATIVO BAJO DEMANDA</span>
-      <h1>Lo que <em>faltó</em><br>en clase,<br><span class="accent">te lo</span> construimos.</h1>
-      <p class="hero-lede">La red viva donde las profesionales piden el tema que nadie les enseñó. Lo construimos en tres días. Lo estudias como merece estudiarse.</p>
-      <div class="hero-ctas">
-        <a href="#biblioteca" class="btn btn-gold">
-          Explorar biblioteca
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-        <a href="pide-refuerzo.html" class="btn btn-ghost">Pedir mi tema</a>
-      </div>
-      <div class="hero-proof">
-        <div class="proof-avatars">
-          <div class="pa"></div><div class="pa"></div><div class="pa"></div><div class="pa"></div>
-        </div>
-        <span>Primer Refuerzo entregado en <strong>72h</strong> · Validado por profesionales activas</span>
-      </div>
-    </div>
-
-    <div class="hero-visual anim-in anim-in-2">
-      <div class="hero-mockup">
-        <span class="mockup-badge">REFUERZO 001 · EN CURSO</span>
-        <div class="mockup-title">Anatomía <em>Aplicada</em><br>a la Estética</div>
-        <div class="mockup-progress">
-          <div class="mockup-ring">
-            <svg viewBox="0 0 62 62" width="62" height="62">
-              <circle cx="31" cy="31" r="26" fill="none" stroke="rgba(250,245,233,0.12)" stroke-width="4"/>
-              <circle cx="31" cy="31" r="26" fill="none" stroke="#D4A94A" stroke-width="4" stroke-linecap="round"
-                      stroke-dasharray="163.4" stroke-dashoffset="91.5" transform="rotate(-90 31 31)"/>
-            </svg>
-            <div class="pct-in">44%</div>
-          </div>
-          <div>
-            <div class="mockup-next-label">CONTINÚA EN</div>
-            <div class="mockup-next">Sistema linfático</div>
-          </div>
-        </div>
-        <div class="mockup-modules">
-          <div class="mockup-module done"><div class="dot">✓</div> Por qué necesitas anatomía</div>
-          <div class="mockup-module done"><div class="dot">✓</div> Anatomía abdominal</div>
-          <div class="mockup-module done"><div class="dot">✓</div> Sistema muscular</div>
-          <div class="mockup-module now"><div class="dot">4</div> Sistema linfático</div>
-          <div class="mockup-module"><div class="dot">5</div> Anatomía facial</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MANIFIESTO -->
-<section class="manifesto">
-  <div class="manifesto-inner">
-    <span class="section-label">Por qué existimos</span>
-    <h2>Porque <em>ninguna</em> formación enseña<br><span class="hi">todo lo que necesitas</span>.</h2>
-    <p class="manifesto-body">Pasamos años estudiando, nos graduamos creyendo que sabíamos, y el primer mes de trabajo descubrimos los huecos. Cardumen nació para eso: profundizar lo que quedó a medias, aterrizar lo que sonó a teoría, y aprender de quienes lo resolvieron antes. Sin cursos eternos, sin filler, sin promesas infladas.</p>
-    <div class="manifesto-signature">
-      <div class="signature-line"></div>
-      <span class="signature-text">el cardumen</span>
-      <div class="signature-line"></div>
-    </div>
-  </div>
-</section>
-
-<!-- CÓMO FUNCIONA -->
-<section class="how-works" id="como">
-  <div class="how-head">
-    <h2>Aprendizaje <em>a la medida,</em><br>sin perder profundidad.</h2>
-    <p>Tres pasos para ir del vacío que tienes hoy, al dominio que necesitas mañana. Sin gastar un año de tu vida ni un sueldo en un diplomado que no cubre lo que te importa.</p>
-  </div>
-  <div class="steps-grid">
-    <div class="step">
-      <h3>Encuentra <em>o pide</em> tu tema</h3>
-      <p>Explora la biblioteca de Refuerzos vivos. Si no está, lo pides y lo construimos en tres días hábiles.</p>
-      <div class="step-detail">"Drenaje oncoestético." "Aparatología legal en Colombia." "Fibrosis post-lipo." Lo que sea, lo construimos.</div>
-    </div>
-    <div class="step">
-      <h3>Estúdialo en <em>formato vivo</em></h3>
-      <p>Cada Refuerzo es una experiencia web: módulos navegables, progreso guardado, quizzes, notas personales.</p>
-      <div class="step-detail">No es un PDF aburrido. Es un libro que se adapta a cómo estudias tú.</div>
-    </div>
-    <div class="step">
-      <h3>Tu cardumen <em>crece contigo</em></h3>
-      <p>Cada compañera que se suma con tu link te genera saldo. Cuando el cardumen crece, tú aprendes gratis.</p>
-      <div class="step-detail">Estudiamos juntas, llegamos lejos. Literalmente.</div>
-    </div>
-  </div>
-</section>
-
-<!-- PREVIEW -->
-<section class="preview-section">
-  <div class="preview-inner">
-    <div class="preview-text">
-      <span class="section-label">Así se siente estudiar aquí</span>
-      <h2>No es un PDF.<br>Es un <em>lugar</em> donde pensar.</h2>
-      <p>Mientras los cursos tradicionales te dan videos que se pierden en YouTube, nosotros diseñamos cada Refuerzo como un libro digital vivo.</p>
-      <p>Entras, retomas donde quedaste, marcas lo que ya dominas, guardas notas que son tuyas, respondes preguntas que te obligan a pensar.</p>
-      <ul class="preview-features">
-        <li><span class="check">✓</span><span>Progreso guardado por módulo, como un libro con marcadores.</span></li>
-        <li><span class="check">✓</span><span>Notas personales que persisten en cada lección.</span></li>
-        <li><span class="check">✓</span><span>Quizzes que comprueban que entendiste de verdad.</span></li>
-        <li><span class="check">✓</span><span>Módulos que se desbloquean al aprobar el anterior.</span></li>
-      </ul>
-    </div>
-    <div class="preview-visual">
-      <div class="preview-card preview-card-main">
-        <span class="tag">MÓDULO 4 · SISTEMA LINFÁTICO</span>
-        <h4>El mapa que cambia todo.</h4>
-        <p class="lede">Si hay un módulo que toda esteticista debería tener grabado a fuego, es este.</p>
-        <p class="body-snippet">La linfa no tiene bomba propia. <strong>Tú eres la bomba</strong> durante el drenaje. Entender eso cambia cómo trabajas un cuerpo.</p>
-      </div>
-      <div class="preview-card preview-card-quiz">
-        <div class="q-label">COMPRUEBA TU COMPRENSIÓN</div>
-        <div class="q-text">¿Cuál es el orden correcto del drenaje?</div>
-        <div class="q-option">Tejido → intermedios → terminales</div>
-        <div class="q-option correct">Terminales → intermedios → tejido → cierre</div>
-        <div class="q-option">La presión importa más que el orden</div>
-      </div>
-      <div class="preview-card preview-card-note">
-        <div class="note-label">TU NOTA</div>
-        <div class="note-body">"Recordar: si queda marca roja, hice masaje, no drenaje."</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BIBLIOTECA -->
-<section class="library" id="biblioteca">
-  <div class="library-head">
-    <div class="title-block">
-      <h2>Biblioteca <em>curada</em>.</h2>
-      <p>Cada Refuerzo es construido bajo pedido, validado por profesionales activas y probado antes de publicarse.</p>
-    </div>
-    <div class="meta">
-      <div>001 Refuerzo publicado</div>
-      <div><strong>+12 en construcción</strong></div>
-    </div>
-  </div>
-
-  <div class="library-grid">
-
-    <a href="refuerzos/estetica-anatomia/index.html" class="book-card feature">
-      <div class="book-feature-content">
-        <div class="book-tag-row">
-          <span class="book-tag primary">REFUERZO 001</span>
-          <span class="book-tag">ESTÉTICA</span>
-          <span class="book-tag hot">DISPONIBLE</span>
-        </div>
-        <div class="book-number">R·001 · PUBLICADO · VALIDADO</div>
-        <h3>Anatomía<br>Aplicada <em>a la Estética</em>.</h3>
-        <p class="description">El mapa de órganos, músculos y sistema linfático que toda esteticista debería dominar para elevar sus resultados en cabina. No teoría. Protocolo aplicable.</p>
-        <div class="book-meta-row">
-          <div class="book-meta-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-            <strong>9 módulos</strong>
-          </div>
-          <div class="book-meta-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <strong>2h 45min</strong>
-          </div>
-          <div class="book-meta-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 00-16 0"/></svg>
-            Revisión 3 filtros
-          </div>
-          <div class="book-price-wrap">
-            <div class="book-price"><span class="currency">$</span>49.000</div>
-            <span class="book-cta">
-              Comenzar
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <a href="#" class="book-card small coming">
-      <div>
-        <div class="book-tag-row">
-          <span class="book-tag">ESTÉTICA</span>
-          <span class="book-tag">PRÓXIMO</span>
-        </div>
-        <div class="book-number">R·002 · EN CONSTRUCCIÓN</div>
-        <h3>Postoperatorio <em>y</em> Aparatología Legal.</h3>
-        <p class="description">Protocolos post-lipo, post-aumento glúteo, y qué aparatos sí puedes usar legalmente en Colombia según Invima.</p>
-      </div>
-      <div class="book-meta-row">
-        <div class="book-meta-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          Entrega en 3 días
-        </div>
-        <div class="book-price-wrap">
-          <div class="book-price"><span class="currency">$</span>49.000</div>
-          <span class="book-cta">Apartar</span>
-        </div>
-      </div>
-    </a>
-
-    <a href="#" class="book-card medium coming">
-      <div>
-        <div class="book-tag-row">
-          <span class="book-tag">ESTÉTICA</span>
-          <span class="book-tag">SOLICITADO · 23 VECES</span>
-        </div>
-        <div class="book-number">R·003 · EN COLA</div>
-        <h3>Drenaje <em>Oncoestético</em>.</h3>
-        <p class="description">El protocolo especializado que pocas saben hacer bien: trabajar cuerpos durante y post-tratamiento oncológico con criterio médico.</p>
-      </div>
-      <div class="book-meta-row">
-        <div class="book-meta-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-          Requiere 23 apartadas
-        </div>
-        <div class="book-price-wrap">
-          <div class="book-price"><span class="currency">$</span>89.000</div>
-          <span class="book-cta">Apartar</span>
-        </div>
-      </div>
-    </a>
-
-    <a href="pide-refuerzo.html" class="book-card ghost medium">
-      <div>
-        <div class="book-tag-row">
-          <span class="book-tag">TU IDEA AQUÍ</span>
-        </div>
-        <div class="book-number">R·??? · ESPERANDO TU PEDIDO</div>
-        <h3>¿Tu tema <em>no está</em>?<br>Pídelo.</h3>
-        <p class="description">Cardumen escucha. Si pides el tema que te falta, lo construimos en tres días y tu link único te genera saldo cada vez que alguien se suma.</p>
-      </div>
-      <div class="book-meta-row">
-        <div class="book-meta-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M17 11l2 2 4-4"/></svg>
-          Tu link genera saldo
-        </div>
-        <div class="book-price-wrap">
-          <div class="book-price">Pídelo</div>
-          <span class="book-cta">
-            Pedir tema
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </div>
-    </a>
-
-  </div>
-</section>
-
-<!-- VALIDACIÓN -->
-<section class="validation" id="validacion">
-  <div class="validation-inner">
-    <div class="validation-text">
-      <span class="section-label" style="margin-bottom: 1rem; display: inline-block;">Calidad revisada, no improvisada</span>
-      <h2>Cada Refuerzo<br>pasa por <em>tres filtros</em><br>antes de llegarte.</h2>
-      <p><strong>Primero:</strong> investigación rigurosa. Fuentes académicas, normativa vigente, manuales reconocidos del área. Citamos lo que usamos.</p>
-      <p><strong>Segundo:</strong> revisión cruzada por profesionales activas del oficio que validan precisión, contraindicaciones y aplicabilidad real en campo.</p>
-      <p><strong>Tercero:</strong> prueba beta con lectoras piloto que lo estudian completo antes del lanzamiento y marcan lo confuso, lo incompleto, lo que falta.</p>
-      <div class="callout-mini">Si una sección no pasa los tres filtros, no se publica. Preferimos retrasar un Refuerzo a soltar información que te ponga en riesgo.</div>
-    </div>
-    <div class="validators">
-      <div class="validator-card">
-        <div class="validator-avatar">📚</div>
-        <div class="validator-name">Fuentes</div>
-        <div class="validator-role">Referencias académicas citadas</div>
-      </div>
-      <div class="validator-card">
-        <div class="validator-avatar">👐</div>
-        <div class="validator-name">Profesionales</div>
-        <div class="validator-role">Revisión de contenido y técnica</div>
-      </div>
-      <div class="validator-card">
-        <div class="validator-avatar">🧪</div>
-        <div class="validator-name">Beta</div>
-        <div class="validator-role">Lectoras piloto pre-lanzamiento</div>
-      </div>
-      <div class="validator-card">
-        <div class="validator-avatar">🐟</div>
-        <div class="validator-name">Cardumen</div>
-        <div class="validator-role">Feedback continuo de la comunidad</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRES CAMINOS -->
-<section class="tres-caminos">
-  <div class="tres-caminos-head">
-    <span class="kicker">TRES CAMINOS PARA SUMARSE AL CARDUMEN</span>
-    <h2>Cardumen es para quien quiere <em>aprender,</em> quien quiere <em>enseñar,</em> y quien quiere <em>formar.</em></h2>
-    <p class="lede">Tres públicos, una sola red viva de conocimiento. Elige por dónde entrar.</p>
-  </div>
-
-  <div class="caminos-grid">
-    <a href="#biblioteca" class="camino-card">
-      <span class="camino-kicker">APRENDIZ</span>
-      <h3>Eres <em>profesional.</em></h3>
-      <div class="camino-sub">Diseña tu ruta.</div>
-      <p>Explora la biblioteca curada. Pide el tema que te faltó y lo construimos en tres días. Estúdialo como merece: a tu ritmo, con notas tuyas, con quizzes que te obligan a pensar.</p>
-      <span class="camino-cta">Explorar biblioteca
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </span>
-    </a>
-
-    <a href="docentes.html" class="camino-card featured">
-      <span class="camino-kicker">DOCENTE</span>
-      <h3>Eres <em>docente.</em></h3>
-      <div class="camino-sub">Convierte tu clase en experiencia.</div>
-      <p>Pídenos el Refuerzo que complementa tu materia. Tus estudiantes lo estudian, aprueban sus quizzes, reciben su certificado. Tú ganas una comisión por cada alumno inscrito. Tu clase deja de terminar en el aula.</p>
-      <span class="camino-cta">Conocer más
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </span>
-    </a>
-
-    <a href="instituciones.html" class="camino-card">
-      <span class="camino-kicker">INSTITUCIÓN</span>
-      <h3>Eres <em>institución.</em></h3>
-      <div class="camino-sub">Material a medida sin inversión propia.</div>
-      <p>Producimos los Refuerzos que su programa necesita. Sus estudiantes pagan al momento de la matrícula. Ustedes ganan comisión por inscrito. Sin que paguen un peso en producción.</p>
-      <span class="camino-cta">Conocer más
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </span>
-    </a>
-  </div>
-
-  <p class="caminos-note">
-    ¿Eres experto con audiencia propia? También tienes lugar en el cardumen. <a href="expertos.html">Ver cómo co-crear un Refuerzo →</a>
-  </p>
-</section>
-
-<!-- CTA FINAL -->
-<section class="cta-final">
-  <div class="cta-box">
-    <span class="section-label">Estudiamos juntas, llegamos lejos</span>
-    <h2>Deja de estudiar <em>sola</em>.<br>Súmate al cardumen.</h2>
-    <p>Empieza con el primer Refuerzo publicado, o pide el que necesitas. En cualquier caso, saldrás con algo que tus compañeras van a notar.</p>
-    <div class="hero-ctas">
-      <a href="refuerzos/estetica-anatomia/index.html" class="btn btn-gold">
-        Empezar con Anatomía Estética
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-      <a href="pide-refuerzo.html" class="btn btn-ghost">Pedir mi tema</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-      <p>Estudiamos juntos, llegamos lejos.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Explorar</h4>
-      <a href="#biblioteca">Biblioteca</a>
-      <a href="pide-refuerzo.html">Pedir un tema</a>
-      <a href="#como">Cómo funciona</a>
-    </div>
-    <div class="footer-col">
-      <h4>Sumarse</h4>
-      <a href="docentes.html">Para docentes</a>
-      <a href="instituciones.html">Para instituciones</a>
-      <a href="expertos.html">Para expertos</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contacto</h4>
-      <a href="mailto:hola@cardumen.co">hola@cardumen.co</a>
-      <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-      <a href="#">Instagram</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div>© 2026 Cardumen · La Dorada, Caldas · Colombia</div>
-    <div>
-      <a href="#" style="margin-right: 1rem;">Términos</a>
-      <a href="#">Privacidad</a>
-    </div>
-  </div>
+<footer class="editfoot">
+  <span>© 2026 · Cardumen · Mapa v1</span>
+  <em>— el cardumen —</em>
+  <span>10 pantallas · un flujo</span>
 </footer>
-
-<script>
-  const nav = document.getElementById('topNav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 20);
-  });
-
-  // Link "Entrar a mi cardumen" del menu overlay: si NO hay sesion → /login
-  (function() {
-    try {
-      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
-      const entrar = document.querySelector('.menu-primary a[href="mi-cardumen.html"]');
-      if (!entrar) return;
-      if (!(s && s.email)) entrar.setAttribute('href', 'login.html');
-    } catch (_) {}
-  })();
-
-  const menu = document.getElementById('menuOverlay');
-  document.getElementById('menuOpen').addEventListener('click', () => {
-    menu.classList.add('open');
-    document.body.classList.add('menu-open');
-  });
-  document.getElementById('menuClose').addEventListener('click', () => {
-    menu.classList.remove('open');
-    document.body.classList.remove('menu-open');
-  });
-  menu.querySelectorAll('.menu-primary a').forEach(a => {
-    a.addEventListener('click', () => {
-      menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
-    });
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && menu.classList.contains('open')) {
-      menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
-    }
-  });
-</script>
-
-</body>
-</html>
+</body></html>

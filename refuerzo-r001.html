@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen · R·001 Anatomía Aplicada a la Estética</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); }
+
+  .port-hero { padding: 120px 6vw 80px; position: relative; overflow: hidden;
+    background:
+      radial-gradient(circle at 75% 25%, rgba(232,136,112,0.22), transparent 50%),
+      radial-gradient(circle at 20% 80%, rgba(212,169,74,0.15), transparent 55%),
+      linear-gradient(180deg, #1A120C 0%, #0E0B08 100%);
+  }
+  .port-inner { max-width: 1360px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .port-left .mono { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 10px; }
+  .port-left .mono::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+  .port-left h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.8rem, 5.4vw, 5rem); line-height: 1; letter-spacing: -0.035em; margin: 32px 0 20px; }
+  .port-left h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .port-left .sub { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.3rem; color: var(--cream-soft); max-width: 42ch; line-height: 1.4; margin-bottom: 36px; }
+
+  .byline { display: flex; align-items: center; gap: 18px; padding: 20px 0; border-top: 1px solid var(--cream-line); border-bottom: 1px solid var(--cream-line); margin-bottom: 32px; }
+  .byline .av { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--coral), var(--gold)); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 400; color: var(--ink); font-size: 1.1rem; }
+  .byline .who { flex: 1; }
+  .byline .who .nm { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; color: var(--cream); letter-spacing: -0.01em; }
+  .byline .who .nm em { font-style: italic; color: var(--gold); }
+  .byline .who .t { font-family: var(--font-body); font-size: 12.5px; color: var(--cream-mute); font-style: italic; }
+
+  .port-meta { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-bottom: 36px; }
+  .port-meta .m { border-left: 1px solid var(--cream-line); padding-left: 16px; }
+  .port-meta .m .l { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); }
+  .port-meta .m .v { font-family: var(--font-display); font-weight: 300; font-size: 1.7rem; color: var(--cream); letter-spacing: -0.02em; margin-top: 4px; }
+  .port-meta .m .v em { font-style: italic; color: var(--gold); }
+
+  .port-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* Cover art — right side */
+  .cover-big { aspect-ratio: 4/5; border-radius: var(--r-2xl); background: radial-gradient(circle at 65% 30%, rgba(232,136,112,0.45), transparent 55%), linear-gradient(180deg, #1E140D, #0E0B08); position: relative; overflow: hidden; border: 1px solid rgba(232,136,112,0.2); box-shadow: 0 30px 80px -20px rgba(0,0,0,0.8); }
+  .cover-big .corner-num { position: absolute; top: 28px; left: 28px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.24em; color: var(--cream); text-transform: uppercase; }
+  .cover-big .corner-num em { color: var(--gold); font-style: normal; }
+  .cover-big .art { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: .75; }
+  .cover-big .art svg { width: 58%; }
+  .cover-big .cap { position: absolute; bottom: 28px; left: 28px; right: 28px; font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.15rem; color: var(--cream-mute); }
+
+  /* Modules table */
+  .modules { padding: 100px 6vw 80px; max-width: 1360px; margin: 0 auto; }
+  .modules-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 48px; flex-wrap: wrap; gap: 24px; }
+  .modules h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; margin: 20px 0 0; max-width: 20ch; line-height: 1.05; }
+  .modules h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+  .mod-list { border-top: 1px solid var(--cream-line); }
+  .mod { display: grid; grid-template-columns: 60px 1fr 280px 110px 32px; gap: 24px; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--cream-line); transition: background .2s; cursor: pointer; }
+  .mod:hover { background: rgba(250,245,233,0.02); }
+  .mod .n { font-family: var(--font-display); font-weight: 300; font-size: 2.4rem; color: var(--gold); letter-spacing: -0.04em; line-height: 1; }
+  .mod .t { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; color: var(--cream); letter-spacing: -0.01em; }
+  .mod .t em { font-style: italic; color: var(--gold); }
+  .mod .t small { display: block; font-family: var(--font-body); font-style: italic; font-size: 12.5px; color: var(--cream-mute); margin-top: 4px; font-weight: 400; }
+  .mod .preview { display: flex; gap: 6px; flex-wrap: wrap; }
+  .mod .pv { padding: 3px 10px; border-radius: var(--r-pill); background: rgba(250,245,233,0.05); border: 1px solid var(--cream-line); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; color: var(--cream-soft); text-transform: uppercase; }
+  .mod .d { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--cream-mute); text-align: right; }
+  .mod .arr { color: var(--cream-dim); font-size: 18px; justify-self: end; }
+  .mod:hover .arr { color: var(--gold); }
+  .mod.current { background: rgba(212,169,74,0.06); }
+
+  /* Qué vas a resolver */
+  .resolv { padding: 100px 6vw; background: #FAF5E9; color: var(--ink); }
+  .resolv .inner { max-width: 1360px; margin: 0 auto; }
+  .resolv .section-tag { color: var(--gold-deep); }
+  .resolv .section-tag::before { background: var(--gold-deep); }
+  .resolv h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; color: var(--ink); margin: 24px 0 56px; max-width: 22ch; line-height: 1.05; }
+  .resolv h2 em { font-style: italic; color: var(--gold-deep); font-weight: 400; }
+  .resolv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .rcard { background: #fff; border: 1px solid rgba(20,14,8,0.1); border-radius: var(--r-2xl); padding: 28px; display: flex; flex-direction: column; gap: 14px; min-height: 260px; }
+  .rcard .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold-deep); text-transform: uppercase; }
+  .rcard h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; margin: 0; letter-spacing: -0.02em; color: var(--ink); }
+  .rcard h3 em { font-style: italic; color: var(--gold-deep); }
+  .rcard p { font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: #4A4030; margin: 0; }
+  .rcard .stage { background: #FAF5E9; border-radius: 10px; padding: 16px; display: flex; align-items: center; justify-content: center; min-height: 100px; }
+  .rcard .stage svg { width: 80%; max-height: 80px; }
+
+  /* Contador de estudiantes */
+  .counter { padding: 120px 6vw; background: var(--ink); text-align: center; position: relative; border-top: 1px solid var(--cream-line); }
+  .counter::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(232,136,112,0.1), transparent 55%); pointer-events: none; }
+  .counter .inner { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; }
+  .counter .bignum { font-family: var(--font-display); font-weight: 300; font-size: clamp(4rem, 10vw, 8rem); color: var(--coral); letter-spacing: -0.05em; line-height: 1; }
+  .counter .l { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.6rem; color: var(--cream-soft); margin-top: 20px; }
+  .counter .l em { color: var(--gold); }
+  .counter .from-list { margin-top: 40px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-mute); display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; }
+  .counter .from-list span { color: var(--cream-soft); }
+
+  @media (max-width: 960px) { .port-inner, .resolv-grid { grid-template-columns: 1fr; } .mod { grid-template-columns: 40px 1fr 60px; } .mod .preview, .mod .arr { display: none; } }
+</style></head>
+<body>
+
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links">
+    <a href="expertos.html" class="link">Expertos</a>
+    <a href="estudiantes.html" class="link">Estudiantes</a>
+    <a href="biblioteca.html" class="link active">Biblioteca</a>
+    <a href="pedir.html" class="link">Pedir Refuerzo</a>
+  </div>
+  <button class="cta gold" onclick="location.href='modulo.html'">Continuar</button>
+</nav>
+
+<header class="port-hero" data-screen-label="R001 Portada">
+  <div class="port-inner">
+    <div class="port-left">
+      <div class="mono">Refuerzo · R·<span style="color:var(--cream)">001</span></div>
+      <h1>Anatomía aplicada a la <em>estética</em>.</h1>
+      <p class="sub">Dejar de operar con pantallazos. Entender el cuerpo que tratas — músculo por músculo, capa por capa, decisión por decisión.</p>
+
+      <div class="byline">
+        <div class="av">LP</div>
+        <div class="who">
+          <div class="nm">Curado por Dra. <em>Lina Parra</em></div>
+          <div class="t">Anatomista aplicada · Bogotá · 14 años de consulta</div>
+        </div>
+      </div>
+
+      <div class="port-meta">
+        <div class="m"><div class="l">Módulos</div><div class="v">9</div></div>
+        <div class="m"><div class="l">Duración</div><div class="v">4h <em>20m</em></div></div>
+        <div class="m"><div class="l">Inversión</div><div class="v">$180<em>k</em></div></div>
+      </div>
+
+      <div class="port-actions">
+        <a class="btn-gold" href="modulo.html">Continuar · Módulo 2 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        <button class="btn-ghost">Ver muestra gratis</button>
+      </div>
+    </div>
+
+    <div class="cover-big">
+      <div class="corner-num">R·<em>001</em> · Editorial Cardumen</div>
+      <div class="art">
+        <svg viewBox="0 0 300 400" fill="none">
+          <defs><linearGradient id="pg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#E88870"/><stop offset="1" stop-color="#D4A94A"/></linearGradient></defs>
+          <ellipse cx="150" cy="120" rx="78" ry="96" stroke="url(#pg)" stroke-width="1.4"/>
+          <path d="M72 240 Q150 270 228 240 L216 370 Q150 386 84 370 Z" stroke="#D4A94A" stroke-width="1.4"/>
+          <circle cx="118" cy="108" r="5" fill="#D4A94A"/>
+          <circle cx="182" cy="108" r="5" fill="#D4A94A"/>
+          <circle cx="150" cy="300" r="6" fill="#E88870"/>
+          <path d="M150 210 L150 260" stroke="#E88870" stroke-width="0.8" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div class="cap">— "La anatomía que nadie te contó en la facultad."</div>
+    </div>
+  </div>
+</header>
+
+<section class="modules" data-screen-label="Módulos">
+  <div class="modules-head">
+    <div>
+      <span class="section-tag">Tabla de contenido</span>
+      <h2>Nueve módulos, en el <em>orden que importa</em>.</h2>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream-mute)">Progreso · <span style="color:var(--gold)">11% · Módulo 2 en curso</span></div>
+  </div>
+  <div class="mod-list">
+    <div class="mod"><div class="n">01</div><div class="t">La capa invisible<small>Piel, tejido subcutáneo y lo que el rostro esconde.</small></div><div class="preview"><span class="pv">Video · 18m</span><span class="pv">Artefacto</span></div><div class="d">25 min</div><div class="arr">→</div></div>
+    <div class="mod current"><div class="n">02</div><div class="t">Anatomía abdominal<small>Músculo por músculo, capa por capa. El mapa antes del procedimiento.</small></div><div class="preview"><span class="pv">Video · 22m</span><span class="pv">Diagrama</span><span class="pv">Caso</span></div><div class="d">32 min</div><div class="arr">→</div></div>
+    <div class="mod"><div class="n">03</div><div class="t">La cara como <em>territorio</em><small>Planos faciales, grasa buena y grasa mala, vasos críticos.</small></div><div class="preview"><span class="pv">Video · 24m</span><span class="pv">3D</span></div><div class="d">30 min</div><div class="arr">→</div></div>
+    <div class="mod"><div class="n">04</div><div class="t">Peligros y zonas rojas<small>Dónde no pinchar. Dónde no masajear. Dónde parar.</small></div><div class="preview"><span class="pv">Video · 20m</span><span class="pv">Quiz</span></div><div class="d">28 min</div><div class="arr">→</div></div>
+    <div class="mod"><div class="n">05</div><div class="t">Fibrosis: qué es y qué no<small>Grados, diagnóstico táctil, decisión de intervenir.</small></div><div class="preview"><span class="pv">Video · 26m</span><span class="pv">Caso real</span></div><div class="d">36 min</div><div class="arr">→</div></div>
+    <div class="mod"><div class="n">06</div><div class="t">Drenaje, cuándo <em>sí</em> y cuándo <em>no</em><small>La pregunta que casi nadie hace antes de tocar.</small></div><div class="preview"><span class="pv">Video · 19m</span><span class="pv">Protocolo</span></div><div class="d">25 min</div><div class="arr">→</div></div>
+    <div class="mod"><div class="n">07</div><div class="t">RF y ultrasonido: la física<small>Cómo funciona, cuándo sirve, cuándo es marketing.</small></div><div class="preview"><span class="pv">Video · 21m</span><span class="pv">Simulador</span></div><div class="d">28 min</div><div class="arr">→</div></div>
+    <div class="mod"><div class="n">08</div><div class="t">Subcisión razonada<small>Indicaciones, contraindicaciones, el minuto antes.</small></div><div class="preview"><span class="pv">Video · 22m</span><span class="pv">Protocolo</span></div><div class="d">30 min</div><div class="arr">→</div></div>
+    <div class="mod"><div class="n">09</div><div class="t">El cierre — tu protocolo<small>Construye tu flujo propio. Certificación firmada por Dra. Parra.</small></div><div class="preview"><span class="pv">Taller</span><span class="pv">Certificado</span></div><div class="d">46 min</div><div class="arr">→</div></div>
+  </div>
+</section>
+
+<section class="resolv" data-screen-label="Qué vas a resolver">
+  <div class="inner">
+    <span class="section-tag">Qué vas a resolver</span>
+    <h2>Tres artefactos que verás — y <em>que vas a usar</em> después.</h2>
+    <div class="resolv-grid">
+      <div class="rcard">
+        <div class="k">Módulo 2 · Diagrama</div>
+        <h3>Mapa abdominal <em>clickeable</em></h3>
+        <div class="stage">
+          <svg viewBox="0 0 200 140"><path d="M40 30 L160 30 L150 120 L50 120 Z" stroke="#B45A40" stroke-width="1.2" fill="rgba(212,169,74,0.08)"/><circle cx="80" cy="60" r="4" fill="#D4A94A"/><circle cx="120" cy="60" r="4" fill="#D4A94A"/><circle cx="100" cy="90" r="4" fill="#B45A40"/></svg>
+        </div>
+        <p>Pasa el cursor por cada músculo. Capa, inserción, riesgo clínico.</p>
+      </div>
+      <div class="rcard">
+        <div class="k">Módulo 5 · Caso real</div>
+        <h3>Diagnóstico de <em>fibrosis</em></h3>
+        <div class="stage">
+          <svg viewBox="0 0 200 140"><rect x="30" y="30" width="140" height="80" rx="6" stroke="#B45A40" stroke-width="1.2" fill="none"/><text x="100" y="58" text-anchor="middle" fill="#B45A40" font-family="DM Mono" font-size="9">PACIENTE · 34 AÑOS</text><path d="M50 80 H150" stroke="#D4A94A" stroke-width="1"/><circle cx="70" cy="80" r="3" fill="#D4A94A"/><circle cx="100" cy="80" r="3" fill="#D4A94A"/><circle cx="130" cy="80" r="3" fill="#B45A40"/></svg>
+        </div>
+        <p>Elige el plan. El sistema te muestra el razonamiento y el error.</p>
+      </div>
+      <div class="rcard">
+        <div class="k">Módulo 7 · Simulador</div>
+        <h3>Física de la <em>RF</em></h3>
+        <div class="stage">
+          <svg viewBox="0 0 200 140"><path d="M20 70 Q50 30 80 70 Q110 110 140 70 Q170 30 200 70" stroke="#B45A40" stroke-width="1.4" fill="none"/><line x1="0" y1="100" x2="200" y2="100" stroke="#D4A94A" stroke-width="0.8" stroke-dasharray="3 3"/><circle cx="100" cy="70" r="5" fill="#D4A94A"/></svg>
+        </div>
+        <p>Ajusta frecuencia y profundidad. Observa la curva térmica.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="counter" data-screen-label="Estudiantes inscritos">
+  <div class="inner">
+    <span class="section-tag">Estudiantes ya en este Refuerzo</span>
+    <div class="bignum" style="margin-top:32px">1.247</div>
+    <div class="l">clínicos, esteticistas y médicos ya <em>están estudiando</em> este Refuerzo.</div>
+    <div class="from-list">
+      <span>Bogotá · 312</span>
+      <span>Medellín · 268</span>
+      <span>Cali · 189</span>
+      <span>Barranquilla · 112</span>
+      <span>Quito · 87</span>
+      <span>CDMX · 74</span>
+    </div>
+  </div>
+</section>
+
+<footer class="editfoot">
+  <span>© 2026 · Cardumen · R·001</span>
+  <em>— el cardumen —</em>
+  <span>La Dorada · Colombia</span>
+</footer>
+</body></html>

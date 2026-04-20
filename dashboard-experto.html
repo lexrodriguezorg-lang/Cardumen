@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen · Panel del experto</title>
+<script>
+  (function() {
+    try {
+      var s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!s || !s.email) window.location.replace('login.html');
+    } catch (_) { window.location.replace('login.html'); }
+  })();
+</script>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); min-height: 100vh; }
+  .dash { max-width: 1360px; margin: 0 auto; padding: 120px 6vw 100px; }
+  .hello { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 48px; flex-wrap: wrap; padding-bottom: 32px; border-bottom: 1px solid var(--cream-line); }
+  .hello .greet { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+  .hello h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; letter-spacing: -0.03em; margin: 16px 0 0; max-width: 20ch; }
+  .hello h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .hello .cta-new { padding: 14px 22px; border-radius: var(--r-pill); background: var(--gold); color: var(--ink); border: none; font-family: var(--font-body); font-weight: 500; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
+  .hello .cta-new svg { width: 14px; height: 14px; }
+
+  /* KPIs */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--cream-line); border: 1px solid var(--cream-line); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 64px; }
+  .kpi { background: var(--ink-2); padding: 28px; }
+  .kpi .l { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); }
+  .kpi .v { font-family: var(--font-display); font-weight: 300; font-size: 2.6rem; color: var(--cream); letter-spacing: -0.04em; line-height: 1; margin: 14px 0 6px; }
+  .kpi .v em { font-style: italic; color: var(--gold); }
+  .kpi .d { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.12em; color: var(--cream-mute); }
+  .kpi .d .up { color: var(--gold); }
+
+  .section { margin-bottom: 72px; }
+  .sec-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--cream-line); }
+  .sec-head h2 { font-family: var(--font-display); font-weight: 300; font-size: 1.7rem; letter-spacing: -0.02em; margin: 0; }
+  .sec-head h2 em { font-style: italic; color: var(--gold); }
+  .sec-head .more { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-mute); }
+
+  /* Mis refuerzos table */
+  .mr-list { display: flex; flex-direction: column; }
+  .mr { display: grid; grid-template-columns: 56px 1fr 130px 140px 100px 30px; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--cream-line); cursor: pointer; transition: background .2s; }
+  .mr:hover { background: rgba(250,245,233,0.02); }
+  .mr .num { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; }
+  .mr .t { font-family: var(--font-display); font-weight: 400; font-size: 1.25rem; color: var(--cream); letter-spacing: -0.015em; }
+  .mr .t em { font-style: italic; color: var(--gold); }
+  .mr .t small { display: block; font-family: var(--font-body); font-size: 12px; color: var(--cream-mute); font-style: italic; margin-top: 4px; font-weight: 400; }
+  .mr .role { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream-soft); }
+  .mr .al { font-family: var(--font-display); font-weight: 300; font-size: 1.4rem; color: var(--cream); letter-spacing: -0.02em; }
+  .mr .al small { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--cream-mute); text-transform: uppercase; display: block; margin-top: 2px; }
+  .mr .rev { font-family: var(--font-display); font-weight: 300; font-size: 1.4rem; color: var(--gold); letter-spacing: -0.02em; }
+  .mr .arr { color: var(--cream-dim); justify-self: end; }
+  .mr:hover .arr { color: var(--gold); }
+
+  /* Ingresos chart */
+  .income { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; }
+  .chart-wrap { background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 32px; }
+  .chart-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 28px; }
+  .chart-head .l { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); }
+  .chart-head .v { font-family: var(--font-display); font-weight: 300; font-size: 3rem; color: var(--cream); letter-spacing: -0.04em; line-height: 1; margin-top: 8px; }
+  .chart-head .v em { font-style: italic; color: var(--gold); }
+  .chart-head .legend { display: flex; gap: 18px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--cream-mute); text-transform: uppercase; }
+  .chart-head .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .chart-head .legend .sw { width: 10px; height: 10px; border-radius: 2px; }
+
+  .chart { height: 220px; display: flex; align-items: flex-end; gap: 8px; padding-bottom: 22px; border-bottom: 1px solid var(--cream-line); position: relative; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; position: relative; }
+  .bar-stack { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .bar-stack .b { width: 70%; border-radius: 2px 2px 0 0; transition: all .3s; }
+  .bar-stack .b-cre { background: var(--gold); }
+  .bar-stack .b-cur { background: rgba(232,136,112,0.7); }
+  .bar-stack .b-ref { background: rgba(61,107,158,0.7); }
+  .bar-group .m { font-family: var(--font-mono); font-size: 9.5px; color: var(--cream-mute); letter-spacing: 0.12em; text-transform: uppercase; position: absolute; bottom: -18px; }
+
+  .next-pay { background: linear-gradient(145deg, var(--ink-2), var(--ink)); border: 1px solid var(--gold); border-radius: var(--r-2xl); padding: 28px; position: relative; overflow: hidden; }
+  .next-pay::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(212,169,74,0.15), transparent 60%); pointer-events: none; }
+  .next-pay .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .next-pay .big { font-family: var(--font-display); font-weight: 300; font-size: 2.8rem; color: var(--cream); letter-spacing: -0.04em; line-height: 1; margin: 14px 0 4px; }
+  .next-pay .when { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.1rem; color: var(--cream-mute); }
+  .next-pay .line { height: 1px; background: var(--cream-line); margin: 20px 0; }
+  .next-pay .row { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-mute); margin-bottom: 10px; }
+  .next-pay .row .v { color: var(--cream); }
+
+  /* Difusión */
+  .difus { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; }
+  .link-card { background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 28px; }
+  .link-card .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+  .link-card h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; margin: 0 0 18px; color: var(--cream); letter-spacing: -0.015em; }
+  .link-card h3 em { font-style: italic; color: var(--gold); }
+  .link-box { display: flex; align-items: center; border: 1px solid var(--cream-line); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+  .link-box .url { flex: 1; padding: 14px 18px; font-family: var(--font-mono); font-size: 12.5px; color: var(--cream); letter-spacing: 0.02em; background: var(--ink); }
+  .link-box .url em { color: var(--gold); font-style: normal; }
+  .link-box .copy { padding: 14px 18px; background: var(--gold); color: var(--ink); border: none; font-family: var(--font-body); font-weight: 500; font-size: 12px; cursor: pointer; letter-spacing: 0.02em; }
+  .link-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; padding-top: 16px; border-top: 1px solid var(--cream-line); }
+  .link-stats .sv { font-family: var(--font-display); font-weight: 300; font-size: 1.7rem; color: var(--cream); letter-spacing: -0.03em; line-height: 1; }
+  .link-stats .sv em { color: var(--gold); }
+  .link-stats .sl { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--cream-mute); text-transform: uppercase; margin-top: 6px; }
+
+  .captions { background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 28px; }
+  .cap { padding: 14px 16px; background: var(--ink); border-left: 2px solid var(--gold); border-radius: 0 10px 10px 0; margin-bottom: 12px; font-family: var(--font-body); font-size: 13.5px; line-height: 1.55; color: var(--cream-soft); cursor: pointer; transition: all .2s; }
+  .cap:hover { background: rgba(212,169,74,0.04); }
+  .cap .tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; display: block; margin-bottom: 6px; }
+  .cap em { font-style: italic; color: var(--gold); }
+
+  @media (max-width: 960px) { .kpis { grid-template-columns: 1fr 1fr; } .income, .difus { grid-template-columns: 1fr; } .mr { grid-template-columns: 40px 1fr 80px; } .mr .role, .mr .rev, .mr .arr { display: none; } }
+</style></head>
+<body>
+
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links">
+    <a href="dashboard-experto.html" class="link active">Mi panel</a>
+    <a href="biblioteca.html" class="link">Biblioteca</a>
+    <a href="pedir.html" class="link">Proponer Refuerzo</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--ink);font-size:14px;font-weight:500">LP</div>
+  </div>
+</nav>
+
+<div class="dash" data-screen-label="Dashboard Experto">
+
+  <header class="hello">
+    <div>
+      <div class="greet">Panel del experto</div>
+      <h1>Hola, Dra. <em>Lina</em>.<br>Tu cardumen creció <em>este mes</em>.</h1>
+    </div>
+    <button class="cta-new" onclick="location.href='pedir.html'">Pedir o crear nuevo Refuerzo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg></button>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi"><div class="l">Refuerzos activos</div><div class="v">3</div><div class="d">1 publicado · 2 en curaduría</div></div>
+    <div class="kpi"><div class="l">Alumnos inscritos</div><div class="v">1.<em>247</em></div><div class="d"><span class="up">+ 168</span> este mes</div></div>
+    <div class="kpi"><div class="l">Ingresos del mes</div><div class="v">$14,2<em>M</em></div><div class="d"><span class="up">+ 22%</span> vs. enero</div></div>
+    <div class="kpi"><div class="l">Acumulado · 2026</div><div class="v">$28,<em>6M</em></div><div class="d">Desde 01 ene</div></div>
+  </div>
+
+  <section class="section">
+    <div class="sec-head">
+      <h2>Tus <em>Refuerzos</em></h2>
+      <span class="more">3 activos · 2 en construcción</span>
+    </div>
+    <div class="mr-list">
+      <div class="mr"><div class="num">R·001</div><div class="t">Anatomía aplicada a la <em>estética</em><small>Publicado · 9 módulos</small></div><div class="role"><span class="tag tag-gold">Creadora · 70%</span></div><div class="al">1.247<small>alumnos</small></div><div class="rev">$12,6M</div><div class="arr">→</div></div>
+      <div class="mr"><div class="num">R·005</div><div class="t">La voz del <em>clínico</em><small>En curaduría · revisión guion</small></div><div class="role"><span class="tag" style="color:var(--coral);border-color:rgba(232,136,112,0.3);background:rgba(232,136,112,0.08)">Curadora · 25%</span></div><div class="al">—<small>sin publicar</small></div><div class="rev">$0</div><div class="arr">→</div></div>
+      <div class="mr"><div class="num">R·002</div><div class="t">Drenaje linfático <em>manual</em><small>Publicado · tu link genera referidos</small></div><div class="role"><span class="tag" style="color:var(--navy);border-color:rgba(61,107,158,0.3);background:rgba(61,107,158,0.08)">Referente · 15%</span></div><div class="al">58<small>por tu link</small></div><div class="rev">$1,6M</div><div class="arr">→</div></div>
+      <div class="mr" style="opacity:.55"><div class="num">R·013</div><div class="t">Fibrosis post-quirúrgica <em>avanzada</em><small>Propuesta · en validación editorial</small></div><div class="role"><span class="tag">En cola</span></div><div class="al">—<small></small></div><div class="rev">—</div><div class="arr">→</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <h2>Ingresos <em>últimos 6 meses</em></h2>
+      <span class="more">Octubre → Febrero</span>
+    </div>
+    <div class="income">
+      <div class="chart-wrap">
+        <div class="chart-head">
+          <div>
+            <div class="l">Total acumulado</div>
+            <div class="v">$28,<em>6M</em></div>
+          </div>
+          <div class="legend">
+            <span><span class="sw" style="background:var(--gold)"></span>Creación</span>
+            <span><span class="sw" style="background:rgba(232,136,112,0.7)"></span>Curaduría</span>
+            <span><span class="sw" style="background:rgba(61,107,158,0.7)"></span>Referidos</span>
+          </div>
+        </div>
+        <div class="chart">
+          <div class="bar-group"><div class="bar-stack"><div class="b b-ref" style="height:18px"></div><div class="b b-cre" style="height:62px"></div></div><div class="m">Sep</div></div>
+          <div class="bar-group"><div class="bar-stack"><div class="b b-ref" style="height:22px"></div><div class="b b-cur" style="height:14px"></div><div class="b b-cre" style="height:78px"></div></div><div class="m">Oct</div></div>
+          <div class="bar-group"><div class="bar-stack"><div class="b b-ref" style="height:30px"></div><div class="b b-cur" style="height:18px"></div><div class="b b-cre" style="height:94px"></div></div><div class="m">Nov</div></div>
+          <div class="bar-group"><div class="bar-stack"><div class="b b-ref" style="height:38px"></div><div class="b b-cur" style="height:22px"></div><div class="b b-cre" style="height:108px"></div></div><div class="m">Dic</div></div>
+          <div class="bar-group"><div class="bar-stack"><div class="b b-ref" style="height:42px"></div><div class="b b-cur" style="height:26px"></div><div class="b b-cre" style="height:120px"></div></div><div class="m">Ene</div></div>
+          <div class="bar-group"><div class="bar-stack"><div class="b b-ref" style="height:52px"></div><div class="b b-cur" style="height:30px"></div><div class="b b-cre" style="height:144px"></div></div><div class="m">Feb</div></div>
+        </div>
+      </div>
+      <div class="next-pay">
+        <div class="k">Próximo pago programado</div>
+        <div class="big">$14,2<em style="font-style:italic;color:var(--gold)">M</em></div>
+        <div class="when">15 de febrero · transferencia</div>
+        <div class="line"></div>
+        <div class="row"><span>Creación · R·001</span><span class="v">$12,6M</span></div>
+        <div class="row"><span>Referidos · R·002</span><span class="v">$1,6M</span></div>
+        <div class="row"><span>Retención fiscal</span><span class="v">auto</span></div>
+        <div class="line"></div>
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.16em;color:var(--cream-mute);text-transform:uppercase">Banco · Bancolombia · ••4821</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <h2>Herramientas de <em>difusión</em></h2>
+      <span class="more">Tu link · tus captions</span>
+    </div>
+    <div class="difus">
+      <div class="link-card">
+        <div class="k">Tu link único · R·001</div>
+        <h3>Cada click que <em>termina comprando</em> te deja 15% de comisión recurrente.</h3>
+        <div class="link-box">
+          <div class="url">cardumen.co/r/r001 · <em>?via=lina-parra</em></div>
+          <button class="copy">Copiar</button>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.16em;color:var(--cream-mute);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <span>Personalizar slug</span>
+          <span style="color:var(--gold)">→ cardumen.co/r/<em style="font-style:italic">dra-parra-anatomia</em></span>
+        </div>
+        <div class="link-stats">
+          <div><div class="sv">842</div><div class="sl">Clicks · 30d</div></div>
+          <div><div class="sv"><em>68</em></div><div class="sl">Compras</div></div>
+          <div><div class="sv">8,1%</div><div class="sl">Conversión</div></div>
+        </div>
+      </div>
+      <div class="captions">
+        <div class="k" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;margin-bottom:14px">Captions pre-generados</div>
+        <h3 style="font-family:var(--font-display);font-weight:400;font-size:1.2rem;margin:0 0 16px;letter-spacing:-0.015em">Copia y <em style="font-style:italic;color:var(--gold)">publica</em>.</h3>
+        <div class="cap"><span class="tag">Instagram · cercano</span>Después de 14 años de consulta, decidí hacer el Refuerzo que me hubiera gustado tener en la facultad. Se llama <em>Anatomía aplicada a la estética</em> — link en bio.</div>
+        <div class="cap"><span class="tag">LinkedIn · profesional</span>La anatomía superficial no se enseña para la estética — y ahí empiezan la mayoría de los errores de consulta. <em>R·001 de Cardumen</em> intenta corregir eso. 9 módulos, acceso vitalicio.</div>
+        <div class="cap"><span class="tag">Historia · corta</span>"La anatomía que nadie te contó en la facultad." <em>3 días de acceso gratis</em> por mi link.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="editfoot">
+  <span>© 2026 · Cardumen</span>
+  <em>— tu cardumen —</em>
+  <span>Dra. Lina Parra · desde oct. 2025</span>
+</footer>
+</body></html>
