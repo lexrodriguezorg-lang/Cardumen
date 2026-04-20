@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quiz · R·001 — Cardumen</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 110px 6vw 80px; }
+
+  .head { padding-bottom: 24px; border-bottom: 1px solid var(--cream-line); }
+  .head .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+  .head h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.2rem, 4.2vw, 3.2rem); letter-spacing: -0.035em; margin: 16px 0 8px; line-height: 1; }
+  .head h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .head .sub { font-family: var(--font-display); font-style: italic; color: var(--cream-soft); font-size: 1.15rem; line-height: 1.45; margin-bottom: 20px; }
+
+  .progress-row { display: flex; align-items: center; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--cream-line); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); }
+  .progress-row em { font-style: normal; color: var(--gold); font-family: var(--font-display); font-size: 1.1rem; letter-spacing: -0.01em; }
+  .pbar { flex: 1; height: 2px; background: var(--cream-line); overflow: hidden; }
+  .pbar .f { height: 100%; background: var(--gold); width: 60%; transition: width .3s; }
+
+  /* Question card */
+  .qcard { padding: 56px 0 20px; }
+  .q-num { font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--gold); font-size: 1.5rem; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .q-text { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.6rem, 3.2vw, 2.2rem); letter-spacing: -0.025em; color: var(--cream); line-height: 1.22; margin-bottom: 12px; max-width: 28ch; }
+  .q-text em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .q-hint { font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--cream-mute); font-size: 1.05rem; margin-bottom: 36px; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 22px 24px; border: 1px solid var(--cream-line); border-radius: var(--r-lg); background: transparent; text-align: left; cursor: pointer; font-family: var(--font-body); color: var(--cream-soft); font-size: 1rem; line-height: 1.5; transition: all .25s; }
+  .opt:hover { border-color: var(--gold); color: var(--cream); }
+  .opt .letter { font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--gold); font-size: 1.4rem; line-height: 1; text-align: center; }
+  .opt.selected { border-color: var(--gold); background: rgba(212,169,74,0.05); color: var(--cream); }
+  .opt.correct { border-color: #8fb88a; background: rgba(143,184,138,0.08); }
+  .opt.correct .letter { color: #8fb88a; }
+  .opt.wrong { border-color: var(--coral); background: rgba(212,108,108,0.06); }
+  .opt.wrong .letter { color: var(--coral); }
+
+  /* Explanation */
+  .explain { margin-top: 28px; padding: 22px 26px; border-left: 2px solid var(--gold); background: rgba(212,169,74,0.04); border-radius: 0 12px 12px 0; }
+  .explain .t { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .explain p { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.1rem; line-height: 1.55; color: var(--cream-soft); margin: 0; max-width: 58ch; letter-spacing: -0.005em; }
+  .explain p em { font-style: normal; color: var(--gold); }
+
+  /* Footer controls */
+  .qfoot { margin-top: 48px; display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--cream-line); }
+  .qfoot .l-ctrl { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); cursor: pointer; background: none; border: none; }
+  .qfoot .l-ctrl:hover { color: var(--gold); }
+</style></head>
+<body>
+
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links">
+    <a href="refuerzo-r001.html" class="link active">R·001</a>
+  </div>
+  <button class="cta">Guardar y salir</button>
+</nav>
+
+<div class="wrap" data-screen-label="Quiz">
+  <header class="head">
+    <div class="k">R·001 · comprobación rápida</div>
+    <h1>Tres <em>preguntas</em>, no más.</h1>
+    <div class="sub">— para saber si te quedó claro. No es examen. No afecta tu certificado si te equivocas; solo te muestra qué releer.</div>
+  </header>
+
+  <div class="progress-row">
+    <span>pregunta <em>3</em> / 5</span>
+    <div class="pbar"><div class="f"></div></div>
+    <span>tiempo <em>02:14</em></span>
+  </div>
+
+  <section class="qcard">
+    <div class="q-num">iii.</div>
+    <div class="q-text">¿Cuál <em>arteria</em> es la más riesgosa al inyectar en la región glabelar?</div>
+    <div class="q-hint">— una sola respuesta —</div>
+
+    <div class="options">
+      <button class="opt">
+        <span class="letter">a.</span>
+        <span>Arteria facial</span>
+      </button>
+      <button class="opt selected correct">
+        <span class="letter">b.</span>
+        <span>Arteria supratroclear</span>
+      </button>
+      <button class="opt">
+        <span class="letter">c.</span>
+        <span>Arteria angular</span>
+      </button>
+      <button class="opt">
+        <span class="letter">d.</span>
+        <span>Arteria dorsal nasal</span>
+      </button>
+    </div>
+
+    <div class="explain">
+      <div class="t">— por qué —</div>
+      <p>Correcto. La <em>supratroclear</em> atraviesa la glabela en un plano muy superficial; por eso la técnica estándar recomienda inyectar profundo, contra periostio, y siempre con aspiración previa. Lo revisamos en la página 4 del Refuerzo.</p>
+    </div>
+  </section>
+
+  <div class="qfoot">
+    <button class="l-ctrl">← anterior</button>
+    <button class="btn-gold">Siguiente pregunta →</button>
+  </div>
+</div>
+
+<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— preguntar es leer dos veces —</em><span>R·001 · Quiz</span></footer>
+</body></html>

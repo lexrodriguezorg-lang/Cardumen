@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel · Universidad CES</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 100px 5vw 80px; }
+
+  /* Masthead */
+  .mast { padding: 32px 0 28px; border-bottom: 1px solid var(--cream-line); display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; flex-wrap: wrap; }
+  .mast .l .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .mast .l h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 3.8vw, 2.8rem); letter-spacing: -0.03em; margin: 8px 0 6px; line-height: 1; }
+  .mast .l h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .mast .l .sub { font-family: var(--font-display); font-style: italic; color: var(--cream-mute); font-size: 1.1rem; }
+  .mast .r { display: flex; gap: 10px; align-items: center; }
+  .period { display: inline-flex; border: 1px solid var(--cream-line); border-radius: var(--r-pill); overflow: hidden; }
+  .period button { padding: 9px 14px; background: transparent; border: none; color: var(--cream-mute); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+  .period button.on { background: var(--gold); color: var(--ink); }
+
+  /* Stat strip */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--cream-line); border-bottom: 1px solid var(--cream-line); margin: 32px 0; }
+  .stat { padding: 28px 24px; }
+  .stat + .stat { border-left: 1px solid var(--cream-line); }
+  .stat .lab { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); }
+  .stat .val { font-family: var(--font-display); font-weight: 300; font-size: 3rem; color: var(--cream); letter-spacing: -0.035em; line-height: 1; margin: 12px 0 6px; }
+  .stat .val em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .stat .val .u { font-family: var(--font-body); font-size: 1rem; color: var(--cream-mute); margin-left: 4px; }
+  .stat .delta { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+  .stat .delta.neg { color: var(--coral); }
+  .stat .delta em { font-style: italic; font-family: var(--font-display); color: inherit; letter-spacing: 0; }
+
+  /* Two-column */
+  .two { display: grid; grid-template-columns: 1.4fr 1fr; gap: 60px; margin-top: 40px; }
+  @media (max-width: 900px) { .two, .stats { grid-template-columns: 1fr; } .stats .stat + .stat { border-left: none; border-top: 1px solid var(--cream-line); } }
+
+  /* Chart */
+  .chart-wrap { border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 28px; background: var(--ink-2); }
+  .chart-wrap h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; letter-spacing: -0.02em; margin: 0 0 4px; }
+  .chart-wrap h3 em { font-style: italic; color: var(--gold); }
+  .chart-wrap .csub { font-family: var(--font-display); font-style: italic; color: var(--cream-mute); font-size: 0.95rem; margin-bottom: 24px; }
+  .chart { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; align-items: flex-end; height: 220px; padding: 12px 0; border-top: 1px dashed var(--cream-line); border-bottom: 1px dashed var(--cream-line); }
+  .chart .bar { background: linear-gradient(to top, var(--gold), rgba(212,169,74,0.4)); border-radius: 2px 2px 0 0; min-height: 4px; position: relative; transition: all .2s; }
+  .chart .bar:hover { background: var(--gold-soft); }
+  .chart .bar::after { content: attr(data-v); position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 9.5px; color: var(--cream-mute); letter-spacing: 0.1em; opacity: 0; transition: opacity .2s; }
+  .chart .bar:hover::after { opacity: 1; }
+  .xax { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; margin-top: 8px; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--cream-mute); text-transform: uppercase; text-align: center; }
+
+  /* Top refuerzos */
+  .side-card { border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 28px; background: var(--ink-2); }
+  .side-card h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; letter-spacing: -0.02em; margin: 0 0 4px; }
+  .side-card h3 em { font-style: italic; color: var(--gold); }
+  .side-card .csub { font-family: var(--font-display); font-style: italic; color: var(--cream-mute); font-size: 0.95rem; margin-bottom: 18px; }
+  .top-list { display: flex; flex-direction: column; }
+  .top-item { display: grid; grid-template-columns: 28px 1fr 44px; gap: 12px; padding: 14px 0; border-top: 1px solid var(--cream-line); align-items: center; }
+  .top-item .rk { font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--gold); font-size: 1.2rem; }
+  .top-item .ttl { font-family: var(--font-display); font-size: 1rem; color: var(--cream); letter-spacing: -0.01em; line-height: 1.3; }
+  .top-item .ttl em { font-style: italic; color: var(--gold); }
+  .top-item .ttl span { display: block; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-mute); margin-top: 4px; }
+  .top-item .rd { font-family: var(--font-mono); font-size: 11px; color: var(--cream-soft); letter-spacing: 0.1em; text-align: right; }
+  .top-item .rd em { display: block; color: var(--gold); font-style: normal; font-size: 9px; letter-spacing: 0.2em; margin-top: 2px; }
+
+  /* Members table */
+  .members { margin-top: 56px; }
+  .members h2 { font-family: var(--font-display); font-weight: 300; font-size: 1.8rem; letter-spacing: -0.025em; margin: 0 0 4px; }
+  .members h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .members .mh { font-family: var(--font-display); font-style: italic; color: var(--cream-mute); font-size: 1rem; margin-bottom: 22px; }
+
+  .ftoolbar { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .fchip { padding: 7px 14px; border-radius: var(--r-pill); border: 1px solid var(--cream-line); background: transparent; color: var(--cream-soft); font-family: var(--font-body); font-size: 12px; cursor: pointer; }
+  .fchip.on { border-color: var(--gold); color: var(--gold); background: rgba(212,169,74,0.08); }
+  .search { flex: 1; min-width: 220px; background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-pill); padding: 8px 14px; color: var(--cream); font-family: var(--font-body); font-size: 12.5px; outline: none; }
+
+  .tbl { border-top: 1px solid var(--cream-line); }
+  .thead, .trow { display: grid; grid-template-columns: 2fr 1.2fr 1fr 1.4fr 1fr 90px; gap: 16px; padding: 14px 12px; align-items: center; }
+  .thead { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); border-bottom: 1px solid var(--cream-line); }
+  .trow { border-bottom: 1px solid var(--cream-line); font-family: var(--font-body); color: var(--cream-soft); font-size: 13.5px; }
+  .trow:hover { background: rgba(250,245,233,0.02); }
+  .trow .nm { display: flex; align-items: center; gap: 12px; }
+  .trow .av { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #2a4a7a, var(--gold)); color: var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 11px; flex-shrink: 0; }
+  .trow .nm .nt { font-family: var(--font-display); color: var(--cream); letter-spacing: -0.01em; }
+  .trow .nm .ne { font-family: var(--font-mono); font-size: 10px; color: var(--cream-mute); letter-spacing: 0.1em; }
+  .prog { height: 4px; background: var(--cream-line); border-radius: 2px; overflow: hidden; position: relative; }
+  .prog .fill { height: 100%; background: var(--gold); }
+  .progtxt { font-family: var(--font-mono); font-size: 10px; color: var(--cream-mute); letter-spacing: 0.15em; margin-top: 4px; }
+  .stchip { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; border-radius: var(--r-pill); display: inline-block; }
+  .stchip.active { color: var(--gold); border: 1px solid rgba(212,169,74,0.3); background: rgba(212,169,74,0.05); }
+  .stchip.slow { color: var(--coral); border: 1px solid rgba(212,108,108,0.3); background: rgba(212,108,108,0.05); }
+  .stchip.idle { color: var(--cream-mute); border: 1px solid var(--cream-line); }
+
+  @media (max-width: 900px) { .thead, .trow { grid-template-columns: 2fr 1fr 90px; } .thead .h-c, .trow .c-c { display:none; } }
+</style></head>
+<body>
+
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links">
+    <a href="panel-institucion.html" class="link active">Panel</a>
+    <a href="biblioteca.html" class="link">Biblioteca</a>
+    <a href="pedir.html" class="link">Pedir Refuerzo</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream-mute)"><em style="color:var(--gold);font-style:normal">CES</em><span>·</span><span>M. Cárdenas</span></div>
+</nav>
+
+<div class="wrap" data-screen-label="Panel Institucion">
+
+  <header class="mast">
+    <div class="l">
+      <div class="k">Panel · Universidad CES · Medellín</div>
+      <h1>Tu <em>cardumen</em>, esta semana.</h1>
+      <div class="sub">— 148 miembros, 8 cohortes activas —</div>
+    </div>
+    <div class="r">
+      <div class="period"><button>7d</button><button class="on">30d</button><button>trimestre</button><button>año</button></div>
+      <button class="btn-ghost">Exportar</button>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="lab">Miembros activos</div>
+      <div class="val"><em>132</em><span class="u">/ 148</span></div>
+      <div class="delta">↑ <em>+8</em> vs mes pasado</div>
+    </div>
+    <div class="stat">
+      <div class="lab">Refuerzos completados</div>
+      <div class="val"><em>847</em></div>
+      <div class="delta">↑ <em>+124</em> vs mes pasado</div>
+    </div>
+    <div class="stat">
+      <div class="lab">Tasa de término</div>
+      <div class="val"><em>87</em><span class="u">%</span></div>
+      <div class="delta">↑ <em>+3</em>pp</div>
+    </div>
+    <div class="stat">
+      <div class="lab">Horas leídas</div>
+      <div class="val"><em>412</em></div>
+      <div class="delta neg">↓ <em>−18</em> vs mes pasado</div>
+    </div>
+  </section>
+
+  <section class="two">
+    <div class="chart-wrap">
+      <h3>Lecturas <em>por semana</em></h3>
+      <div class="csub">— los últimos 12 ciclos —</div>
+      <div class="chart">
+        <div class="bar" style="height:38%" data-v="54"></div>
+        <div class="bar" style="height:52%" data-v="72"></div>
+        <div class="bar" style="height:48%" data-v="66"></div>
+        <div class="bar" style="height:64%" data-v="88"></div>
+        <div class="bar" style="height:56%" data-v="77"></div>
+        <div class="bar" style="height:72%" data-v="101"></div>
+        <div class="bar" style="height:78%" data-v="108"></div>
+        <div class="bar" style="height:66%" data-v="92"></div>
+        <div class="bar" style="height:84%" data-v="118"></div>
+        <div class="bar" style="height:92%" data-v="129"></div>
+        <div class="bar" style="height:86%" data-v="121"></div>
+        <div class="bar" style="height:100%" data-v="140"></div>
+      </div>
+      <div class="xax"><span>s1</span><span>s2</span><span>s3</span><span>s4</span><span>s5</span><span>s6</span><span>s7</span><span>s8</span><span>s9</span><span>s10</span><span>s11</span><span>s12</span></div>
+    </div>
+
+    <div class="side-card">
+      <h3>Refuerzos <em>más leídos</em></h3>
+      <div class="csub">— este mes —</div>
+      <div class="top-list">
+        <div class="top-item"><span class="rk">i.</span><div class="ttl">Anatomía <em>para</em> inyectores<span>Dr. Daniel Arias · R·001</span></div><div class="rd">87<em>lecturas</em></div></div>
+        <div class="top-item"><span class="rk">ii.</span><div class="ttl">Consentimiento <em>informado</em><span>Dr. Daniel Arias · R·002</span></div><div class="rd">64<em>lecturas</em></div></div>
+        <div class="top-item"><span class="rk">iii.</span><div class="ttl">Protocolos <em>de</em> sedación<span>Dra. L. Vega · R·012</span></div><div class="rd">52<em>lecturas</em></div></div>
+        <div class="top-item"><span class="rk">iv.</span><div class="ttl">Qué hacer <em>cuando</em> algo sale mal<span>Dr. Daniel Arias · R·003</span></div><div class="rd">41<em>lecturas</em></div></div>
+        <div class="top-item"><span class="rk">v.</span><div class="ttl">Historia <em>clínica</em>, bien hecha<span>Dra. C. Mora · R·008</span></div><div class="rd">38<em>lecturas</em></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="members">
+    <h2>Los <em>miembros</em> del cardumen.</h2>
+    <div class="mh">— quién está leyendo, quién está quieto —</div>
+
+    <div class="ftoolbar">
+      <button class="fchip on">Todos (148)</button>
+      <button class="fchip">Activos (132)</button>
+      <button class="fchip">Lentos (11)</button>
+      <button class="fchip">Inactivos (5)</button>
+      <input class="search" placeholder="Buscar por nombre o cohorte…">
+    </div>
+
+    <div class="tbl">
+      <div class="thead">
+        <div>Miembro</div>
+        <div class="h-c">Cohorte</div>
+        <div class="h-c">Refuerzos</div>
+        <div>Progreso</div>
+        <div class="h-c">Última lectura</div>
+        <div>Estado</div>
+      </div>
+      <div class="trow">
+        <div class="nm"><div class="av">CR</div><div><div class="nt">Camila Ríos</div><div class="ne">cr-2023 · residente 3</div></div></div>
+        <div class="c-c">R3 · Est. '23</div>
+        <div class="c-c">14 / 18</div>
+        <div><div class="prog"><div class="fill" style="width:78%"></div></div><div class="progtxt">78%</div></div>
+        <div class="c-c">hoy, 10:42</div>
+        <div><span class="stchip active">● activa</span></div>
+      </div>
+      <div class="trow">
+        <div class="nm"><div class="av">LA</div><div><div class="nt">Laura Ávila</div><div class="ne">la-2023 · residente 3</div></div></div>
+        <div class="c-c">R3 · Est. '23</div>
+        <div class="c-c">16 / 18</div>
+        <div><div class="prog"><div class="fill" style="width:89%"></div></div><div class="progtxt">89%</div></div>
+        <div class="c-c">ayer, 22:10</div>
+        <div><span class="stchip active">● activa</span></div>
+      </div>
+      <div class="trow">
+        <div class="nm"><div class="av">MJ</div><div><div class="nt">María Jaramillo</div><div class="ne">mj-2024 · residente 2</div></div></div>
+        <div class="c-c">R2 · Est. '24</div>
+        <div class="c-c">9 / 14</div>
+        <div><div class="prog"><div class="fill" style="width:64%"></div></div><div class="progtxt">64%</div></div>
+        <div class="c-c">hoy, 08:15</div>
+        <div><span class="stchip active">● activa</span></div>
+      </div>
+      <div class="trow">
+        <div class="nm"><div class="av">SP</div><div><div class="nt">Sofía Peña</div><div class="ne">sp-2024 · residente 2</div></div></div>
+        <div class="c-c">R2 · Est. '24</div>
+        <div class="c-c">4 / 14</div>
+        <div><div class="prog"><div class="fill" style="width:28%;background:var(--coral)"></div></div><div class="progtxt">28%</div></div>
+        <div class="c-c">hace 9 días</div>
+        <div><span class="stchip slow">● lenta</span></div>
+      </div>
+      <div class="trow">
+        <div class="nm"><div class="av">AM</div><div><div class="nt">Ana Muñoz</div><div class="ne">am-2024 · residente 2</div></div></div>
+        <div class="c-c">R2 · Est. '24</div>
+        <div class="c-c">1 / 14</div>
+        <div><div class="prog"><div class="fill" style="width:7%;background:var(--coral)"></div></div><div class="progtxt">7%</div></div>
+        <div class="c-c">hace 22 días</div>
+        <div><span class="stchip idle">● quieta</span></div>
+      </div>
+      <div class="trow">
+        <div class="nm"><div class="av">DT</div><div><div class="nt">Diana Torres</div><div class="ne">dt-2023 · residente 3</div></div></div>
+        <div class="c-c">R3 · Est. '23</div>
+        <div class="c-c">17 / 18</div>
+        <div><div class="prog"><div class="fill" style="width:94%"></div></div><div class="progtxt">94%</div></div>
+        <div class="c-c">hoy, 11:50</div>
+        <div><span class="stchip active">● activa</span></div>
+      </div>
+      <div class="trow">
+        <div class="nm"><div class="av">JG</div><div><div class="nt">Juan Gómez</div><div class="ne">jg-2022 · residente 4</div></div></div>
+        <div class="c-c">R4 · Est. '22</div>
+        <div class="c-c">18 / 18</div>
+        <div><div class="prog"><div class="fill" style="width:100%"></div></div><div class="progtxt">100%</div></div>
+        <div class="c-c">ayer, 18:02</div>
+        <div><span class="stchip active">● al día</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— un cardumen nunca nada solo —</em><span>Universidad CES</span></footer>
+</body></html>
