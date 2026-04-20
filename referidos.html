@@ -1,67 +1,242 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mis referidos — Cardumen</title>
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="stylesheet" href="css/stub.css">
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Invita al cardumen — Cardumen</title>
 <script>
   (function() {
     try {
-      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      var s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
       if (!s || !s.email) window.location.replace('login.html');
     } catch (_) { window.location.replace('login.html'); }
   })();
 </script>
-</head>
-<body data-page="referidos">
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 120px 6vw 80px; }
 
-<header class="stub-top">
-  <a href="index.html" class="stub-brand">
-    <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-  </a>
-  <nav class="stub-nav">
-    <a href="/index.html" class="stub-back stub-home">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
-      Inicio
-    </a>
-    <a href="/mi-cardumen.html" class="stub-back">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Mi estudio
-    </a>
-  </nav>
-</header>
+  .hero { padding: 48px 0 56px; border-bottom: 1px solid var(--cream-line); position: relative; }
+  .hero .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+  .hero h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.8rem, 6vw, 4.6rem); letter-spacing: -0.035em; margin: 20px 0 20px; line-height: 1; max-width: 16ch; }
+  .hero h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .hero .lede { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.4rem; color: var(--cream-soft); max-width: 56ch; letter-spacing: -0.01em; line-height: 1.5; }
 
-<main class="stub-shell">
-  <div class="stub-card">
-    <div class="stub-kicker">CARDUMEN COMUNIDAD</div>
-    <h1>Tus referidas<br><em>en construcción.</em></h1>
-    <p class="stub-lede">Aquí vas a ver cuántas compañeras entraron con tu link, tu saldo acumulado, el historial de pagos y cómo se distribuye tu red. Estamos afinando la integración con Nequi antes de activarlo.</p>
+  /* Link card */
+  .link-block { margin-top: 48px; padding: 40px; border: 1px solid var(--cream-line); border-radius: var(--r-2xl); background: var(--ink-2); position: relative; overflow: hidden; }
+  .link-block::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 85% 0%, rgba(212,169,74,0.08), transparent 50%); pointer-events: none; }
+  .link-block .lab { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); margin-bottom: 18px; }
+  .url-row { display: flex; gap: 0; border: 1px solid var(--cream-line); border-radius: 12px; overflow: hidden; background: var(--ink); position: relative; z-index: 2; }
+  .url-row .u { flex: 1; padding: 20px 24px; font-family: var(--font-mono); font-size: 14px; color: var(--cream); display: flex; align-items: center; }
+  .url-row .u em { color: var(--gold); font-style: normal; }
+  .url-row button { padding: 20px 30px; border: none; font-family: var(--font-body); font-size: 13px; font-weight: 500; letter-spacing: 0.02em; cursor: pointer; }
+  .url-row .copy { background: var(--gold); color: var(--ink); }
+  .url-row .copy:hover { background: var(--gold-soft); }
 
-    <div class="stub-info">
-      <div class="stub-info-row">
-        <span class="label">Tu link de referido</span>
-        <span class="value mono">cardumen.co/r/—</span>
-      </div>
-      <div class="stub-info-row">
-        <span class="label">Referidas activas</span>
-        <span class="value">0</span>
-      </div>
-      <div class="stub-info-row">
-        <span class="label">Saldo acumulado</span>
-        <span class="value">$0 COP</span>
-      </div>
-    </div>
+  .share-row { display: flex; gap: 10px; margin-top: 20px; position: relative; z-index: 2; }
+  .share-chip { padding: 10px 16px; border-radius: var(--r-pill); border: 1px solid var(--cream-line); background: transparent; color: var(--cream-soft); font-family: var(--font-body); font-size: 12.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all .2s; }
+  .share-chip:hover { border-color: var(--gold); color: var(--gold); }
 
-    <div class="stub-actions">
-      <a href="mi-cardumen.html" class="stub-btn stub-btn-primary">Volver al dashboard</a>
-      <a href="pide-refuerzo.html" class="stub-btn stub-btn-ghost">Pedir un tema</a>
-    </div>
+  /* Two-column incentive */
+  .incentive { margin-top: 72px; display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--cream-line); border-bottom: 1px solid var(--cream-line); }
+  .col { padding: 48px 40px; }
+  .col + .col { border-left: 1px solid var(--cream-line); }
+  .col .n { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 3rem; color: var(--gold); line-height: 1; letter-spacing: -0.03em; margin-bottom: 18px; }
+  .col h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; letter-spacing: -0.02em; margin: 0 0 12px; }
+  .col h3 em { font-style: italic; color: var(--gold); }
+  .col p { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.05rem; line-height: 1.55; color: var(--cream-soft); max-width: 38ch; margin: 0; letter-spacing: -0.005em; }
+
+  /* History */
+  .history { margin-top: 72px; }
+  .history h2 { font-family: var(--font-display); font-weight: 300; font-size: 2rem; letter-spacing: -0.025em; margin: 0 0 4px; }
+  .history h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .history .subh { font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--cream-mute); font-size: 1.1rem; margin-bottom: 32px; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--cream-line); border-bottom: 1px solid var(--cream-line); margin-bottom: 40px; }
+  .stat { padding: 24px 20px; }
+  .stat + .stat { border-left: 1px solid var(--cream-line); }
+  .stat .v { font-family: var(--font-display); font-weight: 300; font-size: 2.4rem; color: var(--cream); letter-spacing: -0.03em; line-height: 1; }
+  .stat .v em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .stat .l { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); margin-top: 8px; }
+
+  .refs-list { display: flex; flex-direction: column; }
+  .ref-item { display: grid; grid-template-columns: 40px 1fr 140px 120px 100px; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--cream-line); align-items: center; }
+  .ref-item .av { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--coral), var(--gold)); color: var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 13px; }
+  .ref-item .nm { font-family: var(--font-display); font-size: 1.05rem; letter-spacing: -0.01em; color: var(--cream); }
+  .ref-item .nm em { font-style: italic; color: var(--cream-mute); font-size: 12.5px; font-family: var(--font-display); display: block; margin-top: 2px; }
+  .ref-item .when { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-mute); }
+  .ref-item .status { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .ref-item .status.ok { color: var(--gold); }
+  .ref-item .status.pend { color: var(--cream-mute); }
+  .ref-item .earn { font-family: var(--font-display); font-size: 1.1rem; text-align: right; color: var(--cream); }
+  .ref-item .earn em { color: var(--gold); font-style: italic; }
+
+  @media (max-width: 780px) {
+    .incentive { grid-template-columns: 1fr; }
+    .col + .col { border-left: none; border-top: 1px solid var(--cream-line); }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .stats-row .stat:nth-child(3) { border-top: 1px solid var(--cream-line); }
+    .ref-item { grid-template-columns: 36px 1fr auto; }
+    .ref-item .when, .ref-item .status { display: none; }
+    .url-row .u { font-size: 11.5px; padding: 16px; }
+  }
+</style></head>
+<body>
+
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links">
+    <a href="dashboard-estudiante.html" class="link">Mi cardumen</a>
+    <a href="referidos.html" class="link active">Invitar</a>
+    <a href="perfil.html" class="link">Perfil</a>
   </div>
-</main>
+  <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--ink);font-size:14px">VM</div>
+</nav>
 
-<script src="js/bottom-nav.js"></script>
+<div class="wrap" data-screen-label="Referidos">
 
-</body>
-</html>
+  <section class="hero">
+    <div class="k">— invita al cardumen —</div>
+    <h1>Un cardumen nada <em>mejor</em> con más peces.</h1>
+    <div class="lede">— Cada persona que llega por ti recibe su primer Refuerzo con 30% de descuento. Tú recibes un Refuerzo gratis por cada tres amigas que terminen el suyo.</div>
+  </section>
+
+  <section class="link-block">
+    <div class="lab">— tu link de invitación —</div>
+    <div class="url-row">
+      <div class="u">cardumen.co/invita/<em>valentina-m</em></div>
+      <button class="copy">Copiar</button>
+    </div>
+    <div class="share-row">
+      <button class="share-chip">WhatsApp</button>
+      <button class="share-chip">Instagram DM</button>
+      <button class="share-chip">Correo</button>
+      <button class="share-chip">Más…</button>
+    </div>
+  </section>
+
+  <section class="incentive">
+    <div class="col">
+      <div class="n">i.</div>
+      <h3>Para quien <em>llega</em></h3>
+      <p>— 30% de descuento en su primer Refuerzo. No compra algo grande a ciegas: prueba un bloque corto, con calma.</p>
+    </div>
+    <div class="col">
+      <div class="n">ii.</div>
+      <h3>Para ti, <em>por traerla</em></h3>
+      <p>— Un Refuerzo gratis por cada tres amigas que terminen el suyo. Terminar, no comprar. Nos interesa que aprendan.</p>
+    </div>
+  </section>
+
+  <section class="history">
+    <h2>Tus <em>invitaciones</em>.</h2>
+    <div class="subh">— hasta ahora —</div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="v"><em>14</em></div><div class="l">enviadas</div></div>
+      <div class="stat"><div class="v"><em>6</em></div><div class="l">se unieron</div></div>
+      <div class="stat"><div class="v"><em>4</em></div><div class="l">completaron</div></div>
+      <div class="stat"><div class="v"><em>1</em></div><div class="l">refuerzo ganado</div></div>
+    </div>
+
+    <div class="refs-list">
+      <div class="ref-item">
+        <div class="av">CR</div>
+        <div class="nm">Camila Ríos<em>— residente · Medellín</em></div>
+        <div class="when">12 · feb · 2026</div>
+        <div class="status ok">● completó</div>
+        <div class="earn"><em>+1/3</em></div>
+      </div>
+      <div class="ref-item">
+        <div class="av">LA</div>
+        <div class="nm">Laura Ávila<em>— enfermera · Bogotá</em></div>
+        <div class="when">05 · feb · 2026</div>
+        <div class="status ok">● completó</div>
+        <div class="earn"><em>+1/3</em></div>
+      </div>
+      <div class="ref-item">
+        <div class="av">MJ</div>
+        <div class="nm">María Jaramillo<em>— MD estética · Cali</em></div>
+        <div class="when">22 · ene · 2026</div>
+        <div class="status ok">● completó</div>
+        <div class="earn"><em>+1/3</em></div>
+      </div>
+      <div class="ref-item">
+        <div class="av">SP</div>
+        <div class="nm">Sofía Peña<em>— estética · Barranquilla</em></div>
+        <div class="when">18 · ene · 2026</div>
+        <div class="status pend">○ leyendo</div>
+        <div class="earn" style="color:var(--cream-mute)">—</div>
+      </div>
+      <div class="ref-item">
+        <div class="av">AM</div>
+        <div class="nm">Ana Muñoz<em>— residente · Cali</em></div>
+        <div class="when">15 · ene · 2026</div>
+        <div class="status pend">○ registrada</div>
+        <div class="earn" style="color:var(--cream-mute)">—</div>
+      </div>
+      <div class="ref-item">
+        <div class="av">DT</div>
+        <div class="nm">Diana Torres<em>— MD estética · Pereira</em></div>
+        <div class="when">10 · ene · 2026</div>
+        <div class="status pend">○ registrada</div>
+        <div class="earn" style="color:var(--cream-mute)">—</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— un cardumen nada mejor con más peces —</em><span id="footUser">—</span></footer>
+
+<script>
+  // Pinta datos de sesion + copy link + share chips
+  (function() {
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem('cardumen_session') || 'null'); } catch(_) {}
+    if (!s) return;
+    var name = s.name || s.email.split('@')[0];
+    var parts = name.split(/\s+/).filter(Boolean);
+    var initials = (parts[0]||'U').charAt(0).toUpperCase() + (parts[1]||'').charAt(0).toUpperCase();
+    if (!initials) initials = 'U';
+    var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'usuario';
+    var fullUrl = 'cardumen.co/invita/' + slug;
+
+    // Nav avatar
+    var navAv = document.querySelector('.appnav > div:last-child');
+    if (navAv) navAv.textContent = initials;
+    // Slug en la URL visible
+    document.querySelectorAll('.url-row .u em').forEach(function(el){ el.textContent = slug; });
+    // Footer
+    var footUser = document.getElementById('footUser');
+    if (footUser) footUser.textContent = (parts[0] || name) + '.';
+
+    // Copy link principal
+    var copyBtn = document.querySelector('.url-row .copy');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function(){
+        try { navigator.clipboard.writeText('https://' + fullUrl); } catch(_) {}
+        var orig = copyBtn.textContent;
+        copyBtn.textContent = '✓ Copiado';
+        setTimeout(function(){ copyBtn.textContent = orig; }, 1600);
+      });
+    }
+    // Share chips → WhatsApp abre wa.me con mensaje, otros solo copian
+    document.querySelectorAll('.share-chip').forEach(function(chip){
+      chip.addEventListener('click', function(){
+        var label = (chip.textContent || '').toLowerCase();
+        var msg = 'Te invito al cardumen. Mi link: https://' + fullUrl;
+        if (label.indexOf('whatsapp') >= 0) {
+          window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
+        } else {
+          try { navigator.clipboard.writeText(msg); } catch(_) {}
+          var orig = chip.textContent;
+          chip.textContent = '✓ Copiado';
+          setTimeout(function(){ chip.textContent = orig; }, 1600);
+        }
+      });
+    });
+  })();
+</script>
+
+</body></html>
