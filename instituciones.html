@@ -1,320 +1,278 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardumen para Instituciones — Refuerzo Educativo Bajo Demanda</title>
-<meta name="description" content="Material educativo de alta calidad diseñado a la medida de sus programas, sin que su institución pague producción. Los estudiantes pagan un acceso accesible en la matrícula.">
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="icon" type="image/png" sizes="192x192" href="assets/logo/favicon-192.png">
-<link rel="stylesheet" href="css/landing.css">
-<link rel="stylesheet" href="css/pitch.css">
-</head>
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen para Instituciones</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); }
+
+  /* Hero */
+  .ihero { padding: 160px 6vw 120px; border-bottom: 1px solid var(--cream-line); position: relative; overflow: hidden; }
+  .ihero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(61,107,158,0.1), transparent 55%), radial-gradient(circle at 80% 70%, rgba(212,169,74,0.08), transparent 50%); pointer-events: none; }
+  .ihero .inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
+  .ihero .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+  .ihero h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(3rem, 6.5vw, 5.2rem); letter-spacing: -0.04em; line-height: 0.98; margin: 24px 0 28px; }
+  .ihero h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .ihero .lede { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.55rem; color: var(--cream-soft); max-width: 46ch; line-height: 1.5; letter-spacing: -0.01em; margin-bottom: 40px; }
+  .ihero .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* Proof window */
+  .proof { border: 1px solid var(--cream-line); border-radius: var(--r-2xl); background: var(--ink-2); padding: 36px; position: relative; }
+  .proof::before { content: ''; position: absolute; top: 14px; left: 14px; right: 14px; height: 14px; border-bottom: 1px solid var(--cream-line); display: flex; }
+  .proof .dots { position: absolute; top: 16px; left: 16px; display: flex; gap: 6px; }
+  .proof .dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--cream-dim); opacity: 0.4; }
+  .proof .inner-p { margin-top: 22px; }
+  .proof .inst { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .proof h3 { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; letter-spacing: -0.02em; margin: 0 0 20px; }
+  .proof h3 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .proof .mini-stat { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--cream-line); }
+  .proof .mini-stat > div { padding: 18px 0; }
+  .proof .mini-stat > div + div { border-left: 1px solid var(--cream-line); padding-left: 20px; }
+  .proof .mini-stat .v { font-family: var(--font-display); font-weight: 300; font-size: 2rem; color: var(--cream); letter-spacing: -0.03em; }
+  .proof .mini-stat .v em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .proof .mini-stat .l { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); margin-top: 4px; }
+  .proof .q { margin-top: 22px; padding: 18px 0 4px; border-top: 1px solid var(--cream-line); font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.05rem; color: var(--cream-soft); line-height: 1.5; }
+  .proof .q::before { content: '“ '; color: var(--gold); }
+
+  /* Section */
+  .s { padding: 100px 6vw; border-bottom: 1px solid var(--cream-line); }
+  .s .inner { max-width: 1200px; margin: 0 auto; }
+  .s h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.2rem, 4.2vw, 3.4rem); letter-spacing: -0.035em; margin: 14px 0 14px; line-height: 1.02; max-width: 22ch; }
+  .s h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .s .sub { font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--cream-mute); font-size: 1.25rem; margin-bottom: 56px; letter-spacing: -0.005em; }
+
+  /* Three columns, numbered rail */
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--cream-line); }
+  .three .c { padding: 40px 36px 44px; }
+  .three .c + .c { border-left: 1px solid var(--cream-line); }
+  .three .n { font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--gold); font-size: 2.6rem; line-height: 1; letter-spacing: -0.03em; margin-bottom: 20px; }
+  .three .c h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.55rem; letter-spacing: -0.02em; margin: 0 0 14px; }
+  .three .c h3 em { font-style: italic; color: var(--gold); }
+  .three .c p { font-family: var(--font-body); font-size: 14.5px; line-height: 1.65; color: var(--cream-soft); margin: 0; max-width: 36ch; }
+
+  /* How it works — editorial rhythm with prose on right */
+  .how { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 12px; }
+  .how ol { list-style: none; padding: 0; margin: 0; counter-reset: step; }
+  .how li { padding: 22px 0; border-bottom: 1px solid var(--cream-line); counter-increment: step; display: grid; grid-template-columns: 60px 1fr; gap: 20px; align-items: baseline; }
+  .how li::before { content: counter(step, lower-roman) "."; font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--gold); font-size: 1.6rem; letter-spacing: -0.02em; }
+  .how li h4 { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; letter-spacing: -0.02em; margin: 0 0 8px; color: var(--cream); }
+  .how li h4 em { font-style: italic; color: var(--gold); }
+  .how li p { font-family: var(--font-body); font-size: 14px; line-height: 1.65; color: var(--cream-soft); margin: 0; max-width: 48ch; }
+  .how .prose { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.45rem; line-height: 1.5; color: var(--cream-soft); max-width: 38ch; letter-spacing: -0.01em; align-self: center; }
+  .how .prose em { font-style: normal; color: var(--gold); }
+
+  /* Pricing */
+  .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--cream-line); border-bottom: 1px solid var(--cream-line); }
+  .tier { padding: 40px 32px; position: relative; }
+  .tier + .tier { border-left: 1px solid var(--cream-line); }
+  .tier .t-name { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; letter-spacing: -0.02em; }
+  .tier .t-name em { font-style: italic; color: var(--gold); }
+  .tier .t-sub { font-family: var(--font-display); font-style: italic; color: var(--cream-mute); font-size: 13.5px; margin: 4px 0 24px; }
+  .tier .t-price { font-family: var(--font-display); font-weight: 300; font-size: 3rem; color: var(--cream); letter-spacing: -0.03em; line-height: 1; }
+  .tier .t-price em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .tier .t-unit { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-mute); margin-top: 10px; }
+  .tier ul { list-style: none; padding: 24px 0 0; margin: 20px 0 0; border-top: 1px solid var(--cream-line); display: flex; flex-direction: column; gap: 10px; }
+  .tier li { font-family: var(--font-body); font-size: 13.5px; color: var(--cream-soft); line-height: 1.5; display: flex; align-items: flex-start; gap: 10px; }
+  .tier li::before { content: '·'; color: var(--gold); font-size: 1.4rem; line-height: 1; }
+  .tier.highlight { background: rgba(212,169,74,0.04); }
+  .tier.highlight .ribbon { position: absolute; top: -1px; left: 32px; background: var(--gold); color: var(--ink); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; padding: 5px 12px; font-weight: 600; }
+  .tier .t-cta { margin-top: 28px; display: block; text-align: center; }
+
+  /* FAQ */
+  .faq { display: flex; flex-direction: column; margin-top: 20px; border-top: 1px solid var(--cream-line); }
+  .faq details { border-bottom: 1px solid var(--cream-line); padding: 24px 0; }
+  .faq summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; letter-spacing: -0.015em; color: var(--cream); }
+  .faq summary::after { content: '+'; font-family: var(--font-display); font-weight: 300; color: var(--gold); font-size: 1.6rem; transition: transform .2s; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq summary em { font-style: italic; color: var(--gold); }
+  .faq p { font-family: var(--font-body); font-size: 14px; line-height: 1.7; color: var(--cream-soft); max-width: 60ch; margin: 14px 0 0; }
+
+  /* CTA */
+  .cta-strip { padding: 120px 6vw; text-align: center; background: linear-gradient(to bottom, var(--ink), rgba(61,107,158,0.08)); }
+  .cta-strip h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 5vw, 3.8rem); letter-spacing: -0.035em; margin: 0 0 24px; line-height: 1.02; max-width: 22ch; margin-inline: auto; }
+  .cta-strip h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .cta-strip .actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+  @media (max-width: 900px) {
+    .ihero .inner, .how { grid-template-columns: 1fr; gap: 48px; }
+    .three, .tiers { grid-template-columns: 1fr; }
+    .three .c + .c, .tier + .tier { border-left: none; border-top: 1px solid var(--cream-line); }
+  }
+</style></head>
 <body>
 
-<!-- NAV TOP -->
-<nav class="top-nav" id="topNav">
-  <a href="index.html" class="nav-brand">
-    <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-  </a>
-  <button class="menu-trigger" id="menuOpen">
-    <span class="menu-icon"><span></span><span></span></span>
-    Menú
-  </button>
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links">
+    <a href="biblioteca.html" class="link">Biblioteca</a>
+    <a href="expertos.html" class="link">Expertos</a>
+    <a href="instituciones.html" class="link active">Instituciones</a>
+  </div>
+  <button class="cta gold">Solicitar demo</button>
 </nav>
 
-<!-- MENU FULL-SCREEN -->
-<div class="menu-overlay" id="menuOverlay">
-  <div class="menu-inner">
-    <div class="menu-top">
-      <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-      <button class="menu-close" id="menuClose">
-        Cerrar
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-    </div>
-
-    <div class="menu-body">
-      <ul class="menu-primary">
-        <li><a href="index.html#biblioteca">Biblioteca</a></li>
-        <li><a href="index.html#como">Cómo <em>funciona</em></a></li>
-        <li><a href="index.html#validacion">Quién <em>valida</em></a></li>
-        <li><a href="mi-cardumen.html">Entrar a <em>mi estudio</em></a></li>
-        <li><a href="pide-refuerzo.html">Pedir un <em>tema</em></a></li>
-        <li><a href="docentes.html">Para <em>docentes</em></a></li>
-        <li><a href="instituciones.html">Para <em>instituciones</em></a></li>
-        <li><a href="expertos.html">Para <em>expertos</em></a></li>
-      </ul>
-
-      <div class="menu-aside">
-        <div class="menu-aside-block">
-          <h4>¿ERES INSTITUCIÓN?</h4>
-          <p>Agendemos una reunión de 30 minutos. Sin compromiso.</p>
-          <a href="https://wa.me/573001234567?text=Hola%20Cardumen%2C%20vi%20su%20propuesta%20para%20instituciones%20y%20me%20gustar%C3%ADa%20agendar%20una%20reuni%C3%B3n." target="_blank" rel="noopener noreferrer" class="menu-aside-cta">
-            Escribir por WhatsApp
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M5 12h14M13 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-foot">
-      <div>
-        <a href="mailto:hola@cardumen.co">hola@cardumen.co</a>
-        <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-      </div>
-      <div class="tagline">Estudiamos juntos, llegamos lejos.</div>
-    </div>
-  </div>
-</div>
-
-<!-- BACK -->
-<div class="pitch-back">
-  <a href="index.html">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    Volver al inicio
-  </a>
-</div>
-
-<!-- PITCH -->
-<main class="pitch">
-
-  <section class="pitch-hero">
-    <span class="pitch-kicker">Para instituciones educativas</span>
-    <h1 class="pitch-title">Material educativo de alta calidad, <em>sin que su institución pague producción.</em></h1>
-    <p class="pitch-lede">Cardumen produce libros-web interactivos diseñados a la medida de sus programas. Su institución no invierte un peso en producción. Los estudiantes pagan un acceso accesible al momento de la matrícula. Ustedes ganan comisión por cada inscripción.</p>
-    <a href="https://wa.me/573001234567?text=Hola%20Cardumen%2C%20vi%20su%20propuesta%20para%20instituciones%20y%20me%20gustar%C3%ADa%20agendar%20una%20reuni%C3%B3n." target="_blank" rel="noopener noreferrer" class="wa-btn">
-      <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Agendar reunión
-    </a>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Cómo funciona</span>
-    <h2>Cinco pasos, <em>sin fricción.</em></h2>
-    <ol class="pitch-steps">
-      <li class="pitch-step">
-        <span class="pitch-step-num">01</span>
-        <div class="pitch-step-body">
-          <h3>Conversación inicial</h3>
-          <p>Nos cuentan qué programa quieren reforzar, cuántos estudiantes lo toman, qué temas son prioritarios, qué vacíos observan semestre a semestre.</p>
-        </div>
-      </li>
-      <li class="pitch-step">
-        <span class="pitch-step-num">02</span>
-        <div class="pitch-step-body">
-          <h3>Diseño del programa</h3>
-          <p>Diseñamos el paquete de Refuerzos ajustado a su institución: cuántos, sobre qué temas, con qué frecuencia. Sin costo para ustedes.</p>
-        </div>
-      </li>
-      <li class="pitch-step">
-        <span class="pitch-step-num">03</span>
-        <div class="pitch-step-body">
-          <h3>Producción en dos semanas</h3>
-          <p>Nuestro equipo editorial produce cada Refuerzo con rigor: investigación, redacción, ilustraciones propias, quizzes, revisión interna. Todo listo antes del inicio de clases.</p>
-        </div>
-      </li>
-      <li class="pitch-step">
-        <span class="pitch-step-num">04</span>
-        <div class="pitch-step-body">
-          <h3>Inscripción del estudiante</h3>
-          <p>En la matrícula, el estudiante paga $20.000 al mes por el acceso (o $5.000 por semana). Equivalente al costo de dos almuerzos. Incluye acceso vitalicio al Refuerzo una vez completado.</p>
-        </div>
-      </li>
-      <li class="pitch-step">
-        <span class="pitch-step-num">05</span>
-        <div class="pitch-step-body">
-          <h3>Uso en el aula</h3>
-          <p>El profesor lo usa como material complementario obligatorio. Los estudiantes estudian a su ritmo. Al completar con quizzes aprobados, reciben certificado Cardumen.</p>
-        </div>
-      </li>
-    </ol>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Qué gana su institución</span>
-    <h2>Todo se suma, <em>nada se resta.</em></h2>
-    <ul class="pitch-benefits">
-      <li>Material didáctico de calidad editorial sin inversión propia</li>
-      <li>Diferenciación frente a otras instituciones del mismo nivel</li>
-      <li>Certificaciones adicionales para sus estudiantes</li>
-      <li>Comisión del 30 por ciento sobre cada inscripción</li>
-      <li>Acceso a una biblioteca que crece cada semestre</li>
-      <li>Soporte completo de onboarding y acompañamiento permanente</li>
-    </ul>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Qué gana el docente curador</span>
-    <h2>El profesor <em>también gana</em>.</h2>
-    <ul class="pitch-benefits">
-      <li>Comisión adicional del 10 por ciento sobre las inscripciones</li>
-      <li>Su nombre y perfil visibles en el crédito del Refuerzo</li>
-      <li>Posibilidad de proponer Refuerzos adicionales y ganar comisión en cada venta externa</li>
-      <li>Reconocimiento profesional como curador Cardumen</li>
-    </ul>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Matemática para su institución</span>
-    <h2>Los números, <em>concretos.</em></h2>
-    <div class="pitch-math">
-      <div class="pitch-math-intro">Ejemplo conservador con 100 estudiantes por semestre.</div>
-      <div class="pitch-math-row">
-        <span class="label">Inscripciones totales por semestre<br><small style="font-size:0.82rem;opacity:0.7">100 estudiantes × $20.000 × 4 meses</small></span>
-        <span class="value">$8.000.000</span>
-      </div>
-      <div class="pitch-math-row">
-        <span class="label">Comisión institución (30%)</span>
-        <span class="value">$2.400.000 / semestre</span>
-      </div>
-      <div class="pitch-math-row">
-        <span class="label">Comisión docente curador (10%)</span>
-        <span class="value">$800.000 / semestre</span>
-      </div>
-      <div class="pitch-math-row total">
-        <span class="label"><strong>Al año (2 semestres)</strong> — Institución</span>
-        <span class="value">$4.800.000</span>
-      </div>
-      <div class="pitch-math-row total">
-        <span class="label"><strong>Al año (2 semestres)</strong> — Docente</span>
-        <span class="value">$1.600.000</span>
-      </div>
-      <p class="pitch-math-note">Y el mismo Refuerzo sigue generando ingresos cada nuevo semestre con nueva camada de estudiantes, sin que ustedes hagan nada adicional.</p>
-    </div>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Qué necesitamos de ustedes</span>
-    <h2>El <em>compromiso</em> mínimo.</h2>
-    <ul class="pitch-benefits">
-      <li>Una reunión de 30 minutos para entender sus necesidades</li>
-      <li>Compromiso de usar el Refuerzo como material obligatorio</li>
-      <li>Un docente disponible para validar contenido durante la producción</li>
-      <li>Mínimo de 30 estudiantes inscritos por programa para activar producción</li>
-    </ul>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Siguientes pasos</span>
-    <h2>Cómo avanzamos, <em>sin prisa pero sin pausa.</em></h2>
-    <ol class="pitch-steps">
-      <li class="pitch-step">
-        <span class="pitch-step-num">01</span>
-        <div class="pitch-step-body">
-          <h3>Agendamos una llamada de 30 minutos</h3>
-        </div>
-      </li>
-      <li class="pitch-step">
-        <span class="pitch-step-num">02</span>
-        <div class="pitch-step-body">
-          <h3>Les mostramos el Refuerzo 001 ya publicado</h3>
-          <p>Anatomía Aplicada a la Estética — para que vean la calidad antes de hablar de números.</p>
-        </div>
-      </li>
-      <li class="pitch-step">
-        <span class="pitch-step-num">03</span>
-        <div class="pitch-step-body">
-          <h3>Conversamos sobre sus programas y necesidades</h3>
-        </div>
-      </li>
-      <li class="pitch-step">
-        <span class="pitch-step-num">04</span>
-        <div class="pitch-step-body">
-          <h3>Si hay interés, firmamos un acuerdo piloto</h3>
-          <p>Un semestre, sin sorpresas. Después revisamos juntos y decidimos.</p>
-        </div>
-      </li>
-    </ol>
-  </section>
-
-  <section class="pitch-cta-final">
-    <h2>Conversemos.</h2>
-    <p class="sub">30 minutos. Sin compromiso. Con respeto por su tiempo.</p>
-    <a href="https://wa.me/573001234567?text=Hola%20Cardumen%2C%20vi%20su%20propuesta%20para%20instituciones%20y%20me%20gustar%C3%ADa%20agendar%20una%20reuni%C3%B3n." target="_blank" rel="noopener noreferrer" class="wa-btn">
-      <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Escribir por WhatsApp
-    </a>
-    <p class="subtext">O escríbanos a <a href="mailto:hola@cardumen.co">hola@cardumen.co</a></p>
-  </section>
-
-</main>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-      <p>Estudiamos juntos, llegamos lejos.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Explorar</h4>
-      <a href="index.html#biblioteca">Biblioteca</a>
-      <a href="pide-refuerzo.html">Pedir un tema</a>
-      <a href="index.html#como">Cómo funciona</a>
-    </div>
-    <div class="footer-col">
-      <h4>Cardumen</h4>
-      <a href="docentes.html">Para docentes</a>
-      <a href="instituciones.html">Para instituciones</a>
-      <a href="expertos.html">Para expertos</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contacto</h4>
-      <a href="mailto:hola@cardumen.co">hola@cardumen.co</a>
-      <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div>© 2026 Cardumen · La Dorada, Caldas · Colombia</div>
+<header class="ihero" data-screen-label="Landing Institucion">
+  <div class="inner">
     <div>
-      <a href="#" style="margin-right: 1rem;">Términos</a>
-      <a href="#">Privacidad</a>
+      <div class="k">— Cardumen para instituciones —</div>
+      <h1>Un <em>cardumen</em>, para tu facultad.</h1>
+      <div class="lede">— Lleva Refuerzos cortos a todos tus residentes, estudiantes o miembros. Pagas por cardumen, no por curso. Ves quién lee, quién entiende, quién se estanca.</div>
+      <div class="actions">
+        <button class="btn-gold">Solicitar demo →</button>
+        <a href="#precios" class="btn-ghost">Ver precios</a>
+      </div>
+    </div>
+
+    <div class="proof">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="inner-p">
+        <div class="inst">Universidad CES · Medellín</div>
+        <h3>148 residentes, <em>un cardumen</em>.</h3>
+        <div class="mini-stat">
+          <div><div class="v"><em>87%</em></div><div class="l">completan</div></div>
+          <div><div class="v"><em>4.8</em><span style="font-size:1rem">★</span></div><div class="l">promedio</div></div>
+        </div>
+        <div class="q">Pasamos de obligar a leer PDFs a que ellos mismos pidan el próximo Refuerzo. — Dra. M. Cárdenas, coordinadora</div>
+      </div>
     </div>
   </div>
-</footer>
+</header>
 
-<script>
-  const nav = document.getElementById('topNav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 20);
-  });
+<section class="s">
+  <div class="inner">
+    <div class="section-tag">qué obtienes</div>
+    <h2>Biblioteca curada, <em>con tu nombre</em> encima.</h2>
+    <div class="sub">— tres cosas, no más —</div>
+    <div class="three">
+      <div class="c">
+        <div class="n">i.</div>
+        <h3>Tu <em>biblioteca</em> privada</h3>
+        <p>— Eliges Refuerzos del catálogo público o pides algunos a la medida. Solo los ven los miembros de tu institución.</p>
+      </div>
+      <div class="c">
+        <div class="n">ii.</div>
+        <h3>Panel de <em>lectura</em></h3>
+        <p>— Ves quién abrió qué, quién terminó, dónde se estancaron. No para vigilar: para saber en qué enfocar la tutoría.</p>
+      </div>
+      <div class="c">
+        <div class="n">iii.</div>
+        <h3>Marca <em>co-editada</em></h3>
+        <p>— Tu logo en los certificados. Tu dominio. Tu estilo, sin perder el carácter editorial de Cardumen.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  const menu = document.getElementById('menuOverlay');
-  document.getElementById('menuOpen').addEventListener('click', () => {
-    menu.classList.add('open');
-    document.body.classList.add('menu-open');
-  });
-  document.getElementById('menuClose').addEventListener('click', () => {
-    menu.classList.remove('open');
-    document.body.classList.remove('menu-open');
-  });
-  menu.querySelectorAll('.menu-primary a').forEach(a => {
-    a.addEventListener('click', () => {
-      menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
-    });
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && menu.classList.contains('open')) {
-      menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
-    }
-  });
+<section class="s">
+  <div class="inner">
+    <div class="section-tag">cómo funciona</div>
+    <h2>Cuatro pasos, <em>ninguno largo</em>.</h2>
+    <div class="sub">— de demo a primera lectura en dos semanas —</div>
+    <div class="how">
+      <ol>
+        <li><div><h4>Demo y <em>alcance</em></h4><p>Nos sentamos 30 minutos, vemos cuántos miembros, qué áreas, qué tono.</p></div></li>
+        <li><div><h4>Arma tu <em>biblioteca</em></h4><p>Eliges del catálogo, pides a la medida lo que no existe, co-editamos el primer Refuerzo contigo.</p></div></li>
+        <li><div><h4>Invitamos al <em>cardumen</em></h4><p>Tus miembros entran con SSO o link. Sin instalar nada. Sin app.</p></div></li>
+        <li><div><h4>Leen. <em>Tú ves</em>.</h4><p>Cada mes, un reporte editorial corto. Qué funcionó, dónde se estancaron, qué cambiaríamos.</p></div></li>
+      </ol>
+      <div class="prose">— No queremos reemplazar a tus docentes. Queremos darles <em>mejor material</em> y menos trabajo de corrección.</div>
+    </div>
+  </div>
+</section>
 
-  // Link del menu "Entrar a mi estudio" redirige a login si no hay sesion
-  (function() {
-    try {
-      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
-      const entrar = document.querySelector('.menu-primary a[href="mi-cardumen.html"]');
-      if (entrar && !(s && s.email)) entrar.setAttribute('href', 'login.html');
-    } catch (_) {}
-  })();
-</script>
+<section class="s" id="precios">
+  <div class="inner">
+    <div class="section-tag">precios</div>
+    <h2>Tres <em>tamaños</em> de cardumen.</h2>
+    <div class="sub">— todos incluyen panel, certificados y soporte editorial —</div>
 
-</body>
-</html>
+    <div class="tiers">
+      <div class="tier">
+        <div class="t-name">Cardumen <em>pequeño</em></div>
+        <div class="t-sub">— hasta 50 miembros</div>
+        <div class="t-price"><em>$</em>180<span style="font-size:1rem;color:var(--cream-mute)">/mes</span></div>
+        <div class="t-unit">$3.60 por miembro</div>
+        <ul>
+          <li>Biblioteca privada con hasta 20 Refuerzos</li>
+          <li>Panel básico de lectura</li>
+          <li>Certificados con tu logo</li>
+          <li>Soporte por correo · 48h</li>
+        </ul>
+        <a href="#" class="btn-ghost t-cta">Empezar</a>
+      </div>
+
+      <div class="tier highlight">
+        <span class="ribbon">más elegido</span>
+        <div class="t-name">Cardumen <em>mediano</em></div>
+        <div class="t-sub">— hasta 200 miembros</div>
+        <div class="t-price"><em>$</em>520<span style="font-size:1rem;color:var(--cream-mute)">/mes</span></div>
+        <div class="t-unit">$2.60 por miembro</div>
+        <ul>
+          <li>Catálogo completo</li>
+          <li>Panel con cohortes y comparativas</li>
+          <li>2 Refuerzos a la medida al año</li>
+          <li>Soporte con editora asignada</li>
+          <li>SSO · integración LMS</li>
+        </ul>
+        <a href="#" class="btn-gold t-cta">Solicitar demo</a>
+      </div>
+
+      <div class="tier">
+        <div class="t-name">Cardumen <em>grande</em></div>
+        <div class="t-sub">— más de 200 miembros</div>
+        <div class="t-price"><em>desde</em> $—</div>
+        <div class="t-unit">conversado contigo</div>
+        <ul>
+          <li>Todo del mediano</li>
+          <li>Refuerzos a la medida, sin límite anual</li>
+          <li>Marca blanca completa</li>
+          <li>Editora senior dedicada</li>
+          <li>SLA 24h · contrato anual</li>
+        </ul>
+        <a href="#" class="btn-ghost t-cta">Hablemos</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s">
+  <div class="inner">
+    <div class="section-tag">preguntas</div>
+    <h2>Lo que <em>siempre</em> nos preguntan.</h2>
+    <div class="sub">— si no está aquí, escríbenos —</div>
+    <div class="faq">
+      <details open>
+        <summary>¿Qué es un <em>Refuerzo</em>?</summary>
+        <p>Un bloque breve — 20 a 90 minutos — que resuelve un tema concreto, escrito por un experto activo. No es un curso largo. Es el refuerzo que siempre quisiste tener a la mano.</p>
+      </details>
+      <details>
+        <summary>¿Reemplaza <em>nuestras</em> clases?</summary>
+        <p>No. Cardumen complementa. Lo usan antes de clase para llegar mejor preparados, o después para afianzar. Tus docentes siguen siendo el centro.</p>
+      </details>
+      <details>
+        <summary>¿Los <em>certificados</em> son oficiales?</summary>
+        <p>Son certificados de lectura emitidos por Cardumen con tu logo. No reemplazan títulos oficiales. Sí funcionan como comprobante interno de formación continua.</p>
+      </details>
+      <details>
+        <summary>¿Cómo <em>pedimos</em> un Refuerzo a la medida?</summary>
+        <p>Nos escribes qué tema te interesa. Nuestro equipo editorial busca al experto adecuado, co-edita contigo el borrador, y lo publicamos solo en tu biblioteca (o también en el catálogo, si prefieres).</p>
+      </details>
+      <details>
+        <summary>¿Qué datos <em>vemos</em> de los miembros?</summary>
+        <p>Quién leyó qué, cuándo, y cuánto tiempo le dedicó. No espiamos sus pantallas ni sus resultados de quiz individuales si ellos no quieren compartirlos. Privacidad por diseño.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <h2>Tu facultad <em>ya es</em> un cardumen. Te ayudamos a que nade mejor.</h2>
+  <div class="actions">
+    <button class="btn-gold">Solicitar demo</button>
+    <a href="index.html" class="btn-ghost">Volver al inicio</a>
+  </div>
+</section>
+
+<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— un cardumen, para tu facultad —</em><span>Instituciones</span></footer>
+</body></html>

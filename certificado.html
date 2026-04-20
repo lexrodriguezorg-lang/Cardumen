@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Certificado — Cardumen</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); min-height: 100vh; display: flex; flex-direction: column; }
+  .top-bar { padding: 100px 6vw 40px; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; max-width: 1280px; margin: 0 auto; width: 100%; }
+  .top-bar .l h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 3.8vw, 2.8rem); letter-spacing: -0.03em; margin: 8px 0 0; }
+  .top-bar .l h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .top-bar .l .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .top-bar .r { display: flex; gap: 10px; }
+
+  .stage { flex: 1; padding: 20px 6vw 80px; display: flex; justify-content: center; align-items: flex-start; }
+
+  /* Certificate: editorial, portrait-ish landscape, paper-cream */
+  .cert { width: min(1040px, 100%); aspect-ratio: 1.414 / 1; background: #faf5e9; color: #161210; padding: 56px 72px; position: relative; display: flex; flex-direction: column; box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(250,245,233,0.08); overflow: hidden; }
+  .cert::before { content: ''; position: absolute; inset: 22px; border: 1px solid #161210; pointer-events: none; }
+  .cert::after { content: ''; position: absolute; inset: 26px; border: 1px solid rgba(22,18,16,0.15); pointer-events: none; }
+
+  .cert-head { display: flex; justify-content: space-between; align-items: flex-start; position: relative; z-index: 2; }
+  .cert-head .mark { font-family: var(--font-display); font-weight: 400; font-size: 1.6rem; letter-spacing: -0.02em; color: #161210; }
+  .cert-head .mark em { font-style: italic; color: #9a6b1a; }
+  .cert-head .n { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #8a7663; text-align: right; }
+  .cert-head .n em { color: #9a6b1a; font-style: normal; display: block; font-size: 14px; letter-spacing: 0.15em; margin-top: 4px; font-family: var(--font-display); font-style: italic; }
+
+  .cert-body { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; z-index: 2; padding: 20px 40px; }
+  .cert-body .eyebrow { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.32em; text-transform: uppercase; color: #8a7663; margin-bottom: 24px; }
+  .cert-body .for { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.4rem; color: #5e4a38; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .cert-body .name { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 5vw, 3.8rem); letter-spacing: -0.04em; color: #161210; line-height: 1; margin-bottom: 28px; }
+  .cert-body .complete { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.3rem; color: #5e4a38; margin-bottom: 16px; letter-spacing: -0.01em; }
+  .cert-body .ref { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.4rem, 2.6vw, 2rem); letter-spacing: -0.025em; color: #161210; max-width: 28ch; line-height: 1.15; margin-bottom: 8px; }
+  .cert-body .ref em { font-style: italic; color: #9a6b1a; }
+  .cert-body .by { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.05rem; color: #5e4a38; margin-bottom: 40px; }
+  .cert-body .seal { width: 78px; height: 78px; border-radius: 50%; border: 1px solid #9a6b1a; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 24px; }
+  .cert-body .seal::before { content: ''; position: absolute; inset: 6px; border: 1px solid rgba(154,107,26,0.3); border-radius: 50%; }
+  .cert-body .seal svg { width: 32px; height: 32px; fill: #9a6b1a; }
+
+  .cert-foot { display: grid; grid-template-columns: 1fr auto 1fr; gap: 40px; align-items: flex-end; position: relative; z-index: 2; }
+  .sig { border-top: 1px solid #161210; padding-top: 10px; }
+  .sig .sc { font-family: 'Caveat', 'Brush Script MT', cursive; font-size: 1.8rem; color: #161210; line-height: 1; margin-bottom: 6px; font-weight: 400; }
+  .sig .sn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #5e4a38; }
+  .sig .sr { font-family: var(--font-display); font-style: italic; color: #8a7663; font-size: 11.5px; margin-top: 2px; }
+  .cert-foot .date { text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #5e4a38; padding-bottom: 8px; }
+  .cert-foot .date em { font-style: italic; color: #9a6b1a; font-family: var(--font-display); font-size: 14px; letter-spacing: 0; display: block; margin-top: 4px; }
+
+  /* Decorative fish line */
+  .fish-line { position: absolute; bottom: 38px; left: 72px; right: 72px; height: 1px; background: linear-gradient(to right, transparent, #9a6b1a 20%, #9a6b1a 80%, transparent); opacity: 0.3; }
+
+  .verify-strip { max-width: 1040px; margin: 28px auto 0; padding: 0 6vw; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .verify-strip .hash { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; color: var(--cream-mute); }
+  .verify-strip .hash em { color: var(--gold); font-style: normal; }
+  .verify-strip a { font-family: var(--font-body); font-size: 12.5px; color: var(--gold); border-bottom: 1px solid var(--cream-line); padding-bottom: 2px; }
+
+  @media (max-width: 780px) { .cert { padding: 32px 28px; aspect-ratio: auto; min-height: 92vh; } .cert-foot { grid-template-columns: 1fr; text-align: center; } .sig { border-top: none; border-bottom: 1px solid #161210; padding: 0 0 10px; } }
+</style></head>
+<body>
+
+<div class="top-bar" data-screen-label="Certificado">
+  <div class="l">
+    <div class="k">Certificado · R·001</div>
+    <h1>Tu <em>comprobante</em> de lectura.</h1>
+  </div>
+  <div class="r">
+    <button class="btn-ghost">Compartir</button>
+    <button class="btn-gold">Descargar PDF</button>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="cert">
+    <div class="cert-head">
+      <div class="mark"><em>Cardumen</em></div>
+      <div class="n">Nº de serie<em>CDM-2026-R001-08142</em></div>
+    </div>
+
+    <div class="cert-body">
+      <div class="eyebrow">— certificado de lectura —</div>
+      <div class="for">Se deja constancia de que</div>
+      <div class="name">Valentina Morales Ruiz</div>
+      <div class="complete">completó el Refuerzo</div>
+      <div class="ref">Anatomía <em>para</em> inyectores</div>
+      <div class="by">— escrito por el Dr. Daniel Arias —</div>
+
+      <div class="seal">
+        <svg viewBox="0 0 24 24"><path d="M2 12c3-4 7-6 11-6s7 2 9 4c-2 2-5 4-9 4s-8-2-11-2zm13-2a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg>
+      </div>
+    </div>
+
+    <div class="cert-foot">
+      <div class="sig">
+        <div class="sc">Daniel Arias</div>
+        <div class="sn">Dr. Daniel Arias</div>
+        <div class="sr">— autor del Refuerzo</div>
+      </div>
+      <div class="date">Otorgado el<em>14 · marzo · 2026</em></div>
+      <div class="sig" style="text-align:right">
+        <div class="sc">Cardumen</div>
+        <div class="sn">Cardumen</div>
+        <div class="sr">— plataforma editorial de aprendizaje</div>
+      </div>
+    </div>
+
+    <div class="fish-line"></div>
+  </div>
+</div>
+
+<div class="verify-strip">
+  <div class="hash">Verificación pública<em style="margin-left:10px">cardumen.co/v/CDM-2026-R001-08142</em></div>
+  <a href="#">Verificar en cadena →</a>
+</div>
+
+<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— un comprobante de lectura, no un diploma —</em><span>R·001</span></footer>
+</body></html>

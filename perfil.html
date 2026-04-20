@@ -1,81 +1,217 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi perfil — Cardumen</title>
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="stylesheet" href="css/stub.css">
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen · Mi perfil</title>
 <script>
   (function() {
     try {
-      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      var s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
       if (!s || !s.email) window.location.replace('login.html');
     } catch (_) { window.location.replace('login.html'); }
   })();
 </script>
-</head>
-<body data-page="perfil">
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 120px 6vw 100px; }
+  .head { padding-bottom: 32px; border-bottom: 1px solid var(--cream-line); margin-bottom: 48px; }
+  .head .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .head h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 4.6vw, 3.6rem); letter-spacing: -0.03em; margin: 18px 0 0; }
+  .head h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
 
-<header class="stub-top">
-  <a href="index.html" class="stub-brand">
-    <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-  </a>
-  <nav class="stub-nav">
-    <a href="/index.html" class="stub-back stub-home">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
-      Inicio
-    </a>
-    <a href="/mi-cardumen.html" class="stub-back">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Mi estudio
-    </a>
-  </nav>
-</header>
+  .row { display: grid; grid-template-columns: 220px 1fr; gap: 40px; padding: 28px 0; border-bottom: 1px solid var(--cream-line); align-items: start; }
+  .row .lab { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); padding-top: 8px; }
+  .row .lab em { color: var(--gold); font-style: normal; display: block; font-family: var(--font-body); text-transform: none; letter-spacing: 0; font-size: 11px; margin-top: 4px; font-style: italic; }
 
-<main class="stub-shell">
-  <div class="stub-card">
-    <div class="stub-kicker">PERFIL</div>
-    <h1>Tu cuenta,<br><em>en construcción.</em></h1>
-    <p class="stub-lede">Aquí vas a poder editar tu nombre, foto, correo de recuperación, cambiar contraseña y revisar tu historial de Refuerzos. Lo estamos construyendo junto al sistema de referidos.</p>
+  .avatar-block { display: flex; align-items: center; gap: 20px; }
+  .avatar { width: 88px; height: 88px; border-radius: 50%; background: linear-gradient(135deg, var(--coral), var(--gold)); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); color: var(--ink); font-size: 2rem; font-weight: 400; }
+  .avatar-act { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-tiny { padding: 8px 14px; border-radius: var(--r-pill); border: 1px solid var(--cream-line); background: transparent; color: var(--cream-soft); font-family: var(--font-body); font-size: 12px; cursor: pointer; transition: all .2s; }
+  .btn-tiny:hover { border-color: var(--gold); color: var(--gold); }
 
-    <div class="stub-info">
-      <div class="stub-info-row">
-        <span class="label">Correo de acceso</span>
-        <span class="value" id="userEmail">—</span>
+  .inline-input { background: transparent; border: none; border-bottom: 1px solid var(--cream-line); color: var(--cream); font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; padding: 6px 0; outline: none; width: 100%; max-width: 480px; letter-spacing: -0.01em; transition: border-color .2s; }
+  .inline-input:focus { border-color: var(--gold); }
+  .bio-ta { width: 100%; background: transparent; border: 1px solid var(--cream-line); border-radius: 12px; padding: 14px 16px; color: var(--cream); font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.05rem; resize: vertical; min-height: 90px; outline: none; line-height: 1.5; letter-spacing: -0.005em; }
+  .bio-ta:focus { border-color: var(--gold); }
+
+  .role-toggle { display: inline-flex; background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-pill); padding: 4px; }
+  .role-toggle button { padding: 10px 18px; border: none; background: transparent; color: var(--cream-mute); font-family: var(--font-body); font-size: 12.5px; cursor: pointer; border-radius: var(--r-pill); letter-spacing: 0.02em; transition: all .2s; }
+  .role-toggle button.on { background: var(--gold); color: var(--ink); }
+
+  .tags-edit { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag-x { padding: 6px 14px; border-radius: var(--r-pill); background: rgba(212,169,74,0.1); border: 1px solid rgba(212,169,74,0.3); color: var(--gold); font-family: var(--font-body); font-size: 12px; cursor: pointer; }
+  .tag-x::after { content: ' ×'; opacity: .5; }
+  .tag-add { padding: 6px 14px; border-radius: var(--r-pill); border: 1px dashed var(--cream-line); color: var(--cream-mute); font-family: var(--font-body); font-size: 12px; background: transparent; }
+
+  .lang-pick { display: flex; gap: 10px; }
+  .lang { padding: 10px 16px; border-radius: 10px; border: 1px solid var(--cream-line); font-family: var(--font-body); font-size: 13px; color: var(--cream-soft); background: transparent; cursor: pointer; }
+  .lang.on { background: rgba(212,169,74,0.1); border-color: var(--gold); color: var(--gold); }
+
+  .share-link { display: flex; align-items: center; border: 1px solid var(--cream-line); border-radius: 10px; overflow: hidden; max-width: 520px; }
+  .share-link .u { flex: 1; padding: 12px 16px; font-family: var(--font-mono); font-size: 12px; color: var(--cream); background: var(--ink-2); }
+  .share-link .u em { color: var(--gold); font-style: normal; }
+  .share-link button { padding: 12px 16px; background: var(--gold); color: var(--ink); border: none; font-family: var(--font-body); font-size: 12px; font-weight: 500; cursor: pointer; }
+
+  .save-bar { margin-top: 40px; display: flex; justify-content: flex-end; gap: 12px; }
+
+  @media (max-width: 720px) { .row { grid-template-columns: 1fr; gap: 10px; } }
+</style></head>
+<body>
+
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links">
+    <a href="dashboard-estudiante.html" class="link">Mi cardumen</a>
+    <a href="perfil.html" class="link active">Perfil</a>
+  </div>
+  <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--ink);font-size:14px">VM</div>
+</nav>
+
+<div class="wrap" data-screen-label="Perfil Usuario">
+  <header class="head">
+    <div class="k">Perfil · editable</div>
+    <h1>Tu <em>página</em> en el cardumen.</h1>
+  </header>
+
+  <div class="row"><div class="lab">Foto<em>opcional</em></div>
+    <div class="avatar-block">
+      <div class="avatar">VM</div>
+      <div>
+        <div class="avatar-act">
+          <button class="btn-tiny">Subir foto</button>
+          <button class="btn-tiny">Quitar</button>
+        </div>
+        <div style="font-family:var(--font-body);font-size:12px;color:var(--cream-mute);font-style:italic;margin-top:10px">Si no subes, mostramos tus iniciales. Editorial, limpio.</div>
       </div>
-      <div class="stub-info-row">
-        <span class="label">Nombre</span>
-        <span class="value" id="userName">—</span>
-      </div>
-      <div class="stub-info-row">
-        <span class="label">Refuerzos activos</span>
-        <span class="value">1</span>
-      </div>
-    </div>
-
-    <div class="stub-actions">
-      <a href="mi-cardumen.html" class="stub-btn stub-btn-primary">Volver al dashboard</a>
-      <button class="stub-btn stub-btn-ghost" id="logoutBtn">Cerrar sesión</button>
     </div>
   </div>
-</main>
 
-<script src="js/bottom-nav.js"></script>
+  <div class="row"><div class="lab">Nombre</div>
+    <input class="inline-input" value="Valentina Morales">
+  </div>
+
+  <div class="row"><div class="lab">Bio<em>una línea, tuya</em></div>
+    <textarea class="bio-ta">— Médica estética en formación. Cali. Aprender es un oficio lento.</textarea>
+  </div>
+
+  <div class="row"><div class="lab">Rol</div>
+    <div>
+      <div class="role-toggle">
+        <button class="on">Estudiante</button>
+        <button>Experto</button>
+        <button>Ambos</button>
+      </div>
+      <div style="font-family:var(--font-body);font-size:12.5px;color:var(--cream-mute);font-style:italic;margin-top:14px">Elige "Ambos" si además de estudiar quieres publicar o curar Refuerzos propios.</div>
+    </div>
+  </div>
+
+  <div class="row"><div class="lab">Intereses<em>para sugerirte Refuerzos</em></div>
+    <div class="tags-edit">
+      <span class="tag-x">Estética</span>
+      <span class="tag-x">Anatomía</span>
+      <span class="tag-x">Drenaje</span>
+      <span class="tag-x">Fibrosis</span>
+      <button class="tag-add">+ añadir</button>
+    </div>
+  </div>
+
+  <div class="row"><div class="lab">Idioma</div>
+    <div class="lang-pick">
+      <button class="lang on">Español</button>
+      <button class="lang">Português</button>
+      <button class="lang">English</button>
+    </div>
+  </div>
+
+  <div class="row"><div class="lab">Link público<em>tu perfil en el cardumen</em></div>
+    <div class="share-link"><span class="u">cardumen.co/u/<em>valentina-morales</em></span><button>Copiar</button></div>
+  </div>
+
+  <div class="row"><div class="lab">Notificaciones</div>
+    <div style="display:flex;flex-direction:column;gap:12px;font-family:var(--font-body);font-size:13.5px;color:var(--cream-soft)">
+      <label style="display:flex;align-items:center;gap:12px"><input type="checkbox" checked style="accent-color:var(--gold)">Nuevos Refuerzos que te interesan</label>
+      <label style="display:flex;align-items:center;gap:12px"><input type="checkbox" checked style="accent-color:var(--gold)">Recordatorio semanal de tu ruta</label>
+      <label style="display:flex;align-items:center;gap:12px"><input type="checkbox" style="accent-color:var(--gold)">Notas editoriales (mensual)</label>
+    </div>
+  </div>
+
+  <div class="save-bar">
+    <button class="btn-ghost">Cancelar</button>
+    <button class="btn-gold">Guardar cambios</button>
+  </div>
+</div>
+
+<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— tu cardumen —</em><span id="footUser">—</span></footer>
+
 <script>
-  try {
-    const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
-    if (s) {
-      document.getElementById('userEmail').textContent = s.email || '—';
-      document.getElementById('userName').textContent = s.name || '—';
-    }
-  } catch (_) {}
+  // Pinta datos de sesion en el UI + logout + copy link
+  (function() {
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem('cardumen_session') || 'null'); } catch(_) {}
+    if (!s) return;
+    var name = s.name || s.email.split('@')[0];
+    var parts = name.split(/\s+/).filter(Boolean);
+    var initials = (parts[0]||'U').charAt(0).toUpperCase() + (parts[1]||'').charAt(0).toUpperCase();
+    if (!initials) initials = 'U';
+    var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'usuario';
 
-  document.getElementById('logoutBtn')?.addEventListener('click', () => {
-    localStorage.removeItem('cardumen_session');
-    window.location.replace('login.html');
-  });
+    // Nav avatar (el div circular al final del nav)
+    var navAv = document.querySelector('.appnav > div:last-child');
+    if (navAv) navAv.textContent = initials;
+    // Avatar grande
+    var mainAv = document.querySelector('.avatar');
+    if (mainAv) mainAv.textContent = initials;
+    // Input de nombre (primer inline-input)
+    var nameInput = document.querySelector('.inline-input');
+    if (nameInput) nameInput.value = name;
+    // Slug del link publico
+    document.querySelectorAll('.share-link .u em').forEach(function(el){ el.textContent = slug; });
+    // Footer "usuario"
+    var footUser = document.getElementById('footUser');
+    if (footUser) footUser.textContent = (parts[0] || name) + '.';
+    // Role toggle: marca el que matchea session.role
+    var role = s.role || 'estudiante';
+    document.querySelectorAll('.role-toggle button').forEach(function(b){
+      b.classList.remove('on');
+      var label = (b.textContent || '').toLowerCase();
+      if ((role === 'experto' && label === 'experto') || (role === 'estudiante' && label === 'estudiante')) b.classList.add('on');
+    });
+    // Role picker toggle UI
+    document.querySelectorAll('.role-toggle button').forEach(function(b){
+      b.addEventListener('click', function(){
+        document.querySelectorAll('.role-toggle button').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+      });
+    });
+    // Copy share link
+    var copyBtn = document.querySelector('.share-link button');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function(){
+        var url = 'cardumen.co/u/' + slug;
+        try { navigator.clipboard.writeText(url); } catch(_) {}
+        var orig = copyBtn.textContent;
+        copyBtn.textContent = '✓ Copiado';
+        setTimeout(function(){ copyBtn.textContent = orig; }, 1600);
+      });
+    }
+    // Guardar cambios → persiste name + role en session
+    var saveBtn = document.querySelector('.save-bar .btn-gold');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', function(){
+        var newName = (document.querySelector('.inline-input').value || '').trim();
+        var newRoleEl = document.querySelector('.role-toggle button.on');
+        var newRole = newRoleEl ? (newRoleEl.textContent || '').toLowerCase().trim() : 'estudiante';
+        if (newRole !== 'estudiante' && newRole !== 'experto' && newRole !== 'ambos') newRole = 'estudiante';
+        s.name = newName || s.name;
+        s.role = newRole === 'ambos' ? s.role : newRole;
+        try { localStorage.setItem('cardumen_session', JSON.stringify(s)); } catch(_) {}
+        var orig = saveBtn.textContent;
+        saveBtn.textContent = '✓ Guardado';
+        setTimeout(function(){ saveBtn.textContent = orig; }, 1600);
+      });
+    }
+  })();
 </script>
 
-</body>
-</html>
+</body></html>
