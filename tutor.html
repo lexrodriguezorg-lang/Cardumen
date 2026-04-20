@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen · Tutora · Módulo 02</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: #FAF5E9; color: #2A1F14; min-height: 100vh; overflow: hidden; }
+
+  /* Reuse module background darkened */
+  .bg-reading { position: fixed; inset: 0; z-index: 1; padding: 80px 72px; opacity: .35; pointer-events: none; overflow: hidden; }
+  .bg-reading h1 { font-family: var(--font-display); font-weight: 300; font-size: 3.2rem; color: #2A1F14; letter-spacing: -0.03em; margin: 0 0 24px; }
+  .bg-reading p { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: #2A1F14; max-width: 60ch; }
+
+  .readbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 14px 32px; background: rgba(250,245,233,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(20,14,8,0.08); display: flex; align-items: center; justify-content: space-between; }
+  .readbar .crumb { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #6B5A42; }
+  .readbar .crumb a { color: #6B5A42; } .readbar em { color: var(--gold-deep); font-style: normal; }
+  .readbar .right { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: #6B5A42; }
+
+  /* Tutor panel — right side, editorial */
+  .tutor { position: fixed; top: 56px; right: 0; bottom: 0; width: 440px; z-index: 30; background: var(--ink); border-left: 1px solid var(--cream-line); display: flex; flex-direction: column; box-shadow: -30px 0 60px -20px rgba(0,0,0,0.4); }
+
+  .t-head { padding: 24px 28px; border-bottom: 1px solid var(--cream-line); }
+  .t-head .mono { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); }
+  .t-head h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; letter-spacing: -0.015em; margin: 6px 0 0; color: var(--cream); display: flex; align-items: center; gap: 10px; }
+  .t-head h3 em { font-style: italic; color: var(--gold); }
+  .t-head .close { position: absolute; top: 22px; right: 22px; background: transparent; border: 1px solid var(--cream-line); color: var(--cream-mute); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .t-head .close:hover { border-color: var(--gold); color: var(--gold); }
+  .t-head .row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-mute); }
+  .t-head .glow { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); }
+  .t-head .glow::before { content: ''; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 8px var(--gold); }
+
+  .t-body { flex: 1; overflow-y: auto; padding: 28px 28px 16px; display: flex; flex-direction: column; gap: 20px; }
+  .t-msg { max-width: 86%; animation: tIn .5s var(--ease-out); }
+  @keyframes tIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .t-msg.ai { align-self: flex-start; }
+  .t-msg.user { align-self: flex-end; }
+
+  .t-msg .who { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); margin-bottom: 8px; }
+  .t-msg.ai .who { color: var(--gold); }
+
+  .t-msg.ai .body { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.05rem; line-height: 1.5; color: var(--cream-soft); letter-spacing: -0.005em; }
+  .t-msg.ai .body em { font-style: normal; color: var(--gold); }
+  .t-msg.ai .body strong { color: var(--cream); font-weight: 500; font-style: normal; }
+  .t-msg.ai .ref { margin-top: 10px; padding: 10px 14px; border-left: 2px solid var(--gold); background: rgba(212,169,74,0.06); font-family: var(--font-body); font-size: 12px; color: var(--cream-mute); font-style: italic; line-height: 1.5; }
+  .t-msg.ai .ref a { color: var(--gold); font-family: var(--font-mono); font-style: normal; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; display: inline-block; margin-top: 6px; }
+
+  .t-msg.user .body { background: var(--ink-2); border: 1px solid var(--cream-line); padding: 14px 18px; border-radius: 14px; font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--cream); }
+
+  .typing { display: flex; gap: 4px; padding: 6px 0; }
+  .typing span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; opacity: 0.3; animation: bob 1.4s infinite; }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bob { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
+
+  .t-suggest { padding: 0 28px 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .t-chip { padding: 8px 14px; border-radius: var(--r-pill); border: 1px solid var(--cream-line); background: transparent; color: var(--cream-soft); font-family: var(--font-body); font-size: 12px; cursor: pointer; transition: all .2s; }
+  .t-chip:hover { border-color: var(--gold); color: var(--gold); }
+  .t-chip em { color: var(--gold); font-style: italic; }
+
+  .t-input { padding: 20px 24px 22px; border-top: 1px solid var(--cream-line); display: flex; align-items: flex-end; gap: 12px; background: rgba(14,11,8,0.8); }
+  .t-input textarea { flex: 1; background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: 12px; padding: 12px 16px; font-family: var(--font-body); font-size: 14px; color: var(--cream); resize: none; outline: none; min-height: 42px; max-height: 120px; line-height: 1.4; }
+  .t-input textarea::placeholder { color: var(--cream-dim); font-style: italic; font-family: var(--font-display); font-weight: 300; }
+  .t-input textarea:focus { border-color: var(--gold); }
+  .t-input .send { width: 42px; height: 42px; border-radius: 50%; background: var(--gold); color: var(--ink); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; }
+  .t-input .send:hover { box-shadow: var(--glow-gold); }
+  .t-foot { padding: 0 24px 14px; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-dim); text-align: center; background: rgba(14,11,8,0.8); }
+  .t-foot em { color: var(--gold); font-style: normal; }
+
+  @media (max-width: 780px) { .tutor { width: 100%; } .bg-reading { display: none; } }
+</style></head>
+<body>
+
+<nav class="readbar">
+  <div class="crumb"><a href="modulo.html">R·001</a> · <em>Módulo 02</em> · Anatomía abdominal</div>
+  <div class="right">Avance · 38%</div>
+</nav>
+
+<div class="bg-reading">
+  <h1>Anatomía <em style="font-style:italic;color:var(--gold-deep)">abdominal</em> — el mapa antes del procedimiento.</h1>
+  <p>El abdomen no es una superficie, es una estratigrafía. Cuando un clínico habla de "cavitación en el flanco" o de "subcisión superficial", está haciendo geología sobre cuerpos vivos: una decisión de profundidad, una de dirección, una de respeto al plano siguiente...</p>
+  <p>Un error frecuente — y caro — es tratar la pared abdominal como si fuera una lámina uniforme de grasa entre la piel y el músculo. No lo es. Tiene dos paneles de grasa con comportamientos clínicos distintos...</p>
+</div>
+
+<aside class="tutor" data-screen-label="Tutor IA abierto">
+  <header class="t-head">
+    <div class="mono">Tutora · Módulo 02</div>
+    <h3>Tutora de <em>Anatomía Abdominal</em></h3>
+    <button class="close" onclick="history.back()">×</button>
+    <div class="row">
+      <span class="glow">En el contexto del módulo</span>
+      <span>Sesión activa</span>
+    </div>
+  </header>
+
+  <div class="t-body">
+
+    <div class="t-msg ai">
+      <div class="who">— Tutora</div>
+      <div class="body">Estoy acompañando este módulo. Puedo explicarte un concepto de otra manera, darte otro caso para practicar, o conectarte con lo que viene. <em>¿Por dónde empezamos?</em></div>
+    </div>
+
+    <div class="t-msg user">
+      <div class="who">Tú · 14:22</div>
+      <div class="body">¿Por qué no sería correcto hacer subcisión primero en el caso de fibrosis grado II que acabo de ver?</div>
+    </div>
+
+    <div class="t-msg ai">
+      <div class="who">— Tutora · 14:22</div>
+      <div class="body">Porque la fibrosis grado II del caso <em>todavía tiene componente inflamatorio activo</em>. A seis semanas post-lipo el tejido está reorganizándose — hay edema residual, neoangiogénesis, y el colágeno aún no está completamente maduro.
+      <br><br>Si entras con subcisión en ese terreno, aumentas el riesgo de <strong>hematoma, hipersensibilidad y retracciones impredecibles</strong>. La Dra. Parra llama a eso "cortar una cicatriz que todavía está escribiéndose".
+        <div class="ref">— Revisa el <strong>caso clínico del módulo 05</strong>, donde se ve exactamente este error: paciente que llegó con fibrosis tras subcisión temprana. <a href="#">Ir al módulo 05 →</a></div>
+      </div>
+    </div>
+
+    <div class="t-msg user">
+      <div class="who">Tú · 14:23</div>
+      <div class="body">¿Y por qué RF bipolar y no monopolar en este caso?</div>
+    </div>
+
+    <div class="t-msg ai">
+      <div class="who">— Tutora · 14:23</div>
+      <div class="body">Buena pregunta — ahí la diferencia es de <em>profundidad controlada</em>. La monopolar atraviesa todo el tejido hasta una placa dispersora, lo cual es útil para volúmenes grandes pero impreciso en fibrosis focal. La <strong>bipolar concentra la energía entre los dos electrodos</strong>, te permite trabajar una zona específica a la profundidad que quieras, y combinada con drenaje previo ayuda a reorganizar el colágeno sin tocar estructuras vecinas.
+      <br><br>En el módulo 07 hay un simulador donde puedes ajustar frecuencia y profundidad — <em>te lo recomiendo cuando termines este</em>.</div>
+    </div>
+
+    <div class="t-msg ai" style="opacity:.7">
+      <div class="who">— Tutora</div>
+      <div class="typing"><span></span><span></span><span></span></div>
+    </div>
+
+  </div>
+
+  <div class="t-suggest">
+    <button class="t-chip">¿Qué diferencia grado II de grado III?</button>
+    <button class="t-chip">Dame <em>otro caso</em> para practicar</button>
+    <button class="t-chip">Explícalo más simple</button>
+  </div>
+
+  <div class="t-input">
+    <textarea placeholder="Pregunta sobre este módulo."></textarea>
+    <button class="send"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+  </div>
+  <div class="t-foot">La tutora responde con el contexto exacto de este módulo · <em>Cardumen</em></div>
+</aside>
+
+</body></html>
