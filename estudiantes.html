@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen · Estudiantes</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  .accesos { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; max-width: 1240px; margin: 0 auto; padding: 40px 6vw 100px; }
+  .acceso { background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 36px; display: flex; flex-direction: column; gap: 18px; transition: all .3s var(--ease-out); text-decoration: none; min-height: 320px; }
+  .acceso:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .acceso .mark { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .acceso h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.7rem; letter-spacing: -0.02em; margin: 0; }
+  .acceso h3 em { font-style: italic; color: var(--gold); }
+  .acceso p { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--cream-soft); flex: 1; }
+  .acceso .foot { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-mute); display: flex; align-items: center; justify-content: space-between; padding-top: 20px; border-top: 1px solid var(--cream-line); }
+  .acceso .foot .arrow { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--cream-line); display: inline-flex; align-items: center; justify-content: center; color: var(--cream); transition: all .2s var(--ease-out); }
+  .acceso:hover .foot .arrow { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+  .benefits { padding: 140px 6vw; background: #FAF5E9; color: var(--ink); }
+  .benefits .inner { max-width: 1240px; margin: 0 auto; }
+  .benefits .section-tag { color: var(--gold-deep); }
+  .benefits .section-tag::before { background: var(--gold-deep); }
+  .benefits h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem,4vw,3.2rem); line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); margin: 28px 0 64px; max-width: 18ch; }
+  .benefits h2 em { font-style: italic; color: var(--gold-deep); font-weight: 400; }
+  .bgrid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(20,14,8,0.12); border: 1px solid rgba(20,14,8,0.12); border-radius: var(--r-lg); overflow: hidden; }
+  .b { background: #FAF5E9; padding: 34px 28px; min-height: 240px; display: flex; flex-direction: column; gap: 14px; }
+  .b .num { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold-deep); text-transform: uppercase; }
+  .b h4 { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; color: var(--ink); letter-spacing: -0.02em; margin: 0; }
+  .b h4 em { font-style: italic; color: var(--gold-deep); }
+  .b p { font-family: var(--font-body); font-size: 13px; color: #4A4030; line-height: 1.55; margin: 0; }
+
+  .asi { padding: 140px 6vw; background: var(--ink); }
+  .asi .head { max-width: 1240px; margin: 0 auto 72px; }
+  .asi h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem,4vw,3.2rem); line-height: 1.05; letter-spacing: -0.03em; margin: 28px 0 0; max-width: 18ch; }
+  .asi h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .demos { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .demo { background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+  .demo .kind { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .demo h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; margin: 0; letter-spacing: -0.01em; }
+  .demo h3 em { font-style: italic; color: var(--gold); }
+  .demo-stage { background: var(--ink); border: 1px solid var(--cream-line); border-radius: var(--r-lg); padding: 24px; min-height: 180px; position: relative; overflow: hidden; }
+
+  /* Demo 1: interactive diagram */
+  .anat { display: flex; justify-content: center; align-items: center; height: 100%; }
+  .anat-svg { width: 160px; height: 160px; }
+  .anat-label { position: absolute; background: var(--gold); color: var(--ink); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; padding: 4px 8px; border-radius: 3px; text-transform: uppercase; }
+  .anat-label.l1 { top: 30px; right: 24px; }
+  .anat-label.l2 { bottom: 34px; left: 24px; background: var(--coral); color: var(--ink); }
+
+  /* Demo 2: quiz */
+  .quiz .q { font-family: var(--font-display); font-style: italic; font-size: 1rem; color: var(--cream); margin-bottom: 14px; }
+  .quiz .opts { display: flex; flex-direction: column; gap: 6px; }
+  .quiz .opt { padding: 8px 12px; border: 1px solid var(--cream-line); border-radius: 8px; font-family: var(--font-body); font-size: 12px; color: var(--cream-soft); cursor: pointer; transition: all .2s; }
+  .quiz .opt:hover { border-color: var(--gold); color: var(--gold); }
+  .quiz .opt.correct { background: rgba(212,169,74,0.12); border-color: var(--gold); color: var(--gold); }
+
+  /* Demo 3: tutor */
+  .tutor-d { display: flex; flex-direction: column; gap: 10px; }
+  .bubble { padding: 10px 14px; border-radius: 12px; font-size: 12.5px; line-height: 1.5; max-width: 85%; }
+  .bubble.user { background: var(--gold-mist); color: var(--cream); border: 1px solid rgba(212,169,74,0.25); align-self: flex-end; font-family: var(--font-body); }
+  .bubble.ai { background: var(--ink-2); border: 1px solid var(--cream-line); color: var(--cream-soft); font-family: var(--font-display); font-style: italic; font-weight: 300; }
+
+  .cta-close { padding: 140px 6vw; background: var(--ink); text-align: center; position: relative; border-top: 1px solid var(--cream-line); }
+  .cta-close::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 120%, rgba(212,169,74,0.18), transparent 55%); pointer-events: none; }
+  .cta-close .inner { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; }
+  .cta-close h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem,4vw,3.4rem); line-height: 1.05; letter-spacing: -0.03em; margin: 32px 0 48px; }
+  .cta-close h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+  @media (max-width: 960px) { .accesos, .demos, .bgrid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .accesos, .demos, .bgrid { grid-template-columns: 1fr; } }
+</style></head>
+<body>
+
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links">
+    <a href="expertos.html" class="link">Expertos</a>
+    <a href="estudiantes.html" class="link active">Estudiantes</a>
+    <a href="biblioteca.html" class="link">Biblioteca</a>
+    <a href="pedir.html" class="link">Pedir Refuerzo</a>
+  </div>
+  <button class="cta gold" onclick="location.href='dashboard-estudiante.html'">Entrar</button>
+</nav>
+
+<header class="page-hero" data-screen-label="Estudiantes · Hero">
+  <div class="inner">
+    <span class="section-tag">Para quien vuelve a aprender</span>
+    <h1>Aprender de nuevo<br>como <em>debe ser</em>.</h1>
+    <p class="lede">Sin cursos infinitos. Con un experto que te cura el tema. Con un tutor IA que nunca se cansa. Con acceso vitalicio.</p>
+  </div>
+</header>
+
+<section class="accesos" data-screen-label="Tres accesos">
+  <a href="pedir.html" class="acceso">
+    <div class="mark">A · Petición</div>
+    <h3>Pide un <em>Refuerzo nuevo</em>.</h3>
+    <p>¿No existe lo que buscas? Cuéntanos en un chat guiado qué quieres aprender y cotizamos su creación.</p>
+    <div class="foot"><span>Nuevo</span><span class="arrow">→</span></div>
+  </a>
+  <a href="biblioteca.html" class="acceso">
+    <div class="mark">B · Biblioteca</div>
+    <h3>Explora la <em>biblioteca</em>.</h3>
+    <p>Los Refuerzos ya publicados. Curados por expertos, con artefactos interactivos y tutor IA. Acceso vitalicio.</p>
+    <div class="foot"><span>6 publicados</span><span class="arrow">→</span></div>
+  </a>
+  <a href="dashboard-estudiante.html" class="acceso">
+    <div class="mark">C · Institucional</div>
+    <h3>Continúa <em>tu ruta</em>.</h3>
+    <p>Si tu colegio, academia o empresa te asignó protocolos, entra y sigue donde quedaste. Certificación incluida.</p>
+    <div class="foot"><span>Con código</span><span class="arrow">→</span></div>
+  </a>
+</section>
+
+<section class="benefits" data-screen-label="Beneficios">
+  <div class="inner">
+    <span class="section-tag">Lo que te llevas</span>
+    <h2>Cuatro cosas que <em>nadie más</em> te da junto.</h2>
+    <div class="bgrid">
+      <div class="b"><div class="num">01</div><h4>Acceso <em>vitalicio</em></h4><p>Lo pagas una vez. Lo consultas en 5 años cuando lo necesites. Sin suscripción. Sin caducidad.</p></div>
+      <div class="b"><div class="num">02</div><h4>Tutor <em>IA integrado</em></h4><p>Un tutor entrenado en el Refuerzo que respondes tus preguntas con el contexto del módulo que estás viendo.</p></div>
+      <div class="b"><div class="num">03</div><h4>Artefactos <em>interactivos</em></h4><p>Diagramas clickeables, simulaciones, quizzes de caso. No videos planos; objetos que piensas con ellos.</p></div>
+      <div class="b"><div class="num">04</div><h4>Certificación <em>firmada</em></h4><p>Al terminar, certificado digital firmado por el experto. Verificable, compartible, con tu nombre y número editorial.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="asi" data-screen-label="Así se estudia">
+  <div class="head">
+    <span class="section-tag">Así se estudia en Cardumen</span>
+    <h2>Tres ejemplos de lo que <em>vas a hacer</em>.</h2>
+  </div>
+  <div class="demos">
+    <div class="demo">
+      <div class="kind">Artefacto · Diagrama</div>
+      <h3>Anatomía <em>clickeable</em>.</h3>
+      <div class="demo-stage anat">
+        <svg class="anat-svg" viewBox="0 0 160 160">
+          <defs><linearGradient id="ag" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E88870"/><stop offset="1" stop-color="#D4A94A"/></linearGradient></defs>
+          <ellipse cx="80" cy="56" rx="34" ry="38" fill="none" stroke="url(#ag)" stroke-width="1.4"/>
+          <path d="M48 88 Q 80 100 112 88 L 108 140 Q 80 150 52 140 Z" fill="none" stroke="#D4A94A" stroke-width="1.4"/>
+          <circle cx="62" cy="50" r="4" fill="#D4A94A"/>
+          <circle cx="98" cy="50" r="4" fill="#D4A94A"/>
+          <circle cx="80" cy="110" r="4" fill="#E88870"/>
+        </svg>
+        <div class="anat-label l1">M. Frontal</div>
+        <div class="anat-label l2">M. Oblicuo</div>
+      </div>
+      <p style="font-family:var(--font-body);font-size:12.5px;color:var(--cream-mute);line-height:1.55;margin:0">Hover sobre cada punto: capa muscular, inserción, aplicación clínica.</p>
+    </div>
+    <div class="demo">
+      <div class="kind">Artefacto · Quiz de caso</div>
+      <h3>Decisiones en <em>consulta real</em>.</h3>
+      <div class="demo-stage quiz">
+        <div class="q">Paciente de 34 años, fibrosis grado II post-lipo. ¿Primera intervención?</div>
+        <div class="opts">
+          <div class="opt">Ultrasonido focalizado</div>
+          <div class="opt correct">✓ Drenaje manual + RF bipolar</div>
+          <div class="opt">Subcisión inmediata</div>
+        </div>
+      </div>
+      <p style="font-family:var(--font-body);font-size:12.5px;color:var(--cream-mute);line-height:1.55;margin:0">Tras elegir: razonamiento clínico y contraindicaciones.</p>
+    </div>
+    <div class="demo">
+      <div class="kind">Artefacto · Tutor IA</div>
+      <h3>Una conversación <em>contigo</em>.</h3>
+      <div class="demo-stage tutor-d">
+        <div class="bubble user">¿Por qué no subcisión primero?</div>
+        <div class="bubble ai">"Porque la fibrosis grado II aún tiene componente inflamatorio. Subcisión en inflamación activa aumenta el riesgo de hematoma — revisa el caso 3 del módulo."</div>
+      </div>
+      <p style="font-family:var(--font-body);font-size:12.5px;color:var(--cream-mute);line-height:1.55;margin:0">Responde con el contexto exacto del módulo que estás viendo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-close" data-screen-label="CTA final">
+  <div class="inner">
+    <div class="kicker-dot">Primer Refuerzo</div>
+    <h2>Empieza tu <em>primer Refuerzo</em>.</h2>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a class="btn-gold" href="biblioteca.html">Ver biblioteca <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <a class="btn-ghost" href="pedir.html">Pedir uno nuevo</a>
+    </div>
+  </div>
+</section>
+
+<footer class="editfoot">
+  <span>© 2026 · Cardumen</span>
+  <em>— el cardumen —</em>
+  <span>La Dorada · Colombia</span>
+</footer>
+</body></html>

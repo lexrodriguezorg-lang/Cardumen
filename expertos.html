@@ -1,245 +1,170 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardumen para Expertos — Tu conocimiento merece más</title>
-<meta name="description" content="Co-crea con Cardumen un Refuerzo que lleva tu nombre, tu experiencia y tu rigor. Genera ingresos recurrentes sin producir de nuevo.">
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="icon" type="image/png" sizes="192x192" href="assets/logo/favicon-192.png">
-<link rel="stylesheet" href="css/landing.css">
-<link rel="stylesheet" href="css/pitch.css">
-</head>
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen · Expertos</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  .three-paths { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; max-width: 1240px; margin: 0 auto; padding: 40px 6vw 120px; }
+  .path { background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 36px; position: relative; overflow: hidden; transition: border-color .3s var(--ease-out); }
+  .path:hover { border-color: rgba(212,169,74,0.35); }
+  .path .num { font-family: var(--font-display); font-weight: 300; font-size: 3rem; color: var(--gold); letter-spacing: -0.05em; line-height: 1; }
+  .path h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; margin: 24px 0 12px; letter-spacing: -0.02em; }
+  .path h3 em { font-style: italic; color: var(--gold); }
+  .path .desc { font-family: var(--font-body); font-size: 13.5px; line-height: 1.6; color: var(--cream-soft); margin-bottom: 24px; }
+  .math { border-top: 1px solid var(--cream-line); padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .math-row { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--cream-mute); letter-spacing: 0.08em; }
+  .math-row .v { color: var(--cream); }
+  .math-row.total { border-top: 1px dashed var(--cream-faint); padding-top: 10px; margin-top: 4px; }
+  .math-row.total .v { color: var(--gold); font-family: var(--font-display); font-size: 1.3rem; letter-spacing: -0.02em; }
+
+  .flow-section { background: #FAF5E9; color: var(--ink); padding: 140px 6vw 160px; }
+  .flow-section .inner { max-width: 1240px; margin: 0 auto; }
+  .flow-section .section-tag { color: var(--gold-deep); }
+  .flow-section .section-tag::before { background: var(--gold-deep); }
+  .flow-section h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); margin: 28px 0 80px; max-width: 16ch; }
+  .flow-section h2 em { font-style: italic; color: var(--gold-deep); font-weight: 400; }
+  .flow-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; position: relative; }
+  .flow-steps::before { content: ''; position: absolute; top: 40px; left: 5%; right: 5%; height: 1px; background: linear-gradient(to right, transparent, var(--gold-deep) 10%, var(--gold-deep) 90%, transparent); }
+  .fstep { display: flex; flex-direction: column; gap: 14px; position: relative; }
+  .fstep .n { font-family: var(--font-display); font-weight: 300; font-size: 3rem; color: var(--gold-deep); line-height: 1; letter-spacing: -0.04em; }
+  .fstep .n::after { content: ''; position: absolute; top: 40px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--gold-deep); border: 3px solid #FAF5E9; transform: translateY(-50%); }
+  .fstep h4 { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; color: var(--ink); margin: 10px 0 0; letter-spacing: -0.01em; }
+  .fstep h4 em { font-style: italic; color: var(--gold-deep); }
+  .fstep p { font-family: var(--font-body); font-size: 13px; color: #4A4030; line-height: 1.55; margin: 0; max-width: 26ch; }
+
+  .roster { padding: 140px 6vw 120px; background: var(--ink); }
+  .roster .head { max-width: 1240px; margin: 0 auto 64px; display: flex; justify-content: space-between; align-items: end; gap: 40px; }
+  .roster h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.05; letter-spacing: -0.03em; margin: 24px 0 0; max-width: 14ch; }
+  .roster h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .roster .meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-mute); text-align: right; line-height: 1.7; }
+  .roster .meta .n { color: var(--gold); font-size: 1.8rem; font-family: var(--font-display); font-weight: 300; display: block; letter-spacing: -0.02em; }
+  .expgrid { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--cream-line); border: 1px solid var(--cream-line); border-radius: var(--r-lg); overflow: hidden; }
+  .exp { background: var(--ink); padding: 28px 26px; display: flex; flex-direction: column; gap: 6px; transition: background .3s var(--ease-out); }
+  .exp:hover { background: var(--ink-2); }
+  .exp .num { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+  .exp .nm { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; color: var(--cream); letter-spacing: -0.01em; }
+  .exp .nm em { font-style: italic; color: var(--gold); }
+  .exp .niche { font-family: var(--font-body); font-size: 12.5px; color: var(--cream-mute); }
+  .exp .ref { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--cream-soft); text-transform: uppercase; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--cream-line); }
+
+  .cta-close { padding: 140px 6vw; background: var(--ink); text-align: center; position: relative; border-top: 1px solid var(--cream-line); }
+  .cta-close::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 120%, rgba(212,169,74,0.18), transparent 55%); pointer-events: none; }
+  .cta-close .inner { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; }
+  .cta-close h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; letter-spacing: -0.03em; margin: 32px 0 48px; }
+  .cta-close h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+  @media (max-width: 960px) { .three-paths, .flow-steps, .expgrid { grid-template-columns: 1fr 1fr; } .flow-steps::before { display: none; } }
+  @media (max-width: 640px) { .three-paths, .flow-steps, .expgrid { grid-template-columns: 1fr; } }
+</style></head>
 <body>
 
-<!-- NAV TOP -->
-<nav class="top-nav" id="topNav">
-  <a href="index.html" class="nav-brand">
-    <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-  </a>
-  <button class="menu-trigger" id="menuOpen">
-    <span class="menu-icon"><span></span><span></span></span>
-    Menú
-  </button>
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links">
+    <a href="expertos.html" class="link active">Expertos</a>
+    <a href="estudiantes.html" class="link">Estudiantes</a>
+    <a href="biblioteca.html" class="link">Biblioteca</a>
+    <a href="pedir.html" class="link">Pedir Refuerzo</a>
+  </div>
+  <button class="cta gold" onclick="location.href='dashboard-experto.html'">Entrar</button>
 </nav>
 
-<!-- MENU FULL-SCREEN -->
-<div class="menu-overlay" id="menuOverlay">
-  <div class="menu-inner">
-    <div class="menu-top">
-      <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-      <button class="menu-close" id="menuClose">
-        Cerrar
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-    </div>
+<header class="page-hero" data-screen-label="Experto · Hero">
+  <div class="inner">
+    <span class="section-tag">Para quien enseña</span>
+    <h1>Tú traes tu <em>cardumen</em>.<br>Nosotros construimos el Refuerzo.</h1>
+    <p class="lede">Tres formas de entrar — crear, curar, referir — y una misma promesa: dejar de regalar lo que sabes.</p>
+  </div>
+</header>
 
-    <div class="menu-body">
-      <ul class="menu-primary">
-        <li><a href="index.html#biblioteca">Biblioteca</a></li>
-        <li><a href="index.html#como">Cómo <em>funciona</em></a></li>
-        <li><a href="index.html#validacion">Quién <em>valida</em></a></li>
-        <li><a href="mi-cardumen.html">Entrar a <em>mi estudio</em></a></li>
-        <li><a href="pide-refuerzo.html">Pedir un <em>tema</em></a></li>
-        <li><a href="docentes.html">Para <em>docentes</em></a></li>
-        <li><a href="instituciones.html">Para <em>instituciones</em></a></li>
-        <li><a href="expertos.html">Para <em>expertos</em></a></li>
-      </ul>
-
-      <div class="menu-aside">
-        <div class="menu-aside-block">
-          <h4>¿ERES EXPERTO?</h4>
-          <p>Conversemos tu caso. Si hay sintonía, empezamos la producción la semana siguiente.</p>
-          <a href="https://wa.me/573001234567?text=Hola%20Cardumen%2C%20soy%20profesional%2Fcreador%20de%20contenido%20y%20me%20interesa%20saber%20c%C3%B3mo%20co-crear%20un%20Refuerzo." target="_blank" rel="noopener noreferrer" class="menu-aside-cta">
-            Escribir por WhatsApp
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M5 12h14M13 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-foot">
-      <div>
-        <a href="mailto:hola@cardumen.co">hola@cardumen.co</a>
-        <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-      </div>
-      <div class="tagline">Estudiamos juntos, llegamos lejos.</div>
+<section class="three-paths" data-screen-label="Tres caminos">
+  <div class="path">
+    <div class="num">01</div>
+    <div class="tag tag-gold" style="margin-top:14px">Creador</div>
+    <h3>Sube <em>contenido propio</em>.</h3>
+    <p class="desc">Tu Refuerzo, tu nombre, tu voz. Grabas, escribes, validas. El equipo editorial pule y publica.</p>
+    <div class="math">
+      <div class="math-row"><span>Precio del Refuerzo</span><span class="v">$180.000</span></div>
+      <div class="math-row"><span>Tu porcentaje</span><span class="v">70%</span></div>
+      <div class="math-row"><span>Por cada alumno</span><span class="v">$126.000</span></div>
+      <div class="math-row total"><span>100 alumnos</span><span class="v">$12.600.000</span></div>
     </div>
   </div>
-</div>
-
-<!-- BACK -->
-<div class="pitch-back">
-  <a href="index.html">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    Volver al inicio
-  </a>
-</div>
-
-<!-- PITCH -->
-<main class="pitch">
-
-  <section class="pitch-hero">
-    <span class="pitch-kicker">Para expertos y creadores</span>
-    <h1 class="pitch-title">Tu conocimiento merece <em>más que un Instagram.</em></h1>
-    <p class="pitch-lede">Eres influencer, consultor, creador de contenido o profesional reconocido en tu área. Tienes audiencia. Tienes experiencia. Hoy lo regalas en redes o lo vendes como curso grabado que envejece rápido. Cardumen te ofrece otro camino.</p>
-    <a href="https://wa.me/573001234567?text=Hola%20Cardumen%2C%20soy%20profesional%2Fcreador%20de%20contenido%20y%20me%20interesa%20saber%20c%C3%B3mo%20co-crear%20un%20Refuerzo." target="_blank" rel="noopener noreferrer" class="wa-btn">
-      <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Escribir por WhatsApp
-    </a>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Qué proponemos</span>
-    <h2>Un Refuerzo <em>con tu nombre</em>, hecho con nuestro rigor.</h2>
-    <p style="color: var(--cream-mute); font-size: 1.02rem; line-height: 1.7; max-width: 62ch;">
-      Construimos juntos un Refuerzo que lleva tu nombre, tu experiencia, tu rigor. Tú aportas el conocimiento. Nosotros aportamos producción editorial de alto nivel: redacción, ilustraciones, infografías propias, estructura pedagógica, quizzes, certificación.
-    </p>
-    <p style="color: var(--cream-mute); font-size: 1.02rem; line-height: 1.7; max-width: 62ch; margin-top: 1rem;">
-      Lo vendes a tu audiencia. Nosotros lo seguimos vendiendo a otros canales para siempre. Ambos ganamos cada vez que alguien compra.
-    </p>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Qué ganas</span>
-    <h2>Un activo, <em>no un curso.</em></h2>
-    <ul class="pitch-benefits">
-      <li>30 a 50 por ciento de comisión según tu nivel de aporte</li>
-      <li>Saldo acumulable para financiar más Refuerzos tuyos</li>
-      <li>Tu nombre destacado en el crédito y en marketing</li>
-      <li>Acceso a las nuevas audiencias que llegan a Cardumen</li>
-      <li>Un activo que genera ingresos recurrentes sin producir de nuevo</li>
-    </ul>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Matemática</span>
-    <h2>Lo que puede <em>representar.</em></h2>
-    <div class="pitch-math">
-      <div class="pitch-math-intro">Un Refuerzo tuyo vendido a 500 personas de tu audiencia en los primeros 6 meses.</div>
-      <div class="pitch-math-row">
-        <span class="label">Ingreso total</span>
-        <span class="value">$10.000.000</span>
-      </div>
-      <div class="pitch-math-row total">
-        <span class="label"><strong>Tu comisión al 40%</strong></span>
-        <span class="value">$4.000.000</span>
-      </div>
-      <p class="pitch-math-note">Y sigue vendiéndose después. A nuevas personas. En otras plataformas que activemos. Durante años.</p>
-    </div>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Cómo definimos tu comisión</span>
-    <h2>Tres niveles según <em>tu aporte real.</em></h2>
-    <div class="pitch-tiers">
-      <div class="pitch-tier">
-        <span class="pct">30%</span>
-        <p>Aportas tema, validas contenido, prestas nombre e imagen. Cardumen produce casi todo.</p>
-      </div>
-      <div class="pitch-tier">
-        <span class="pct">40%</span>
-        <p>Aportas tema, contenido base, validas producción completa, haces difusión activa en tu red.</p>
-      </div>
-      <div class="pitch-tier">
-        <span class="pct">50%</span>
-        <p>Co-autoría real. Escribes junto con nuestro equipo editorial, aportas investigación propia, lideras la difusión.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="pitch-section">
-    <span class="pitch-section-overline">Siguientes pasos</span>
-    <h2>Una conversación <em>y arrancamos.</em></h2>
-    <p style="color: var(--cream-mute); font-size: 1rem; line-height: 1.65; max-width: 58ch;">
-      Escríbenos. Conversamos tu caso. Si hay sintonía, empezamos la producción la semana siguiente.
-    </p>
-  </section>
-
-  <section class="pitch-cta-final">
-    <h2>Conversemos.</h2>
-    <p class="sub">30 minutos. Sin compromiso.</p>
-    <a href="https://wa.me/573001234567?text=Hola%20Cardumen%2C%20soy%20profesional%2Fcreador%20de%20contenido%20y%20me%20interesa%20saber%20c%C3%B3mo%20co-crear%20un%20Refuerzo." target="_blank" rel="noopener noreferrer" class="wa-btn">
-      <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Escribir por WhatsApp
-    </a>
-    <p class="subtext">O escríbenos a <a href="mailto:hola@cardumen.co">hola@cardumen.co</a></p>
-  </section>
-
-</main>
-
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <img src="assets/logo/cardumen-white.png" alt="Cardumen">
-      <p>Estudiamos juntos, llegamos lejos.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Explorar</h4>
-      <a href="index.html#biblioteca">Biblioteca</a>
-      <a href="pide-refuerzo.html">Pedir un tema</a>
-      <a href="index.html#como">Cómo funciona</a>
-    </div>
-    <div class="footer-col">
-      <h4>Cardumen</h4>
-      <a href="docentes.html">Para docentes</a>
-      <a href="instituciones.html">Para instituciones</a>
-      <a href="expertos.html">Para expertos</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contacto</h4>
-      <a href="mailto:hola@cardumen.co">hola@cardumen.co</a>
-      <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+  <div class="path">
+    <div class="num">02</div>
+    <div class="tag" style="margin-top:14px;color:var(--coral);border-color:rgba(232,136,112,0.3);background:rgba(232,136,112,0.08)">Curador</div>
+    <h3>Cura un <em>Refuerzo existente</em>.</h3>
+    <p class="desc">Validas, ilustras, corriges casos. El editorial aprueba. Tu nombre queda firmando.</p>
+    <div class="math">
+      <div class="math-row"><span>Precio del Refuerzo</span><span class="v">$180.000</span></div>
+      <div class="math-row"><span>Tu porcentaje</span><span class="v">25%</span></div>
+      <div class="math-row"><span>Por cada alumno</span><span class="v">$45.000</span></div>
+      <div class="math-row total"><span>100 alumnos</span><span class="v">$4.500.000</span></div>
     </div>
   </div>
-  <div class="footer-bottom">
-    <div>© 2026 Cardumen · La Dorada, Caldas · Colombia</div>
+  <div class="path">
+    <div class="num">03</div>
+    <div class="tag" style="margin-top:14px;color:var(--navy);border-color:rgba(61,107,158,0.3);background:rgba(61,107,158,0.08)">Referente</div>
+    <h3>Trae tu <em>audiencia</em>.</h3>
+    <p class="desc">Link único con tu nombre. Captions pre-escritos. Comisión recurrente mientras tu gente estudie.</p>
+    <div class="math">
+      <div class="math-row"><span>Precio del Refuerzo</span><span class="v">$180.000</span></div>
+      <div class="math-row"><span>Tu porcentaje</span><span class="v">15%</span></div>
+      <div class="math-row"><span>Por cada alumno</span><span class="v">$27.000</span></div>
+      <div class="math-row total"><span>100 alumnos</span><span class="v">$2.700.000</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="flow-section" data-screen-label="Cómo pedimos juntos">
+  <div class="inner">
+    <span class="section-tag">Cómo pedimos un Refuerzo juntos</span>
+    <h2>Cuatro pasos, <em>ningún atajo</em>.</h2>
+    <div class="flow-steps">
+      <div class="fstep"><div class="n">01</div><h4>Tú <em>propones</em></h4><p>Un tema que dominas y que nadie más está explicando bien.</p></div>
+      <div class="fstep"><div class="n">02</div><h4>El editorial <em>valida</em></h4><p>¿Hay demanda? ¿Hay hueco en la biblioteca? En 72h te respondemos.</p></div>
+      <div class="fstep"><div class="n">03</div><h4>Construimos <em>juntos</em></h4><p>Guion, grabación, artefactos, casos. 3–6 semanas con un editor asignado.</p></div>
+      <div class="fstep"><div class="n">04</div><h4>Publica y <em>cobra</em></h4><p>Queda en biblioteca. Comisión recurrente por cada alumno que lo termine.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="roster" data-screen-label="Expertos ya en el cardumen">
+  <div class="head">
     <div>
-      <a href="#" style="margin-right: 1rem;">Términos</a>
-      <a href="#">Privacidad</a>
+      <span class="section-tag">Expertos ya en el cardumen</span>
+      <h2>Los que ya <em>dejaron de regalar</em>.</h2>
+    </div>
+    <div class="meta"><span class="n">14</span>Expertos activos<br>6 Refuerzos publicados · 8 en construcción</div>
+  </div>
+  <div class="expgrid">
+    <div class="exp"><div class="num">E·001</div><div class="nm">Dra. <em>Lina Parra</em></div><div class="niche">Anatomía aplicada · Bogotá</div><div class="ref">R·001 · Anatomía Estética</div></div>
+    <div class="exp"><div class="num">E·002</div><div class="nm">Eli <em>Ramírez</em></div><div class="niche">Drenaje linfático · Cali</div><div class="ref">R·002 · Drenaje Manual</div></div>
+    <div class="exp"><div class="num">E·003</div><div class="nm">Carolina <em>Vélez</em></div><div class="niche">Protocolos clínicos · Medellín</div><div class="ref">R·003 · Consulta · en cola</div></div>
+    <div class="exp"><div class="num">E·004</div><div class="nm">Dr. Javier <em>Ortiz</em></div><div class="niche">Dermatología · Barranquilla</div><div class="ref">R·004 · La Piel · en cola</div></div>
+    <div class="exp"><div class="num">E·005</div><div class="nm">Mariana <em>Gómez</em></div><div class="niche">Comunicación clínica · Bogotá</div><div class="ref">R·005 · Voz · en cola</div></div>
+    <div class="exp"><div class="num">E·006</div><div class="nm">CP. Andrés <em>Salazar</em></div><div class="niche">Contaduría aplicada · Manizales</div><div class="ref">R·006 · Facturación · próx.</div></div>
+    <div class="exp"><div class="num">E·007</div><div class="nm">Dra. Paula <em>Arango</em></div><div class="niche">Nutrición clínica · Medellín</div><div class="ref">En curaduría</div></div>
+    <div class="exp"><div class="num">E·008</div><div class="nm">Felipe <em>Mesa</em></div><div class="niche">Mecánica automotriz · Envigado</div><div class="ref">En construcción</div></div>
+    <div class="exp"><div class="num">E·009</div><div class="nm">Sofía <em>Henao</em></div><div class="niche">Derecho laboral · Bogotá</div><div class="ref">En construcción</div></div>
+  </div>
+</section>
+
+<section class="cta-close" data-screen-label="CTA final">
+  <div class="inner">
+    <div class="kicker-dot">El cardumen crece</div>
+    <h2>Empieza tu ruta <em>como experto</em>.</h2>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a class="btn-gold" href="pedir.html">Proponer un Refuerzo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <a class="btn-ghost" href="dashboard-experto.html">Entrar al panel</a>
     </div>
   </div>
+</section>
+
+<footer class="editfoot">
+  <span>© 2026 · Cardumen</span>
+  <em>— el cardumen —</em>
+  <span>La Dorada · Colombia</span>
 </footer>
-
-<script>
-  const nav = document.getElementById('topNav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 20);
-  });
-
-  const menu = document.getElementById('menuOverlay');
-  document.getElementById('menuOpen').addEventListener('click', () => {
-    menu.classList.add('open');
-    document.body.classList.add('menu-open');
-  });
-  document.getElementById('menuClose').addEventListener('click', () => {
-    menu.classList.remove('open');
-    document.body.classList.remove('menu-open');
-  });
-  menu.querySelectorAll('.menu-primary a').forEach(a => {
-    a.addEventListener('click', () => {
-      menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
-    });
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && menu.classList.contains('open')) {
-      menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
-    }
-  });
-  (function() {
-    try {
-      const s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
-      const entrar = document.querySelector('.menu-primary a[href="mi-cardumen.html"]');
-      if (entrar && !(s && s.email)) entrar.setAttribute('href', 'login.html');
-    } catch (_) {}
-  })();
-</script>
-
-</body>
-</html>
+</body></html>
