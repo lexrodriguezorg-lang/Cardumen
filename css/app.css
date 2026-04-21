@@ -3,8 +3,17 @@
    Use alongside colors_and_type.css.
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; overflow-x: hidden; }
+html { overflow-x: clip; -webkit-text-size-adjust: 100%; }
+body { margin: 0; overflow-x: clip; max-width: 100%; }
+/* Smooth scroll solo cuando el usuario pide un anchor (no fuerza todo el scroll global) */
+@media (prefers-reduced-motion: no-preference) {
+  :root { scroll-behavior: auto; }
+  html:focus-within { scroll-behavior: smooth; }
+}
+/* Prevenir overflow horizontal por texto largo o imágenes */
+img, svg, video { max-width: 100%; height: auto; display: block; }
+/* Hereda scroll-padding para que cualquier anchor deje espacio al nav fijo */
+html { scroll-padding-top: 80px; }
 ::selection { background: var(--gold); color: var(--ink); }
 
 /* ---------- App nav (reused) ---------- */
