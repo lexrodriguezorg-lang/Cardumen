@@ -17,7 +17,7 @@ body { margin: 0; overflow-x: hidden; }
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
   border-bottom: 1px solid var(--cream-line);
 }
-.appnav .logo { height: 30px; width: auto; }
+.appnav .logo { height: 42px; width: auto; display: block; }
 .appnav .links { display: flex; gap: 28px; align-items: center; }
 .appnav .link {
   font-family: var(--font-body); font-size: 13px; font-weight: 500;
