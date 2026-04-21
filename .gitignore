@@ -6,3 +6,8 @@ Thumbs.db
 node_modules/
 *.log
 .design-tmp/
+
+# one-off logo crop tooling
+node_modules/
+package.json
+package-lock.json
