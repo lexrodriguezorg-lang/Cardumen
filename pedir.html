@@ -166,8 +166,8 @@
           <div class="qline grand"><span>Inversión por alumno</span><span class="v">$180.000</span></div>
         </div>
         <div class="quote-actions">
-          <button class="btn-gold" style="flex:1;justify-content:center">Enviar solicitud <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
-          <button class="btn-ghost">Guardar borrador</button>
+          <button class="btn-gold" id="submitBtn" style="flex:1;justify-content:center">Enviar solicitud <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+          <button class="btn-ghost" id="draftBtn">Guardar borrador</button>
         </div>
         <div class="disclaimer">El editorial te responde en 72h con el experto asignado, el guion propuesto y la cotización final.</div>
       </div>
@@ -177,14 +177,90 @@
 </div>
 
 <script>
+(function() {
+  'use strict';
+
+  // ---- Chips single-select ----
   const chips = document.querySelectorAll('.chips:not(.multiselect) .chip');
   chips.forEach(c => c.addEventListener('click', () => {
     c.parentElement.querySelectorAll('.chip').forEach(x => x.classList.remove('selected'));
     c.classList.add('selected');
   }));
+
+  // ---- Chips multi-select ----
   document.querySelectorAll('.multiselect .chip').forEach(c => c.addEventListener('click', () => c.classList.toggle('selected')));
+
+  // ---- Range slider ----
   const range = document.getElementById('people');
   const val = document.querySelector('.slider-val');
-  range.addEventListener('input', e => val.innerHTML = `${e.target.value} <em>personas</em>`);
+  range.addEventListener('input', e => val.innerHTML = e.target.value + ' <em>personas</em>');
+
+  // ---- Capturar estado al submit ----
+  function getSelected(groupEl) {
+    const el = groupEl.querySelector('.chip.selected');
+    return el ? el.textContent.replace(/\s+/g, ' ').trim() : '—';
+  }
+  function getAllSelected(groupEl) {
+    return Array.from(groupEl.querySelectorAll('.chip.selected')).map(el => el.textContent.replace(/\s+/g, ' ').trim());
+  }
+
+  const session = (function() {
+    try { return JSON.parse(localStorage.getItem('cardumen_session') || 'null'); }
+    catch (_) { return null; }
+  })();
+
+  function buildPayload() {
+    const groups = document.querySelectorAll('.chips');
+    const nivel = getSelected(groups[0]);
+    const audiencia = getSelected(groups[1]);
+    const recursos = getAllSelected(groups[2]);
+    const personas = parseInt(range.value, 10);
+    const topic = document.querySelector('.user-msg').textContent.trim();
+
+    // Serial pseudo-único
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const serial = 'CDM-P-' + now.getFullYear() + '-' + pad(now.getMonth() + 1) + pad(now.getDate()) + pad(now.getHours()) + pad(now.getMinutes());
+
+    return {
+      serial: serial,
+      createdAt: now.toISOString(),
+      topic: topic,
+      nivel: nivel,
+      audiencia: audiencia,
+      personas: personas,
+      recursos: recursos,
+      contactEmail: session ? session.email : null,
+      status: 'submitted'
+    };
+  }
+
+  document.getElementById('submitBtn').addEventListener('click', e => {
+    e.preventDefault();
+    const payload = buildPayload();
+    try {
+      localStorage.setItem('cardumen_last_pedido', JSON.stringify(payload));
+      // histórico
+      let hist = [];
+      try { hist = JSON.parse(localStorage.getItem('cardumen_pedidos') || '[]'); } catch (_) {}
+      hist.push(payload);
+      localStorage.setItem('cardumen_pedidos', JSON.stringify(hist));
+    } catch (_) {}
+    window.location.href = 'confirmacion-pedido.html';
+  });
+
+  document.getElementById('draftBtn').addEventListener('click', e => {
+    e.preventDefault();
+    const payload = buildPayload();
+    payload.status = 'draft';
+    try { localStorage.setItem('cardumen_draft_pedido', JSON.stringify(payload)); } catch (_) {}
+    // Toast simple inline
+    const t = document.createElement('div');
+    t.textContent = '✓ Borrador guardado en tu navegador';
+    t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#1F1A13;color:#FAF5E9;border:1px solid rgba(212,169,74,0.3);padding:14px 22px;border-radius:10px;font-family:var(--font-body);font-size:13.5px;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,0.4)';
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2600);
+  });
+})();
 </script>
 </body></html>

@@ -57,7 +57,7 @@
     <a href="biblioteca.html" class="link">Biblioteca</a>
     <a href="pedir.html" class="link active">Pedir Refuerzo</a>
   </div>
-  <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--ink);font-size:14px">VM</div>
+  <a href="perfil.html" id="navAvatar" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--ink);font-size:14px;text-decoration:none">—</a>
 </nav>
 
 <div class="wrap" data-screen-label="Confirmacion Pedido">
@@ -75,12 +75,13 @@
   </header>
 
   <section class="receipt">
-    <div class="rk">comprobante<em style="margin-left:10px">#CDM-P-2026-0314</em></div>
-    <div class="r-row"><div class="lab">recibido</div><div class="val">14 · marzo · 2026 · <em>11:47 COL</em></div></div>
-    <div class="r-row"><div class="lab">tu pedido</div><div class="val"><span class="quote">“Quiero entender bien la anatomía del cuello para drenajes linfáticos — no tanto el dibujo, sino dónde NO empujar y por qué.”</span></div></div>
-    <div class="r-row"><div class="lab">área</div><div class="val">Medicina estética · <em>anatomía aplicada</em></div></div>
-    <div class="r-row"><div class="lab">urgencia</div><div class="val">Moderada — <em>esta temporada</em></div></div>
-    <div class="r-row"><div class="lab">contacto</div><div class="val">valentina.morales@gmail.com</div></div>
+    <div class="rk">comprobante<em id="rSerial" style="margin-left:10px">—</em></div>
+    <div class="r-row"><div class="lab">recibido</div><div class="val" id="rDate">—</div></div>
+    <div class="r-row"><div class="lab">tu pedido</div><div class="val"><span class="quote" id="rTopic">—</span></div></div>
+    <div class="r-row"><div class="lab">nivel</div><div class="val" id="rNivel">—</div></div>
+    <div class="r-row"><div class="lab">audiencia</div><div class="val" id="rAudiencia">—</div></div>
+    <div class="r-row"><div class="lab">recursos</div><div class="val" id="rRecursos">—</div></div>
+    <div class="r-row"><div class="lab">contacto</div><div class="val" id="rContact">—</div></div>
   </section>
 
   <section class="steps">
@@ -112,5 +113,55 @@
   <div class="closing">— Mientras esperas, <em>no te quedes quieta</em>. Hay 168 Refuerzos en la biblioteca; alguno seguramente te esté llamando.</div>
 </div>
 
-<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— lo leímos. Ahora pensamos. —</em><span>#CDM-P-2026-0314</span></footer>
+<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— lo leímos. Ahora pensamos. —</em><span id="footSerial">—</span></footer>
+
+<script>
+(function() {
+  'use strict';
+  const session = (function() {
+    try { return JSON.parse(localStorage.getItem('cardumen_session') || 'null'); }
+    catch (_) { return null; }
+  })();
+
+  // Inicial del avatar
+  const avatarEl = document.getElementById('navAvatar');
+  if (session) {
+    const fullName = (session.name || '').trim() || session.email.split('@')[0];
+    const parts = fullName.split(/\s+/).filter(Boolean);
+    const ini = parts.length === 0 ? '?' : parts.length === 1 ? parts[0][0] : (parts[0][0] + parts[parts.length - 1][0]);
+    avatarEl.textContent = ini.toUpperCase();
+  }
+
+  // Leer pedido
+  let pedido = null;
+  try { pedido = JSON.parse(localStorage.getItem('cardumen_last_pedido') || 'null'); } catch (_) {}
+
+  // Fallback si el user llegó aquí sin haber pedido
+  if (!pedido) {
+    pedido = {
+      serial: 'CDM-P-DEMO-0000',
+      createdAt: new Date().toISOString(),
+      topic: '"Quiero entender bien la anatomía del cuello para drenajes linfáticos — no tanto el dibujo, sino dónde NO empujar y por qué."',
+      nivel: 'Intermedio',
+      audiencia: 'Para mi clase',
+      recursos: ['Videos editoriales', 'Artefactos interactivos', 'Tutor IA', 'Certificación firmada'],
+      contactEmail: session ? session.email : 'tu correo'
+    };
+  }
+
+  const d = new Date(pedido.createdAt);
+  const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const pad = n => String(n).padStart(2, '0');
+  const fmtDate = d.getDate() + ' · ' + months[d.getMonth()] + ' · ' + d.getFullYear() + ' · <em>' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ' COL</em>';
+
+  document.getElementById('rSerial').textContent = '#' + pedido.serial;
+  document.getElementById('rDate').innerHTML = fmtDate;
+  document.getElementById('rTopic').textContent = '"' + (pedido.topic || '—') + '"';
+  document.getElementById('rNivel').textContent = pedido.nivel;
+  document.getElementById('rAudiencia').textContent = pedido.audiencia + (pedido.personas ? ' · ' + pedido.personas + ' personas' : '');
+  document.getElementById('rRecursos').textContent = (pedido.recursos && pedido.recursos.length) ? pedido.recursos.join(' · ') : '—';
+  document.getElementById('rContact').textContent = pedido.contactEmail || '—';
+  document.getElementById('footSerial').textContent = '#' + pedido.serial;
+})();
+</script>
 </body></html>

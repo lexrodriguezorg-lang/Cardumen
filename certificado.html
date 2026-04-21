@@ -2,6 +2,15 @@
 <html lang="es"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Certificado — Cardumen</title>
+<script>
+  /* Auth guard — corre antes del render */
+  (function() {
+    try {
+      var s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!s || !s.email) window.location.replace('login.html');
+    } catch (_) { window.location.replace('login.html'); }
+  })();
+</script>
 <link rel="stylesheet" href="css/colors_and_type.css">
 <link rel="stylesheet" href="css/app.css">
 <style>
@@ -73,16 +82,16 @@
   <div class="cert">
     <div class="cert-head">
       <div class="mark"><em>Cardumen</em></div>
-      <div class="n">Nº de serie<em>CDM-2026-R001-08142</em></div>
+      <div class="n">Nº de serie<em id="certSerial">—</em></div>
     </div>
 
     <div class="cert-body">
       <div class="eyebrow">— certificado de lectura —</div>
       <div class="for">Se deja constancia de que</div>
-      <div class="name">Valentina Morales Ruiz</div>
+      <div class="name" id="certName">—</div>
       <div class="complete">completó el Refuerzo</div>
-      <div class="ref">Anatomía <em>para</em> inyectores</div>
-      <div class="by">— escrito por el Dr. Daniel Arias —</div>
+      <div class="ref">Anatomía aplicada a la <em>estética</em></div>
+      <div class="by">— curado por la Dra. Lina Parra —</div>
 
       <div class="seal">
         <svg viewBox="0 0 24 24"><path d="M2 12c3-4 7-6 11-6s7 2 9 4c-2 2-5 4-9 4s-8-2-11-2zm13-2a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg>
@@ -91,11 +100,11 @@
 
     <div class="cert-foot">
       <div class="sig">
-        <div class="sc">Daniel Arias</div>
-        <div class="sn">Dr. Daniel Arias</div>
-        <div class="sr">— autor del Refuerzo</div>
+        <div class="sc">Lina Parra</div>
+        <div class="sn">Dra. Lina Parra</div>
+        <div class="sr">— curadora del Refuerzo</div>
       </div>
-      <div class="date">Otorgado el<em>14 · marzo · 2026</em></div>
+      <div class="date">Otorgado el<em id="certDate">—</em></div>
       <div class="sig" style="text-align:right">
         <div class="sc">Cardumen</div>
         <div class="sn">Cardumen</div>
@@ -108,9 +117,64 @@
 </div>
 
 <div class="verify-strip">
-  <div class="hash">Verificación pública<em style="margin-left:10px">cardumen.co/v/CDM-2026-R001-08142</em></div>
+  <div class="hash">Verificación pública<em id="certVerify" style="margin-left:10px">—</em></div>
   <a href="#">Verificar en cadena →</a>
 </div>
 
-<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— un comprobante de lectura, no un diploma —</em><span>R·001</span></footer>
+<div id="gateWarn" style="display:none;max-width:640px;margin:40px auto;padding:24px 28px;border:1px solid var(--coral);border-radius:var(--r-lg);background:rgba(232,136,112,0.06);color:var(--cream);font-family:var(--font-body);font-size:14px;line-height:1.55;text-align:center">
+  <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.22em;color:var(--coral);text-transform:uppercase;margin-bottom:10px">— certificado no emitido aún —</div>
+  <p style="margin:0 0 14px">Este certificado se emite al completar los 9 módulos del Refuerzo R·001. Estás viendo una vista previa. Cuando termines el Refuerzo, el sello queda firmado y el número de serie es único para ti.</p>
+  <a href="refuerzo-r001.html" style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase">Volver al Refuerzo →</a>
+</div>
+
+<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— un comprobante de lectura, no un diploma —</em><span id="footNote">R·001</span></footer>
+
+<script src="js/progress.js"></script>
+<script>
+(function() {
+  'use strict';
+  const session = (function() {
+    try { return JSON.parse(localStorage.getItem('cardumen_session') || 'null'); }
+    catch (_) { return null; }
+  })();
+  if (!session) return;
+
+  const fullName = (session.name || '').trim() || session.email.split('@')[0];
+  document.getElementById('certName').textContent = fullName;
+
+  // Fecha otorgada — usar hoy si no hay fecha guardada antes
+  const dateKey = 'cardumen_cert_r001_date';
+  let issuedIso = localStorage.getItem(dateKey);
+  if (!issuedIso) {
+    issuedIso = new Date().toISOString();
+    // solo persiste si R·001 está completo
+  }
+  const d = new Date(issuedIso);
+  const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const fmtDate = d.getDate() + ' · ' + months[d.getMonth()] + ' · ' + d.getFullYear();
+  document.getElementById('certDate').textContent = fmtDate;
+
+  // Serial determinístico por email (pseudo-hash corto)
+  function shortHash(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) { h = (h * 31 + str.charCodeAt(i)) >>> 0; }
+    return h.toString(36).toUpperCase().padStart(5, '0').slice(-5);
+  }
+  const serial = 'CDM-' + d.getFullYear() + '-R001-' + shortHash(session.email);
+  document.getElementById('certSerial').textContent = serial;
+  document.getElementById('certVerify').textContent = 'cardumen.co/v/' + serial;
+  document.getElementById('footNote').textContent = serial;
+
+  // Gate: si R·001 no está 100%, mostrar aviso + persistir fecha solo si completo
+  const TOTAL = 9;
+  const progress = CardumenProgress.init('estetica-anatomia');
+  const done = Array.from({length: TOTAL}, (_, i) => i + 1).filter(n => progress.isCompleted(n)).length;
+  const isComplete = done === TOTAL;
+  if (!isComplete) {
+    document.getElementById('gateWarn').style.display = 'block';
+  } else if (!localStorage.getItem(dateKey)) {
+    localStorage.setItem(dateKey, issuedIso);
+  }
+})();
+</script>
 </body></html>

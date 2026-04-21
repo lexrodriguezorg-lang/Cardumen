@@ -54,6 +54,8 @@
   .card .info .row .p { font-family: var(--font-display); font-weight: 300; font-size: 1.2rem; color: var(--cream); letter-spacing: -0.01em; }
 
   .soon { opacity: .55; cursor: default; pointer-events: none; }
+  .card.hide { display: none; }
+  .owned-badge { position: absolute; top: 18px; right: 18px; padding: 4px 10px; border-radius: var(--r-pill); background: rgba(143,184,138,0.18); border: 1px solid #8fb88a; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.22em; color: #8fb88a; text-transform: uppercase; font-weight: 500; }
 
   @media (max-width: 960px) { .grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .bib-head .top { flex-direction: column; align-items: flex-start; } }
@@ -79,26 +81,26 @@
     </div>
     <div class="meta"><span class="n">6</span>En biblioteca<br>+3 en construcción · +12 solicitados</div>
   </div>
-  <div class="filters">
-    <div class="fgroup"><span class="flabel">Nivel</span>
-      <button class="fpill active">Todos</button>
-      <button class="fpill">Básico</button>
-      <button class="fpill">Intermedio</button>
-      <button class="fpill">Especializado</button>
+  <div class="filters" id="filters">
+    <div class="fgroup" data-group="nivel"><span class="flabel">Nivel</span>
+      <button class="fpill active" data-filter="*">Todos</button>
+      <button class="fpill" data-filter="basico">Básico</button>
+      <button class="fpill" data-filter="intermedio">Intermedio</button>
+      <button class="fpill" data-filter="especializado">Especializado</button>
     </div>
-    <div class="fgroup"><span class="flabel">Tema</span>
-      <button class="fpill active">Todos</button>
-      <button class="fpill">Estética</button>
-      <button class="fpill">Clínica</button>
-      <button class="fpill">Administrativo</button>
+    <div class="fgroup" data-group="tema"><span class="flabel">Tema</span>
+      <button class="fpill active" data-filter="*">Todos</button>
+      <button class="fpill" data-filter="estetica">Estética</button>
+      <button class="fpill" data-filter="clinica">Clínica</button>
+      <button class="fpill" data-filter="administrativo">Administrativo</button>
     </div>
-    <div class="bib-sort">Orden · <span>Más nuevos</span></div>
+    <div class="bib-sort">Orden · <span id="sortLabel">Más nuevos</span> · <span id="visibleCount" style="color:var(--cream-soft)">—</span></div>
   </div>
 </header>
 
 <section class="grid">
 
-  <a class="card" href="refuerzo-r001.html">
+  <a class="card" data-ref="estetica-anatomia" data-nivel="intermedio" data-tema="estetica" href="refuerzo-r001.html">
     <div class="cover cover-r1">
       <div class="corner">R·<em>001</em></div>
       <div class="badge"><span class="tag tag-gold">Destacado</span></div>
@@ -120,7 +122,7 @@
     </div>
   </a>
 
-  <a class="card" href="pedir.html">
+  <a class="card" data-nivel="basico" data-tema="estetica" href="pedir.html">
     <div class="cover cover-r2">
       <div class="corner">R·<em>002</em></div>
       <div class="cover-art">
@@ -139,7 +141,7 @@
     </div>
   </a>
 
-  <a class="card" href="pedir.html">
+  <a class="card" data-nivel="especializado" data-tema="clinica" href="pedir.html">
     <div class="cover cover-r3">
       <div class="corner">R·<em>003</em></div>
       <div class="cover-art">
@@ -158,7 +160,7 @@
     </div>
   </a>
 
-  <a class="card" href="pedir.html">
+  <a class="card" data-nivel="intermedio" data-tema="estetica" href="pedir.html">
     <div class="cover cover-r4">
       <div class="corner">R·<em>004</em></div>
       <div class="cover-art">
@@ -178,7 +180,7 @@
     </div>
   </a>
 
-  <a class="card" href="pedir.html">
+  <a class="card" data-nivel="basico" data-tema="clinica" href="pedir.html">
     <div class="cover cover-r5">
       <div class="corner">R·<em>005</em></div>
       <div class="cover-art">
@@ -198,7 +200,7 @@
     </div>
   </a>
 
-  <a class="card" href="pedir.html">
+  <a class="card" data-nivel="basico" data-tema="administrativo" href="pedir.html">
     <div class="cover cover-r6">
       <div class="corner">R·<em>006</em></div>
       <div class="cover-art">
@@ -217,7 +219,7 @@
     </div>
   </a>
 
-  <div class="card soon">
+  <div class="card soon" data-nivel="intermedio" data-tema="clinica">
     <div class="cover cover-r7">
       <div class="corner">R·<em>007</em></div>
       <div class="badge"><span class="tag">Próximamente</span></div>
@@ -230,7 +232,7 @@
     </div>
   </div>
 
-  <div class="card soon">
+  <div class="card soon" data-nivel="intermedio" data-tema="administrativo">
     <div class="cover cover-r8">
       <div class="corner">R·<em>008</em></div>
       <div class="badge"><span class="tag">Próximamente</span></div>
@@ -243,7 +245,7 @@
     </div>
   </div>
 
-  <div class="card soon">
+  <div class="card soon" data-nivel="especializado" data-tema="administrativo">
     <div class="cover cover-r9">
       <div class="corner">R·<em>009</em></div>
       <div class="badge"><span class="tag">Próximamente</span></div>
@@ -263,4 +265,58 @@
   <em>— el cardumen —</em>
   <span>La Dorada · Colombia</span>
 </footer>
+
+<script>
+(function() {
+  'use strict';
+  const state = { nivel: '*', tema: '*' };
+  const grid = document.querySelector('.grid');
+  const cards = Array.from(grid.querySelectorAll('.card'));
+  const countEl = document.getElementById('visibleCount');
+
+  // Badge "en tu cardumen" si hay sesión con acceso a ese refuerzo
+  const session = (function() {
+    try { return JSON.parse(localStorage.getItem('cardumen_session') || 'null'); }
+    catch (_) { return null; }
+  })();
+  if (session && Array.isArray(session.refuerzos)) {
+    cards.forEach(c => {
+      const ref = c.dataset.ref;
+      if (ref && session.refuerzos.indexOf(ref) > -1) {
+        const existing = c.querySelector('.badge');
+        const badge = document.createElement('div');
+        badge.className = 'owned-badge';
+        badge.textContent = '✓ En tu cardumen';
+        if (existing) existing.remove(); // reemplaza "Destacado" si el user ya lo tiene
+        c.querySelector('.cover').appendChild(badge);
+      }
+    });
+  }
+
+  function apply() {
+    let visible = 0;
+    cards.forEach(c => {
+      const nivel = c.dataset.nivel || '';
+      const tema = c.dataset.tema || '';
+      const show = (state.nivel === '*' || nivel === state.nivel) && (state.tema === '*' || tema === state.tema);
+      c.classList.toggle('hide', !show);
+      if (show) visible++;
+    });
+    countEl.textContent = visible + ' visible' + (visible !== 1 ? 's' : '');
+  }
+  apply();
+
+  document.querySelectorAll('.fgroup').forEach(group => {
+    const key = group.dataset.group;
+    group.querySelectorAll('.fpill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        group.querySelectorAll('.fpill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state[key] = btn.dataset.filter;
+        apply();
+      });
+    });
+  });
+})();
+</script>
 </body></html>
