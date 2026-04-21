@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardumen · Mapa del producto</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); min-height: 100vh; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 120px 6vw 100px; }
+  .head { margin-bottom: 72px; padding-bottom: 40px; border-bottom: 1px solid var(--cream-line); }
+  .head .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); display: inline-flex; align-items: center; gap: 10px; }
+  .head .k::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+  .head h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(3rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.035em; margin: 28px 0 20px; max-width: 18ch; }
+  .head h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .head .sub { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.3rem; color: var(--cream-soft); max-width: 52ch; line-height: 1.45; }
+
+  .group { margin-bottom: 64px; }
+  .group-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--cream-mute); margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid var(--cream-line); display: flex; justify-content: space-between; }
+  .group-label em { color: var(--gold); font-style: normal; font-family: var(--font-display); text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 400; }
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .c { background: var(--ink-2); border: 1px solid var(--cream-line); border-radius: var(--r-2xl); padding: 26px; transition: all .3s var(--ease-out); text-decoration: none; display: flex; flex-direction: column; gap: 14px; min-height: 200px; position: relative; overflow: hidden; }
+  .c:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .c .num { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .c h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.45rem; color: var(--cream); letter-spacing: -0.02em; margin: 0; line-height: 1.1; }
+  .c h3 em { font-style: italic; color: var(--gold); }
+  .c p { font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--cream-soft); margin: 0; flex: 1; }
+  .c .foot { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-mute); display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid var(--cream-line); }
+  .c .foot .arr { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--cream-line); display: flex; align-items: center; justify-content: center; transition: all .2s; color: var(--cream); }
+  .c:hover .foot .arr { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+  @media (max-width: 960px) { .cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+</style></head>
+<body>
+
+<nav class="appnav">
+  <a href="index.html"><img src="assets/logo/cardumen-horizontal.svg" alt="Cardumen" class="logo"></a>
+  <div class="links"><a href="mapa.html" class="link active">Mapa</a></div>
+  <button class="cta">v1</button>
+</nav>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="k">Cardumen · Mapa del producto</div>
+    <h1>Veinte pantallas, <em>un ecosistema</em>.</h1>
+    <p class="sub">— el recorrido completo, en el orden en que lo vive el usuario. Abre cualquiera para revisar.</p>
+  </header>
+
+  <div class="group">
+    <div class="group-label"><span>00 · Público</span><em>el primer contacto</em></div>
+    <div class="cards">
+      <a class="c" href="index.html">
+        <div class="num">01</div><h3>Landing <em>pública</em></h3>
+        <p>El hero editorial con la bifurcación a experto o estudiante. Punto de entrada.</p>
+        <div class="foot"><span>Landing</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="expertos.html">
+        <div class="num">02</div><h3>Página <em>expertos</em></h3>
+        <p>Tres caminos: creador, curador, referente. Matemática de ingresos + flujo de 4 pasos.</p>
+        <div class="foot"><span>Público</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="estudiantes.html">
+        <div class="num">03</div><h3>Página <em>estudiantes</em></h3>
+        <p>Tres accesos: pedir, biblioteca, ruta institucional. Cuatro beneficios + demos.</p>
+        <div class="foot"><span>Público</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label"><span>01 · Descubrimiento</span><em>entrar a la biblioteca</em></div>
+    <div class="cards">
+      <a class="c" href="pedir.html">
+        <div class="num">04</div><h3>Pedir un <em>Refuerzo</em></h3>
+        <p>Flujo conversacional de 5 pasos. Termina con cotización estimada.</p>
+        <div class="foot"><span>Chat guiado</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="biblioteca.html">
+        <div class="num">05</div><h3>Biblioteca de <em>Refuerzos</em></h3>
+        <p>Grid editorial. 6 publicados, 3 en construcción. Filtros mínimos.</p>
+        <div class="foot"><span>Catálogo</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="refuerzo-r001.html">
+        <div class="num">06</div><h3>Portada · <em>R·001</em></h3>
+        <p>Anatomía aplicada a la estética. 9 módulos, artefactos, contador de alumnos.</p>
+        <div class="foot"><span>Refuerzo</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label"><span>02 · Estudio</span><em>donde el alumno pasa el tiempo</em></div>
+    <div class="cards">
+      <a class="c" href="modulo.html">
+        <div class="num">07</div><h3>Vista de <em>módulo</em></h3>
+        <p>Módulo 2 · Anatomía abdominal. 3 columnas, 2 artefactos interactivos, notas.</p>
+        <div class="foot"><span>La clave</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="tutor.html">
+        <div class="num">08</div><h3>Tutor <em>IA abierto</em></h3>
+        <p>Panel lateral editorial. Conversación con contexto del módulo.</p>
+        <div class="foot"><span>Chat</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="dashboard-estudiante.html">
+        <div class="num">09</div><h3>Dashboard <em>estudiante</em></h3>
+        <p>Refuerzos activos · certificados coleccionables · ruta IA · notas · saldo.</p>
+        <div class="foot"><span>Logueado</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label"><span>03 · Monetización</span><em>el experto en control</em></div>
+    <div class="cards">
+      <a class="c" href="dashboard-experto.html">
+        <div class="num">10</div><h3>Dashboard <em>experto</em></h3>
+        <p>KPIs · Refuerzos por rol · gráfico 6m · próximo pago · link único · captions.</p>
+        <div class="foot"><span>Logueado</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label"><span>04 · Acceso y cuenta</span><em>identidad y red</em></div>
+    <div class="cards">
+      <a class="c" href="login.html">
+        <div class="num">11</div><h3>Acceso <em>editorial</em></h3>
+        <p>Email + código + onboarding. Validación contra access.json + sesión persistente.</p>
+        <div class="foot"><span>Auth</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="perfil.html">
+        <div class="num">12</div><h3>Perfil <em>editable</em></h3>
+        <p>Foto, bio, rol, intereses, link público. Conectado a sesión real.</p>
+        <div class="foot"><span>Logueado</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="referidos.html">
+        <div class="num">13</div><h3>Invitar al <em>cardumen</em></h3>
+        <p>Link único + share chips + historial de referidas + saldo acumulado.</p>
+        <div class="foot"><span>Logueado</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label"><span>05 · Instituciones</span><em>cuando entra un colegio</em></div>
+    <div class="cards">
+      <a class="c" href="instituciones.html">
+        <div class="num">14</div><h3>Pitch <em>instituciones</em></h3>
+        <p>Para colegios, universidades, academias. Programa, piloto o co-creación.</p>
+        <div class="foot"><span>Público</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="panel-institucion.html">
+        <div class="num">15</div><h3>Panel <em>institución</em></h3>
+        <p>Cohorts · progreso por programa · certificados emitidos · contratos.</p>
+        <div class="foot"><span>Logueado</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="u-daniel-arias.html">
+        <div class="num">16</div><h3>Perfil público <em>de experto</em></h3>
+        <p>Página social del experto: bio, Refuerzos curados, red. Ejemplo Daniel Arias.</p>
+        <div class="foot"><span>Público</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label"><span>06 · Estados y momentos</span><em>antes y después de cada paso</em></div>
+    <div class="cards">
+      <a class="c" href="quiz.html">
+        <div class="num">17</div><h3>Quiz <em>interactivo</em></h3>
+        <p>Vista de un quiz embebido en el módulo, con feedback editorial.</p>
+        <div class="foot"><span>Estudio</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="certificado.html">
+        <div class="num">18</div><h3>Certificado <em>coleccionable</em></h3>
+        <p>QR, datos de la estudiante, firma editorial. Al completar el Refuerzo.</p>
+        <div class="foot"><span>Logro</span><span class="arr">→</span></div>
+      </a>
+      <a class="c" href="confirmacion-pedido.html">
+        <div class="num">19</div><h3>Confirmación <em>de pedido</em></h3>
+        <p>Después de pedir un Refuerzo. Calendario estimado + próximo paso.</p>
+        <div class="foot"><span>Post</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-label"><span>07 · Errores</span><em>cuando algo no se encuentra</em></div>
+    <div class="cards">
+      <a class="c" href="404.html">
+        <div class="num">20</div><h3>Página <em>404</em></h3>
+        <p>Editorial, sin perder voz. El cardumen sigue, solo que esa carta no existe.</p>
+        <div class="foot"><span>Error</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="editfoot">
+  <span>© 2026 · Cardumen · Mapa v1</span>
+  <em>— el cardumen —</em>
+  <span>20 pantallas · un flujo</span>
+</footer>
+</body></html>
