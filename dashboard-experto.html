@@ -114,7 +114,7 @@
     <a href="pedir.html" class="link">Proponer Refuerzo</a>
   </div>
   <div style="display:flex;align-items:center;gap:14px">
-    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--ink);font-size:14px;font-weight:500">LP</div>
+    <a href="perfil.html" id="navAvatar" title="Perfil" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--ink);font-size:14px;font-weight:500;text-decoration:none">LP</a>
   </div>
 </nav>
 
@@ -122,8 +122,8 @@
 
   <header class="hello">
     <div>
-      <div class="greet">Panel del experto</div>
-      <h1>Hola, Dra. <em>Lina</em>.<br>Tu cardumen creció <em>este mes</em>.</h1>
+      <div class="greet" id="greet">Panel del experto</div>
+      <h1>Hola, <em id="heroName">—</em>.<br>Tu cardumen creció <em>este mes</em>.</h1>
     </div>
     <button class="cta-new" onclick="location.href='pedir.html'">Pedir o crear nuevo Refuerzo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg></button>
   </header>
@@ -227,6 +227,49 @@
 <footer class="editfoot">
   <span>© 2026 · Cardumen</span>
   <em>— tu cardumen —</em>
-  <span>Dra. Lina Parra · desde oct. 2025</span>
+  <span id="footSig">— el panel del experto —</span>
 </footer>
+
+<script>
+(function() {
+  'use strict';
+  const session = (function() {
+    try { return JSON.parse(localStorage.getItem('cardumen_session') || 'null'); }
+    catch (_) { return null; }
+  })();
+  if (!session) return;
+
+  const fullName = (session.name || '').trim() || session.email.split('@')[0];
+  const firstName = fullName.split(' ')[0];
+  const initials = (function() {
+    const parts = fullName.split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return (session.email[0] || '?').toUpperCase();
+    if (parts.length === 1) return parts[0][0].toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  })();
+
+  document.getElementById('heroName').textContent = firstName;
+  document.getElementById('navAvatar').textContent = initials;
+  document.getElementById('footSig').textContent = fullName + ' · en el cardumen';
+
+  const greetEl = document.getElementById('greet');
+  const h = new Date().getHours();
+  const greet = h < 6 ? 'Buenas noches' : h < 12 ? 'Buenos días' : h < 19 ? 'Buenas tardes' : 'Buenas noches';
+  greetEl.textContent = greet + ' · panel del experto';
+
+  // Logout long-press en avatar
+  const avatarEl = document.getElementById('navAvatar');
+  let pressT;
+  avatarEl.addEventListener('mousedown', () => {
+    pressT = setTimeout(() => {
+      if (confirm('¿Cerrar sesión?')) {
+        localStorage.removeItem('cardumen_session');
+        window.location.href = 'index.html';
+      }
+    }, 800);
+  });
+  avatarEl.addEventListener('mouseup', () => clearTimeout(pressT));
+  avatarEl.addEventListener('mouseleave', () => clearTimeout(pressT));
+})();
+</script>
 </body></html>

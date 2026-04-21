@@ -2,6 +2,15 @@
 <html lang="es"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Cardumen · R·001 Anatomía Aplicada a la Estética</title>
+<script>
+  /* Auth guard — corre antes del render */
+  (function() {
+    try {
+      var s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!s || !s.email) window.location.replace('login.html');
+    } catch (_) { window.location.replace('login.html'); }
+  })();
+</script>
 <link rel="stylesheet" href="css/colors_and_type.css">
 <link rel="stylesheet" href="css/app.css">
 <style>
@@ -62,6 +71,13 @@
   .mod .arr { color: var(--cream-dim); font-size: 18px; justify-self: end; }
   .mod:hover .arr { color: var(--gold); }
   .mod.current { background: rgba(212,169,74,0.06); }
+  .mod.done .n::before { content: '✓ '; color: var(--gold); font-size: 1.4rem; }
+  .mod.done .n { color: var(--cream-mute); }
+  .mod.done .t { color: var(--cream-soft); }
+  .mod.locked { opacity: 0.55; cursor: not-allowed; }
+  .mod.locked .arr::before { content: '🔒 '; font-size: 12px; }
+  .mod.locked:hover { background: transparent; }
+  .mod.locked .arr { color: var(--cream-dim); }
 
   /* Qué vas a resolver */
   .resolv { padding: 100px 6vw; background: #FAF5E9; color: var(--ink); }
@@ -101,7 +117,7 @@
     <a href="biblioteca.html" class="link active">Biblioteca</a>
     <a href="pedir.html" class="link">Pedir Refuerzo</a>
   </div>
-  <button class="cta gold" onclick="location.href='modulo.html'">Continuar</button>
+  <button class="cta gold" id="navContinue" onclick="location.href='modulo.html'">Continuar</button>
 </nav>
 
 <header class="port-hero" data-screen-label="R001 Portada">
@@ -126,7 +142,7 @@
       </div>
 
       <div class="port-actions">
-        <a class="btn-gold" href="modulo.html">Continuar · Módulo 2 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        <a class="btn-gold" id="heroContinue" href="modulo.html">Continuar · Módulo 2 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
         <a class="btn-ghost" href="modulo.html">Ver muestra gratis</a>
       </div>
     </div>
@@ -155,18 +171,18 @@
       <span class="section-tag">Tabla de contenido</span>
       <h2>Nueve módulos, en el <em>orden que importa</em>.</h2>
     </div>
-    <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream-mute)">Progreso · <span style="color:var(--gold)">11% · Módulo 2 en curso</span></div>
+    <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream-mute)">Progreso · <span id="progText" style="color:var(--gold)">0% · Módulo 1 por empezar</span></div>
   </div>
-  <div class="mod-list">
-    <div class="mod"><div class="n">01</div><div class="t">La capa invisible<small>Piel, tejido subcutáneo y lo que el rostro esconde.</small></div><div class="preview"><span class="pv">Video · 18m</span><span class="pv">Artefacto</span></div><div class="d">25 min</div><div class="arr">→</div></div>
-    <div class="mod current"><div class="n">02</div><div class="t">Anatomía abdominal<small>Músculo por músculo, capa por capa. El mapa antes del procedimiento.</small></div><div class="preview"><span class="pv">Video · 22m</span><span class="pv">Diagrama</span><span class="pv">Caso</span></div><div class="d">32 min</div><div class="arr">→</div></div>
-    <div class="mod"><div class="n">03</div><div class="t">La cara como <em>territorio</em><small>Planos faciales, grasa buena y grasa mala, vasos críticos.</small></div><div class="preview"><span class="pv">Video · 24m</span><span class="pv">3D</span></div><div class="d">30 min</div><div class="arr">→</div></div>
-    <div class="mod"><div class="n">04</div><div class="t">Peligros y zonas rojas<small>Dónde no pinchar. Dónde no masajear. Dónde parar.</small></div><div class="preview"><span class="pv">Video · 20m</span><span class="pv">Quiz</span></div><div class="d">28 min</div><div class="arr">→</div></div>
-    <div class="mod"><div class="n">05</div><div class="t">Fibrosis: qué es y qué no<small>Grados, diagnóstico táctil, decisión de intervenir.</small></div><div class="preview"><span class="pv">Video · 26m</span><span class="pv">Caso real</span></div><div class="d">36 min</div><div class="arr">→</div></div>
-    <div class="mod"><div class="n">06</div><div class="t">Drenaje, cuándo <em>sí</em> y cuándo <em>no</em><small>La pregunta que casi nadie hace antes de tocar.</small></div><div class="preview"><span class="pv">Video · 19m</span><span class="pv">Protocolo</span></div><div class="d">25 min</div><div class="arr">→</div></div>
-    <div class="mod"><div class="n">07</div><div class="t">RF y ultrasonido: la física<small>Cómo funciona, cuándo sirve, cuándo es marketing.</small></div><div class="preview"><span class="pv">Video · 21m</span><span class="pv">Simulador</span></div><div class="d">28 min</div><div class="arr">→</div></div>
-    <div class="mod"><div class="n">08</div><div class="t">Subcisión razonada<small>Indicaciones, contraindicaciones, el minuto antes.</small></div><div class="preview"><span class="pv">Video · 22m</span><span class="pv">Protocolo</span></div><div class="d">30 min</div><div class="arr">→</div></div>
-    <div class="mod"><div class="n">09</div><div class="t">El cierre — tu protocolo<small>Construye tu flujo propio. Certificación firmada por Dra. Parra.</small></div><div class="preview"><span class="pv">Taller</span><span class="pv">Certificado</span></div><div class="d">46 min</div><div class="arr">→</div></div>
+  <div class="mod-list" id="modList">
+    <div class="mod" data-module="1"><div class="n">01</div><div class="t">La capa invisible<small>Piel, tejido subcutáneo y lo que el rostro esconde.</small></div><div class="preview"><span class="pv">Video · 18m</span><span class="pv">Artefacto</span></div><div class="d">25 min</div><div class="arr">→</div></div>
+    <div class="mod" data-module="2"><div class="n">02</div><div class="t">Anatomía <em>abdominal</em><small>Músculo por músculo, capa por capa. El mapa antes del procedimiento.</small></div><div class="preview"><span class="pv">Video · 22m</span><span class="pv">Diagrama</span><span class="pv">Caso</span></div><div class="d">32 min</div><div class="arr">→</div></div>
+    <div class="mod" data-module="3"><div class="n">03</div><div class="t">La cara como <em>territorio</em><small>Planos faciales, grasa buena y grasa mala, vasos críticos.</small></div><div class="preview"><span class="pv">Video · 24m</span><span class="pv">3D</span></div><div class="d">30 min</div><div class="arr">→</div></div>
+    <div class="mod" data-module="4"><div class="n">04</div><div class="t">Peligros y zonas rojas<small>Dónde no pinchar. Dónde no masajear. Dónde parar.</small></div><div class="preview"><span class="pv">Video · 20m</span><span class="pv">Quiz</span></div><div class="d">28 min</div><div class="arr">→</div></div>
+    <div class="mod" data-module="5"><div class="n">05</div><div class="t">Fibrosis: qué es y qué no<small>Grados, diagnóstico táctil, decisión de intervenir.</small></div><div class="preview"><span class="pv">Video · 26m</span><span class="pv">Caso real</span></div><div class="d">36 min</div><div class="arr">→</div></div>
+    <div class="mod" data-module="6"><div class="n">06</div><div class="t">Drenaje, cuándo <em>sí</em> y cuándo <em>no</em><small>La pregunta que casi nadie hace antes de tocar.</small></div><div class="preview"><span class="pv">Video · 19m</span><span class="pv">Protocolo</span></div><div class="d">25 min</div><div class="arr">→</div></div>
+    <div class="mod" data-module="7"><div class="n">07</div><div class="t">RF y ultrasonido: la física<small>Cómo funciona, cuándo sirve, cuándo es marketing.</small></div><div class="preview"><span class="pv">Video · 21m</span><span class="pv">Simulador</span></div><div class="d">28 min</div><div class="arr">→</div></div>
+    <div class="mod" data-module="8"><div class="n">08</div><div class="t">Subcisión razonada<small>Indicaciones, contraindicaciones, el minuto antes.</small></div><div class="preview"><span class="pv">Video · 22m</span><span class="pv">Protocolo</span></div><div class="d">30 min</div><div class="arr">→</div></div>
+    <div class="mod" data-module="9"><div class="n">09</div><div class="t">El cierre — tu protocolo<small>Construye tu flujo propio. Certificación firmada por Dra. Parra.</small></div><div class="preview"><span class="pv">Taller</span><span class="pv">Certificado</span></div><div class="d">46 min</div><div class="arr">→</div></div>
   </div>
 </section>
 
@@ -224,4 +240,94 @@
   <em>— el cardumen —</em>
   <span>La Dorada · Colombia</span>
 </footer>
+
+<div id="toast" style="position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#1F1A13;color:var(--cream);border:1px solid rgba(212,169,74,0.3);padding:14px 22px;border-radius:10px;font-family:var(--font-body);font-size:13.5px;z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s;box-shadow:0 20px 60px rgba(0,0,0,0.4);max-width:90%;text-align:center"></div>
+
+<script src="js/progress.js"></script>
+<script>
+(function() {
+  'use strict';
+  const TOTAL = 9;
+  const FUNCTIONAL_MODULES = [2]; // solo modulo 2 tiene vista funcional hoy
+  const progress = CardumenProgress.init('estetica-anatomia');
+
+  const toastEl = document.getElementById('toast');
+  let toastT;
+  function toast(msg, ms = 2600) {
+    toastEl.textContent = msg;
+    toastEl.style.opacity = '1';
+    clearTimeout(toastT);
+    toastT = setTimeout(() => toastEl.style.opacity = '0', ms);
+  }
+
+  // ---- Render module states ----
+  const mods = document.querySelectorAll('#modList .mod');
+  mods.forEach(el => {
+    const n = parseInt(el.dataset.module, 10);
+    el.classList.remove('current', 'done', 'locked');
+    if (progress.isCompleted(n)) el.classList.add('done');
+    if (!progress.isUnlocked(n)) el.classList.add('locked');
+  });
+
+  // Find next pending module = primer unlocked no completado
+  let nextN = null;
+  for (let i = 1; i <= TOTAL; i++) {
+    if (progress.isUnlocked(i) && !progress.isCompleted(i)) { nextN = i; break; }
+  }
+  if (nextN !== null) {
+    const nextEl = document.querySelector('#modList .mod[data-module="' + nextN + '"]');
+    if (nextEl) nextEl.classList.add('current');
+  }
+
+  // Progreso
+  const done = Array.from({length: TOTAL}, (_, i) => i + 1).filter(n => progress.isCompleted(n)).length;
+  const pct = Math.round((done / TOTAL) * 100);
+  const progText = document.getElementById('progText');
+  if (nextN === null) {
+    progText.textContent = '100% · Refuerzo completado';
+  } else {
+    progText.textContent = pct + '% · Módulo ' + nextN + (done > 0 ? ' en curso' : ' por empezar');
+  }
+
+  // CTAs dinámicos
+  const heroContinue = document.getElementById('heroContinue');
+  const navContinue = document.getElementById('navContinue');
+  if (nextN === null) {
+    heroContinue.innerHTML = 'Ver certificado <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+    heroContinue.setAttribute('href', 'certificado.html');
+    navContinue.textContent = 'Certificado';
+    navContinue.setAttribute('onclick', "location.href='certificado.html'");
+  } else if (FUNCTIONAL_MODULES.indexOf(nextN) > -1) {
+    heroContinue.innerHTML = 'Continuar · Módulo ' + String(nextN).padStart(2, '0') + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+    heroContinue.setAttribute('href', 'modulo.html');
+    navContinue.textContent = 'Continuar';
+    navContinue.setAttribute('onclick', "location.href='modulo.html'");
+  } else {
+    heroContinue.innerHTML = 'Módulo ' + String(nextN).padStart(2, '0') + ' próximamente';
+    heroContinue.setAttribute('href', '#');
+    heroContinue.addEventListener('click', e => { e.preventDefault(); toast('Módulo ' + nextN + ' todavía no está publicado.'); });
+    navContinue.textContent = 'Próximo';
+    navContinue.setAttribute('onclick', '');
+    navContinue.addEventListener('click', e => { e.preventDefault(); toast('Módulo ' + nextN + ' todavía no está publicado.'); });
+  }
+
+  // Click handlers en cada fila
+  mods.forEach(el => {
+    el.addEventListener('click', () => {
+      const n = parseInt(el.dataset.module, 10);
+      if (el.classList.contains('locked')) {
+        toast('Completa el módulo anterior para desbloquear este.');
+        return;
+      }
+      if (FUNCTIONAL_MODULES.indexOf(n) > -1) {
+        window.location.href = 'modulo.html';
+      } else if (progress.isCompleted(n)) {
+        toast('Ya completaste este módulo. La vista funcional está solo en el módulo 2 por ahora.');
+      } else {
+        toast('Módulo ' + n + ' — la vista detallada llega pronto.');
+      }
+    });
+  });
+})();
+</script>
 </body></html>

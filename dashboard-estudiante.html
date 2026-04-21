@@ -103,7 +103,7 @@
     <a href="pedir.html" class="link">Pedir Refuerzo</a>
   </div>
   <div style="display:flex;align-items:center;gap:14px">
-    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--ink);font-size:14px;font-weight:500">VM</div>
+    <a href="perfil.html" id="navAvatar" title="Perfil" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--ink);font-size:14px;font-weight:500;text-decoration:none">VM</a>
   </div>
 </nav>
 
@@ -111,13 +111,13 @@
 
   <header class="hello">
     <div>
-      <div class="greet">Bienvenido de vuelta</div>
-      <h1>Hola, <em>Valentina</em>.<br>Dónde <em>quedaste</em>.</h1>
+      <div class="greet" id="greet">Bienvenido de vuelta</div>
+      <h1>Hola, <em id="heroName">—</em>.<br>Dónde <em>quedaste</em>.</h1>
     </div>
     <div class="stats">
-      <div><span class="v">3</span>Refuerzos activos</div>
-      <div><span class="v">1</span>Certificado</div>
-      <div><span class="v">24h</span>Estudiadas</div>
+      <div><span class="v" id="statActive">1</span>Refuerzos activos</div>
+      <div><span class="v" id="statCerts">0</span>Certificados</div>
+      <div><span class="v" id="statTime">24h</span>Estudiadas</div>
     </div>
   </header>
 
@@ -128,58 +128,58 @@
     </div>
     <div class="active-grid">
 
-      <a class="rcard" href="modulo.html">
+      <a class="rcard" href="refuerzo-r001.html" id="r001Card">
         <div class="top">
-          <span class="num">R·001 · Módulo 2 / 9</span>
-          <span class="tag tag-gold">Activo</span>
+          <span class="num" id="r001Meta">R·001 · Módulo — / 9</span>
+          <span class="tag tag-gold" id="r001Tag">Activo</span>
         </div>
         <h3>Anatomía aplicada a la <em>estética</em></h3>
         <div class="by">Curado por Dra. Lina Parra</div>
         <div class="circle-wrap">
           <svg class="ring" viewBox="0 0 54 54">
             <circle cx="27" cy="27" r="22" fill="none" stroke="rgba(250,245,233,0.1)" stroke-width="2.5"/>
-            <circle cx="27" cy="27" r="22" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="138" stroke-dashoffset="123" transform="rotate(-90 27 27)" stroke-linecap="round"/>
+            <circle id="r001Ring" cx="27" cy="27" r="22" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="138" stroke-dashoffset="138" transform="rotate(-90 27 27)" stroke-linecap="round"/>
           </svg>
-          <div class="pct-t">11%</div>
-          <div class="pct-info"><em>Últ:</em> hace 2h<br>28m restantes hoy</div>
+          <div class="pct-t" id="r001Pct">0%</div>
+          <div class="pct-info" id="r001Info"><em>Sin iniciar</em><br>empieza hoy</div>
         </div>
-        <div class="cta-sm">Continuar módulo 2</div>
+        <div class="cta-sm" id="r001Cta">Empezar Refuerzo</div>
       </a>
 
-      <a class="rcard" href="refuerzo-r001.html">
+      <a class="rcard" href="biblioteca.html" style="opacity:0.72">
         <div class="top">
-          <span class="num">R·002 · Módulo 5 / 7</span>
-          <span class="tag" style="background:rgba(61,107,158,0.1);color:var(--navy);border-color:rgba(61,107,158,0.3)">Hoy</span>
+          <span class="num">R·002 · 7 módulos</span>
+          <span class="tag">Próximamente</span>
         </div>
         <h3>Drenaje linfático <em>manual</em></h3>
         <div class="by">Curado por Eli Ramírez</div>
         <div class="circle-wrap">
           <svg class="ring" viewBox="0 0 54 54">
             <circle cx="27" cy="27" r="22" fill="none" stroke="rgba(250,245,233,0.1)" stroke-width="2.5"/>
-            <circle cx="27" cy="27" r="22" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="138" stroke-dashoffset="39" transform="rotate(-90 27 27)" stroke-linecap="round"/>
+            <circle cx="27" cy="27" r="22" fill="none" stroke="var(--cream-line)" stroke-width="2.5" stroke-dasharray="138" stroke-dashoffset="138" transform="rotate(-90 27 27)" stroke-linecap="round"/>
           </svg>
-          <div class="pct-t">72%</div>
-          <div class="pct-info"><em>Últ:</em> ayer<br>Casi terminas</div>
+          <div class="pct-t">—</div>
+          <div class="pct-info"><em>En biblioteca</em><br>Abrir para adquirir</div>
         </div>
-        <div class="cta-sm">Continuar módulo 5</div>
+        <div class="cta-sm">Ver en biblioteca</div>
       </a>
 
-      <a class="rcard" href="refuerzo-r001.html">
+      <a class="rcard" href="pedir.html" style="opacity:0.72">
         <div class="top">
-          <span class="num">R·005 · Módulo 1 / 5</span>
-          <span class="tag">Nuevo</span>
+          <span class="num">Pedí un Refuerzo propio</span>
+          <span class="tag">Idea</span>
         </div>
-        <h3>La voz del <em>clínico</em></h3>
-        <div class="by">Curado por Mariana Gómez</div>
+        <h3>¿Falta <em>algo</em>?</h3>
+        <div class="by">El cardumen arma lo que le pides</div>
         <div class="circle-wrap">
           <svg class="ring" viewBox="0 0 54 54">
             <circle cx="27" cy="27" r="22" fill="none" stroke="rgba(250,245,233,0.1)" stroke-width="2.5"/>
-            <circle cx="27" cy="27" r="22" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="138" stroke-dashoffset="131" transform="rotate(-90 27 27)" stroke-linecap="round"/>
+            <path d="M19 27 H35 M27 19 V35" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <div class="pct-t">5%</div>
-          <div class="pct-info"><em>Iniciado</em><br>hace 3 días</div>
+          <div class="pct-t" style="font-size:0.75rem">+</div>
+          <div class="pct-info"><em>5 pasos</em><br>conversación guiada</div>
         </div>
-        <div class="cta-sm">Retomar</div>
+        <div class="cta-sm">Pedir un Refuerzo</div>
       </a>
 
     </div>
@@ -190,19 +190,20 @@
       <h2>Certificados <em>firmados</em></h2>
       <span class="more">1 de 3 completados</span>
     </div>
-    <div class="certs">
-      <a href="certificado.html" class="cert" style="text-decoration:none">
+    <div class="certs" id="certsBox">
+      <a href="certificado.html" class="cert" id="certR001" style="text-decoration:none;display:none">
         <div>
-          <div class="k">Cert · C·001</div>
-          <h4>Introducción al <em>sistema linfático</em></h4>
+          <div class="k">Cert · R·001</div>
+          <h4>Anatomía aplicada a la <em>estética</em></h4>
         </div>
         <div>
           <div class="seal">✓</div>
-          <div class="sig" style="margin-top:10px">Firmado por<br><strong>Eli Ramírez</strong></div>
+          <div class="sig" style="margin-top:10px">Firmado por<br><strong>Dra. Lina Parra</strong></div>
         </div>
       </a>
-      <div class="cert empty"><div class="k">Próximo · R·001</div><h4>Al completar anatomía estética</h4></div>
+      <div class="cert empty" id="certR001Empty"><div class="k">Próximo · R·001</div><h4>Al completar anatomía aplicada</h4></div>
       <div class="cert empty"><div class="k">Próximo · R·002</div><h4>Al completar drenaje linfático</h4></div>
+      <div class="cert empty"><div class="k">— · vacío</div><h4>Tu siguiente certificado</h4></div>
       <div class="cert empty"><div class="k">— · vacío</div><h4>Tu siguiente certificado</h4></div>
     </div>
   </section>
@@ -237,13 +238,11 @@
   <section class="section">
     <div class="sec-head">
       <h2>Tus <em>notas</em> recientes</h2>
-      <a class="more">Ver todas · 14 notas →</a>
+      <a class="more" id="notesMore">Ver todas →</a>
     </div>
     <div class="split">
-      <div class="notes-list">
-        <div class="note"><div class="src">R·001 · Módulo 2</div><div class="txt">"Clave: no confundir panículo areolar con lamelar. El areolar cede al drenaje, el lamelar necesita RF o US."</div><div class="date">Hace 2 horas</div></div>
-        <div class="note"><div class="src">R·002 · Módulo 4</div><div class="txt">"La dirección del drenaje sigue los ganglios, no la lógica. Del centro hacia las cadenas."</div><div class="date">Ayer · 19:40</div></div>
-        <div class="note"><div class="src">R·001 · Módulo 1</div><div class="txt">"La subcisión temprana es 'cortar una cicatriz que aún se está escribiendo'."</div><div class="date">Hace 3 días</div></div>
+      <div class="notes-list" id="notesList">
+        <div class="note"><div class="src">— · sin notas aún</div><div class="txt">Las notas que escribas dentro de los módulos aparecen aquí. Cuando termines de leer algo que no querías olvidar, queda registrado.</div><div class="date">—</div></div>
       </div>
       <div class="saldo">
         <div class="k">Saldo · Referidos</div>
@@ -262,6 +261,125 @@
 <footer class="editfoot">
   <span>© 2026 · Cardumen</span>
   <em>— tu cardumen —</em>
-  <span>Valentina M. · desde enero</span>
+  <span id="footSig">— tu cardumen —</span>
 </footer>
+
+<script src="js/progress.js"></script>
+<script>
+(function() {
+  'use strict';
+  const session = (function() {
+    try { return JSON.parse(localStorage.getItem('cardumen_session') || 'null'); }
+    catch (_) { return null; }
+  })();
+  if (!session) return; // auth guard ya redirigió
+
+  const fullName = (session.name || '').trim() || session.email.split('@')[0];
+  const firstName = fullName.split(' ')[0];
+  const initials = (function() {
+    const parts = fullName.split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return (session.email[0] || '?').toUpperCase();
+    if (parts.length === 1) return parts[0][0].toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  })();
+
+  // ---- Hero ----
+  document.getElementById('heroName').textContent = firstName;
+  document.getElementById('greet').textContent = getGreet();
+  document.getElementById('navAvatar').textContent = initials;
+  document.getElementById('footSig').textContent = fullName + ' · en el cardumen';
+
+  function getGreet() {
+    const h = new Date().getHours();
+    if (h < 6)  return 'Buenas noches';
+    if (h < 12) return 'Buenos días';
+    if (h < 19) return 'Buenas tardes';
+    return 'Buenas noches';
+  }
+
+  // ---- R·001 progress ----
+  const TOTAL = 9;
+  const progress = CardumenProgress.init('estetica-anatomia');
+  const done = Array.from({length: TOTAL}, (_, i) => i + 1).filter(n => progress.isCompleted(n)).length;
+  const pct = Math.round((done / TOTAL) * 100);
+
+  let nextN = null;
+  for (let i = 1; i <= TOTAL; i++) {
+    if (progress.isUnlocked(i) && !progress.isCompleted(i)) { nextN = i; break; }
+  }
+
+  const r001Pct = document.getElementById('r001Pct');
+  const r001Meta = document.getElementById('r001Meta');
+  const r001Info = document.getElementById('r001Info');
+  const r001Ring = document.getElementById('r001Ring');
+  const r001Cta = document.getElementById('r001Cta');
+  const r001Tag = document.getElementById('r001Tag');
+  const r001Card = document.getElementById('r001Card');
+
+  r001Pct.textContent = pct + '%';
+  const dash = 138;
+  r001Ring.setAttribute('stroke-dashoffset', String(dash - (dash * pct / 100)));
+
+  if (nextN === null) {
+    r001Meta.textContent = 'R·001 · Refuerzo completado';
+    r001Info.innerHTML = '<em>Completado</em><br>tu certificado te espera';
+    r001Cta.textContent = 'Ver certificado';
+    r001Card.setAttribute('href', 'certificado.html');
+    r001Tag.textContent = 'Completado';
+  } else {
+    r001Meta.textContent = 'R·001 · Módulo ' + nextN + ' / ' + TOTAL;
+    if (done === 0) {
+      r001Info.innerHTML = '<em>Sin iniciar</em><br>empieza cuando quieras';
+      r001Cta.textContent = 'Empezar Módulo ' + nextN;
+    } else {
+      r001Info.innerHTML = '<em>Últ:</em> hace poco<br>' + done + ' módulo' + (done > 1 ? 's' : '') + ' completado' + (done > 1 ? 's' : '');
+      r001Cta.textContent = 'Continuar en Módulo ' + nextN;
+    }
+    r001Card.setAttribute('href', nextN === 2 ? 'modulo.html' : 'refuerzo-r001.html');
+    r001Tag.textContent = done > 0 ? 'En curso' : 'Nuevo';
+  }
+
+  // ---- Stats ----
+  document.getElementById('statActive').textContent = nextN === null ? '0' : '1';
+  document.getElementById('statCerts').textContent = (nextN === null ? '1' : '0');
+
+  // ---- Certificados ----
+  if (nextN === null) {
+    document.getElementById('certR001').style.display = '';
+    document.getElementById('certR001Empty').style.display = 'none';
+  }
+
+  // ---- Notas ----
+  const notesList = document.getElementById('notesList');
+  const notes = progress.state.notes || {};
+  const entries = Object.entries(notes).filter(([k, v]) => v && v.trim());
+  if (entries.length > 0) {
+    notesList.innerHTML = '';
+    entries.slice(-3).reverse().forEach(([k, v]) => {
+      const n = document.createElement('div');
+      n.className = 'note';
+      const moduleMatch = k.match(/module-(\d+)/);
+      const src = moduleMatch ? 'R·001 · Módulo ' + moduleMatch[1] : 'R·001 · ' + k;
+      const txt = v.length > 180 ? v.slice(0, 180) + '…' : v;
+      n.innerHTML = '<div class="src">' + src + '</div><div class="txt">"' + txt.replace(/"/g, '&quot;') + '"</div><div class="date">— tu nota —</div>';
+      notesList.appendChild(n);
+    });
+    document.getElementById('notesMore').textContent = entries.length + ' nota' + (entries.length > 1 ? 's' : '') + ' →';
+  }
+
+  // ---- Logout wire en avatar (long press ~800ms) ----
+  const avatarEl = document.getElementById('navAvatar');
+  let pressT;
+  avatarEl.addEventListener('mousedown', () => {
+    pressT = setTimeout(() => {
+      if (confirm('¿Cerrar sesión?')) {
+        localStorage.removeItem('cardumen_session');
+        window.location.href = 'index.html';
+      }
+    }, 800);
+  });
+  avatarEl.addEventListener('mouseup', () => clearTimeout(pressT));
+  avatarEl.addEventListener('mouseleave', () => clearTimeout(pressT));
+})();
+</script>
 </body></html>
