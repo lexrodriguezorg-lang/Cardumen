@@ -10,9 +10,13 @@
      LANDING — editorial. Monocle + Arc + Apple TV+. Never Udemy.
      ============================================================ */
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; overflow-x: hidden; }
-
+  html { overflow-x: clip; -webkit-text-size-adjust: 100%; scroll-padding-top: 80px; }
+  body { margin: 0; overflow-x: clip; max-width: 100%; }
+  /* Smooth scroll solo para anchors, no para scroll-wheel global */
+  @media (prefers-reduced-motion: no-preference) {
+    html:focus-within { scroll-behavior: smooth; }
+  }
+  img, svg, video { max-width: 100%; height: auto; }
   /* Global selection in gold */
   ::selection { background: var(--gold); color: var(--ink); }
 
@@ -88,6 +92,7 @@
      ============================================================ */
   .hero {
     min-height: 100vh;
+    min-height: 100dvh; /* respeta la barra del browser en mobile */
     background: var(--ink);
     position: relative;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -118,7 +123,7 @@
   .hero-overline {
     margin-bottom: 56px;
     opacity: 0;
-    animation: fadeIn 900ms var(--ease-out) 200ms forwards;
+    animation: fadeIn 500ms var(--ease-out) 80ms forwards;
   }
 
   .hero-headline {
@@ -135,7 +140,7 @@
     display: inline-block;
     opacity: 0;
     transform: translateY(14px);
-    animation: wordIn 1100ms var(--ease-out) forwards;
+    animation: wordIn 600ms var(--ease-out) forwards;
   }
   .hero-headline em {
     font-style: italic; font-weight: 400; color: var(--gold);
@@ -150,7 +155,7 @@
   .hero-sub {
     margin-top: 42px;
     opacity: 0;
-    animation: fadeIn 900ms var(--ease-out) 2200ms forwards;
+    animation: fadeIn 500ms var(--ease-out) 700ms forwards;
   }
 
   /* Hero bifurcation — editorial split, contemplativo */
@@ -159,7 +164,7 @@
     display: inline-flex; align-items: center; gap: 16px;
     flex-wrap: wrap; justify-content: center;
     opacity: 0;
-    animation: fadeIn 900ms var(--ease-out) 2500ms forwards;
+    animation: fadeIn 500ms var(--ease-out) 900ms forwards;
   }
   .bif {
     display: inline-flex; align-items: center; gap: 14px;
@@ -216,7 +221,7 @@
     transform: translateX(-50%);
     display: flex; flex-direction: column; align-items: center; gap: 12px;
     opacity: 0;
-    animation: fadeIn 900ms var(--ease-out) 2800ms forwards;
+    animation: fadeIn 500ms var(--ease-out) 1100ms forwards;
   }
   .scroll-hint .label {
     font-family: var(--font-mono); font-size: 10px;
@@ -415,11 +420,50 @@
   }
   .biblio-meta .n { color: var(--gold); font-size: 1.8rem; font-family: var(--font-display); font-weight: 300; display: block; letter-spacing: -0.02em; margin-bottom: 4px; }
 
+  /* Wrapper relativo para el hint + fade del carrusel */
+  .biblio-wrap { position: relative; }
+  .biblio-wrap::after {
+    content: ''; position: absolute; right: 0; top: 0; bottom: 20px;
+    width: 80px; pointer-events: none;
+    background: linear-gradient(to right, transparent, var(--ink) 80%);
+    opacity: 0; transition: opacity .3s; z-index: 3;
+  }
+  /* El fade-hint solo aparece en pantallas donde no se ven todos los discs */
+  @media (max-width: 1200px) {
+    .biblio-wrap::after { opacity: 1; }
+    .biblio-wrap.scroll-end::after { opacity: 0; }
+  }
+  .biblio-nav {
+    max-width: 1280px; margin: 0 auto;
+    padding: 0 6vw 16px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .biblio-hint {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cream-mute);
+  }
+  .biblio-hint .arr {
+    display: inline-block; color: var(--gold);
+    animation: slide-hint 2s ease-in-out infinite;
+  }
+  @keyframes slide-hint { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+  .biblio-dots {
+    display: inline-flex; gap: 6px; align-items: center;
+  }
+  .biblio-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--cream-faint); transition: all .3s;
+  }
+  .biblio-dot.active { background: var(--gold); transform: scale(1.5); }
+
   .biblio-scroll {
     display: flex; gap: 24px;
     padding: 20px 6vw;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--cream-line) transparent;
   }
@@ -428,7 +472,7 @@
   .biblio-scroll::-webkit-scrollbar-thumb { background: var(--cream-line); border-radius: 10px; }
 
   .disc {
-    flex: 0 0 380px;
+    flex: 0 0 min(380px, 82vw);
     scroll-snap-align: start;
     background: linear-gradient(160deg, #2E1A1E 0%, var(--ink-2) 70%);
     border: 1px solid var(--cream-line);
@@ -578,6 +622,7 @@
   .s-puertas {
     display: grid; grid-template-columns: 1fr 1fr;
     min-height: 92vh;
+    min-height: 92dvh;
     position: relative;
   }
   .puerta {
@@ -587,6 +632,7 @@
     transition: background var(--dur-slow) var(--ease-out);
     display: flex; flex-direction: column; justify-content: space-between;
     min-height: 80vh;
+    min-height: 80dvh;
   }
   .puerta.experto {
     background: #0E0B08;
@@ -952,7 +998,7 @@
     .biblio-scroll { padding: 20px 24px; }
     .s-puertas { grid-template-columns: 1fr; }
     .puerta.experto { border-right: none; border-bottom: 1px solid var(--cream-line); }
-    .puerta { min-height: 70vh; padding: 80px 24px; }
+    .puerta { min-height: 60vh; min-height: 60dvh; padding: 72px 24px; }
     .steps { grid-template-columns: 1fr; }
     .pide-form { flex-direction: column; border-radius: var(--r-lg); }
     .pide-form input { text-align: center; }
@@ -986,15 +1032,15 @@
     </div>
 
     <h1 class="hero-headline" id="heroHeadline">
-      <span class="word" style="animation-delay:400ms">Pide</span>
-      <span class="word" style="animation-delay:520ms">el</span>
-      <span class="word" style="animation-delay:640ms"><em>conocimiento</em></span>
-      <span class="word" style="animation-delay:760ms">que</span>
-      <span class="word" style="animation-delay:880ms">necesitas.</span>
+      <span class="word" style="animation-delay:200ms">Pide</span>
+      <span class="word" style="animation-delay:260ms">el</span>
+      <span class="word" style="animation-delay:320ms"><em>conocimiento</em></span>
+      <span class="word" style="animation-delay:380ms">que</span>
+      <span class="word" style="animation-delay:440ms">necesitas.</span>
       <span class="break"></span>
-      <span class="word" style="animation-delay:1200ms">Lo</span>
-      <span class="word" style="animation-delay:1320ms">construimos</span>
-      <span class="word" style="animation-delay:1440ms">juntos.</span>
+      <span class="word" style="animation-delay:540ms">Lo</span>
+      <span class="word" style="animation-delay:600ms">construimos</span>
+      <span class="word" style="animation-delay:660ms">juntos.</span>
     </h1>
 
     <div class="hero-sub overline-mono" style="letter-spacing:0.28em">
@@ -1087,7 +1133,13 @@
     </div>
   </div>
 
-  <div class="biblio-scroll">
+  <div class="biblio-nav">
+    <span class="biblio-hint">Deslizá <span class="arr">→</span></span>
+    <div class="biblio-dots" id="biblioDots" aria-label="Posición del carrusel"></div>
+  </div>
+
+  <div class="biblio-wrap">
+  <div class="biblio-scroll" id="biblioScroll">
 
     <!-- R001 — featured, coral + gold -->
     <article class="disc r001">
@@ -1312,6 +1364,7 @@
     </article>
 
   </div>
+  </div><!-- /biblio-wrap -->
 </section>
 
 <!-- ================= S4 · LAS DOS PUERTAS ================= -->
@@ -1674,9 +1727,46 @@
   document.querySelectorAll('.step, .disc, .puerta, .manifiesto-body p').forEach((el, i) => {
     el.style.opacity = 0;
     el.style.transform = 'translateY(16px)';
-    el.style.transition = `opacity 700ms var(--ease-out) ${i*60}ms, transform 700ms var(--ease-out) ${i*60}ms`;
+    el.style.transition = `opacity 500ms var(--ease-out) ${Math.min(i*40, 240)}ms, transform 500ms var(--ease-out) ${Math.min(i*40, 240)}ms`;
     io.observe(el);
   });
+
+  /* ---------- Carrusel de biblioteca — dots + fade hint ---------- */
+  (function biblioCarousel() {
+    const scroller = document.getElementById('biblioScroll');
+    const wrap = scroller ? scroller.parentElement : null;
+    const dotsBox = document.getElementById('biblioDots');
+    if (!scroller || !dotsBox) return;
+
+    const discs = Array.from(scroller.querySelectorAll('.disc'));
+    // Crear dots
+    discs.forEach((_, i) => {
+      const d = document.createElement('span');
+      d.className = 'biblio-dot' + (i === 0 ? ' active' : '');
+      dotsBox.appendChild(d);
+    });
+    const dots = Array.from(dotsBox.querySelectorAll('.biblio-dot'));
+
+    function update() {
+      const sl = scroller.scrollLeft;
+      const sw = scroller.scrollWidth - scroller.clientWidth;
+      // End-of-scroll fade toggle
+      if (sw > 0 && sl >= sw - 4) wrap.classList.add('scroll-end');
+      else wrap.classList.remove('scroll-end');
+      // Active dot = disco más cercano al borde izquierdo del scroller
+      const scrollerLeft = scroller.getBoundingClientRect().left;
+      let activeIdx = 0;
+      let minDelta = Infinity;
+      discs.forEach((d, i) => {
+        const delta = Math.abs(d.getBoundingClientRect().left - scrollerLeft - 24);
+        if (delta < minDelta) { minDelta = delta; activeIdx = i; }
+      });
+      dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+    }
+    scroller.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
 </script>
 
 </body>
