@@ -1,23 +1,34 @@
 <!doctype html>
 <html lang="es"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Quiz · R·001 — Cardumen</title>
+<title>Quiz · Módulo 02 — R·001 · Cardumen</title>
 <link rel="stylesheet" href="css/colors_and_type.css">
 <link rel="stylesheet" href="css/app.css">
+<script>
+  /* Auth guard + gate por artefacto 4 — corre antes del render */
+  (function() {
+    try {
+      var s = JSON.parse(localStorage.getItem('cardumen_session') || 'null');
+      if (!s || !s.email) { window.location.replace('login.html'); return; }
+      var art = JSON.parse(localStorage.getItem('cardumen_artefacto4_modulo2') || 'null');
+      if (!art || !art.completed) { window.location.replace('modulo.html#art4'); return; }
+    } catch (_) { window.location.replace('login.html'); }
+  })();
+</script>
 <style>
   body { background: var(--ink); }
   .wrap { max-width: 820px; margin: 0 auto; padding: 110px 6vw 80px; }
 
   .head { padding-bottom: 24px; border-bottom: 1px solid var(--cream-line); }
   .head .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
-  .head h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.2rem, 4.2vw, 3.2rem); letter-spacing: -0.035em; margin: 16px 0 8px; line-height: 1; }
+  .head h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.2rem, 4.2vw, 3.2rem); letter-spacing: -0.035em; margin: 16px 0 8px; line-height: 1; color: var(--cream); }
   .head h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
   .head .sub { font-family: var(--font-display); font-style: italic; color: var(--cream-soft); font-size: 1.15rem; line-height: 1.45; margin-bottom: 20px; }
 
   .progress-row { display: flex; align-items: center; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--cream-line); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); }
   .progress-row em { font-style: normal; color: var(--gold); font-family: var(--font-display); font-size: 1.1rem; letter-spacing: -0.01em; }
   .pbar { flex: 1; height: 2px; background: var(--cream-line); overflow: hidden; }
-  .pbar .f { height: 100%; background: var(--gold); width: 60%; transition: width .3s; }
+  .pbar .f { height: 100%; background: var(--gold); transition: width .35s var(--ease-out); }
 
   /* Question card */
   .qcard { padding: 56px 0 20px; }
@@ -28,24 +39,50 @@
 
   .options { display: flex; flex-direction: column; gap: 10px; }
   .opt { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 22px 24px; border: 1px solid var(--cream-line); border-radius: var(--r-lg); background: transparent; text-align: left; cursor: pointer; font-family: var(--font-body); color: var(--cream-soft); font-size: 1rem; line-height: 1.5; transition: all .25s; }
-  .opt:hover { border-color: var(--gold); color: var(--cream); }
+  .opt:hover:not(:disabled) { border-color: var(--gold); color: var(--cream); }
+  .opt:disabled { cursor: default; }
   .opt .letter { font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--gold); font-size: 1.4rem; line-height: 1; text-align: center; }
   .opt.selected { border-color: var(--gold); background: rgba(212,169,74,0.05); color: var(--cream); }
   .opt.correct { border-color: #8fb88a; background: rgba(143,184,138,0.08); }
   .opt.correct .letter { color: #8fb88a; }
-  .opt.wrong { border-color: var(--coral); background: rgba(212,108,108,0.06); }
+  .opt.wrong { border-color: var(--coral); background: rgba(232,136,112,0.08); }
   .opt.wrong .letter { color: var(--coral); }
+  .opt.dim { opacity: 0.4; }
 
   /* Explanation */
-  .explain { margin-top: 28px; padding: 22px 26px; border-left: 2px solid var(--gold); background: rgba(212,169,74,0.04); border-radius: 0 12px 12px 0; }
+  .explain { margin-top: 28px; padding: 22px 26px; border-left: 2px solid var(--gold); background: rgba(212,169,74,0.04); border-radius: 0 12px 12px 0; display: none; }
+  .explain.show { display: block; }
   .explain .t { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
   .explain p { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.1rem; line-height: 1.55; color: var(--cream-soft); margin: 0; max-width: 58ch; letter-spacing: -0.005em; }
   .explain p em { font-style: normal; color: var(--gold); }
+  .explain.err { border-left-color: var(--coral); background: rgba(232,136,112,0.05); }
+  .explain.err .t { color: var(--coral); }
 
   /* Footer controls */
-  .qfoot { margin-top: 48px; display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--cream-line); }
+  .qfoot { margin-top: 48px; display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--cream-line); gap: 16px; }
   .qfoot .l-ctrl { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); cursor: pointer; background: none; border: none; }
-  .qfoot .l-ctrl:hover { color: var(--gold); }
+  .qfoot .l-ctrl:hover:not(:disabled) { color: var(--gold); }
+  .qfoot .l-ctrl:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* Result screen */
+  .result { text-align: center; padding: 80px 20px 40px; display: none; }
+  .result.show { display: block; }
+  .result .kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+  .result h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 5vw, 3.6rem); letter-spacing: -0.035em; margin: 20px 0 12px; line-height: 1.02; color: var(--cream); }
+  .result h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .result .score-big { font-family: var(--font-display); font-weight: 300; font-size: 5rem; color: var(--gold); letter-spacing: -0.04em; line-height: 1; margin: 32px 0; }
+  .result .score-big span { font-size: 2rem; color: var(--cream-mute); }
+  .result .sub { font-family: var(--font-display); font-style: italic; color: var(--cream-soft); font-size: 1.2rem; max-width: 48ch; margin: 0 auto 40px; line-height: 1.5; }
+  .result .actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .result .btn-primary { background: var(--gold); color: var(--ink); padding: 14px 26px; border-radius: var(--r-pill); font-family: var(--font-body); font-size: 13.5px; font-weight: 500; text-decoration: none; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
+  .result .btn-primary:hover { background: var(--gold-soft); }
+  .result .btn-ghost { background: transparent; color: var(--cream); padding: 14px 26px; border-radius: var(--r-pill); font-family: var(--font-body); font-size: 13.5px; font-weight: 500; text-decoration: none; border: 1px solid var(--cream-line); cursor: pointer; }
+  .result .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Toast */
+  #toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); background: #1F1A13; color: var(--cream); border: 1px solid rgba(212,169,74,0.3); padding: 14px 22px; border-radius: 10px; font-family: var(--font-body); font-size: 13.5px; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity .25s; box-shadow: 0 20px 60px rgba(0,0,0,0.4); max-width: 90%; text-align: center; }
+  #toast.show { opacity: 1; }
+  #toast em { color: var(--gold); font-style: normal; }
 </style></head>
 <body>
 
@@ -53,58 +90,288 @@
   <a href="index.html"><img src="assets/logo/cardumen-white-premium.png" alt="Cardumen" class="logo"></a>
   <div class="links">
     <a href="refuerzo-r001.html" class="link active">R·001</a>
+    <a href="modulo.html" class="link">Módulo 02</a>
   </div>
-  <button class="cta">Guardar y salir</button>
+  <a class="cta" href="modulo.html">Guardar y salir</a>
 </nav>
 
 <div class="wrap" data-screen-label="Quiz">
   <header class="head">
-    <div class="k">R·001 · comprobación rápida</div>
+    <div class="k">R·001 · Módulo 02 · comprobación rápida</div>
     <h1>Tres <em>preguntas</em>, no más.</h1>
-    <div class="sub">— para saber si te quedó claro. No es examen. No afecta tu certificado si te equivocas; solo te muestra qué releer.</div>
+    <div class="sub">— para saber si te quedó claro. No es examen. Mínimo 2 de 3 para marcar el módulo como completado.</div>
   </header>
 
   <div class="progress-row">
-    <span>pregunta <em>3</em> / 5</span>
-    <div class="pbar"><div class="f"></div></div>
-    <span>tiempo <em>02:14</em></span>
+    <span>pregunta <em id="qIdx">1</em> / 3</span>
+    <div class="pbar"><div class="f" id="qFill" style="width: 33%"></div></div>
+    <span>aciertos <em id="qScore">0</em> / 3</span>
   </div>
 
-  <section class="qcard">
-    <div class="q-num">iii.</div>
-    <div class="q-text">¿Cuál <em>arteria</em> es la más riesgosa al inyectar en la región glabelar?</div>
+  <section class="qcard" id="qcard">
+    <div class="q-num" id="qNum">i.</div>
+    <div class="q-text" id="qText">—</div>
     <div class="q-hint">— una sola respuesta —</div>
-
-    <div class="options">
-      <button class="opt">
-        <span class="letter">a.</span>
-        <span>Arteria facial</span>
-      </button>
-      <button class="opt selected correct">
-        <span class="letter">b.</span>
-        <span>Arteria supratroclear</span>
-      </button>
-      <button class="opt">
-        <span class="letter">c.</span>
-        <span>Arteria angular</span>
-      </button>
-      <button class="opt">
-        <span class="letter">d.</span>
-        <span>Arteria dorsal nasal</span>
-      </button>
-    </div>
-
-    <div class="explain">
-      <div class="t">— por qué —</div>
-      <p>Correcto. La <em>supratroclear</em> atraviesa la glabela en un plano muy superficial; por eso la técnica estándar recomienda inyectar profundo, contra periostio, y siempre con aspiración previa. Lo revisamos en la página 4 del Refuerzo.</p>
+    <div class="options" id="qOpts"></div>
+    <div class="explain" id="qExplain">
+      <div class="t" id="qExplainTag">— por qué —</div>
+      <p id="qExplainText"></p>
     </div>
   </section>
 
-  <div class="qfoot">
-    <button class="l-ctrl">← anterior</button>
-    <button class="btn-gold">Siguiente pregunta →</button>
+  <div class="qfoot" id="qfoot">
+    <button class="l-ctrl" id="qPrev" disabled>← anterior</button>
+    <button class="btn-gold" id="qNext" disabled>
+      Siguiente pregunta →
+    </button>
   </div>
+
+  <section class="result" id="result">
+    <div class="kicker" id="resKicker">— resultado —</div>
+    <h2 id="resTitle">Quiz <em>aprobado</em>.</h2>
+    <div class="score-big"><span id="resScore">0</span><span> / 3</span></div>
+    <p class="sub" id="resSub">—</p>
+    <div class="actions">
+      <a class="btn-primary" id="resPrimary" href="refuerzo-r001.html">
+        Volver al Refuerzo
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a class="btn-ghost" id="resSecondary" href="modulo.html">Repasar el módulo</a>
+    </div>
+  </section>
 </div>
 
-<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— preguntar es leer dos veces —</em><span>R·001 · Quiz</span></footer>
+<footer class="editfoot"><span>© 2026 · Cardumen</span><em>— preguntar es leer dos veces —</em><span>R·001 · Módulo 02 · Quiz</span></footer>
+
+<div id="toast"></div>
+
+<script src="js/progress.js"></script>
+<script>
+(function() {
+  'use strict';
+  const MODULE_NUM = 2;
+  const REFUERZO_ID = 'estetica-anatomia';
+  const progress = CardumenProgress.init(REFUERZO_ID);
+
+  /* ---------- Toast ---------- */
+  const toastEl = document.getElementById('toast');
+  let toastT;
+  function toast(msg, ms = 3200) {
+    toastEl.innerHTML = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(() => toastEl.classList.remove('show'), ms);
+  }
+
+  /* ---------- Questions ---------- */
+  const questions = [
+    {
+      text: '¿Cuál es la <em>dirección correcta</em> para estimular el tránsito intestinal con masaje abdominal?',
+      options: [
+        { t: 'De izquierda a derecha, en línea recta', ok: false },
+        { t: 'En sentido de las manecillas del reloj, siguiendo el recorrido del colon', ok: true },
+        { t: 'En espiral desde el ombligo hacia afuera', ok: false },
+        { t: 'En sentido contrario a las manecillas del reloj', ok: false }
+      ],
+      ok: 'Exacto. El colon va en sentido horario visto desde fuera del cuerpo: ciego (abajo-derecha) → ascendente → transverso → descendente → sigmoide. Tus manos siguen ese camino.',
+      err: 'Revisa la sección del recorrido del colon. La dirección importa — trabajar al revés puede empeorar la retención.'
+    },
+    {
+      text: 'Una clienta llega con <em>dolor agudo reciente</em> en el cuadrante inferior derecho. ¿Qué haces?',
+      options: [
+        { t: 'Aplico drenaje suave para aliviar', ok: false },
+        { t: 'Masaje reductor para disolver la tensión', ok: false },
+        { t: 'No trabajo la zona y le sugiero consultar con un médico', ok: true },
+        { t: 'Calor local para relajar', ok: false }
+      ],
+      ok: 'Correcto. El cuadrante inferior derecho es la zona del apéndice. Dolor agudo reciente puede ser apendicitis. Cabina no es lugar — médico primero.',
+      err: 'Revisa las banderas rojas. El dolor agudo reciente en esa zona específica es bandera roja — deriva, no trates.'
+    },
+    {
+      text: '¿Cuál de estos músculos, cuando está <em>reactivado</em>, aplana más el abdomen?',
+      options: [
+        { t: 'Recto del abdomen', ok: false },
+        { t: 'Oblicuo externo', ok: false },
+        { t: 'Oblicuo interno', ok: false },
+        { t: 'Transverso del abdomen', ok: true }
+      ],
+      ok: 'Exacto. El transverso es el más profundo y funciona como una faja interna. Cuando está activo, aplana el abdomen desde adentro. El recto forma el six-pack pero no aplana; los oblicuos dan forma a la cintura pero tampoco aplanan.',
+      err: 'Revisa la sección de músculos. Hay uno que funciona como faja interna.'
+    }
+  ];
+  const romans = ['i.', 'ii.', 'iii.'];
+  const letters = ['a.', 'b.', 'c.', 'd.'];
+
+  /* ---------- State ---------- */
+  const answers = new Array(questions.length).fill(null); // null | true | false
+  let currentIdx = 0;
+
+  /* ---------- Refs ---------- */
+  const qNumEl = document.getElementById('qNum');
+  const qTextEl = document.getElementById('qText');
+  const qOptsEl = document.getElementById('qOpts');
+  const qExplainEl = document.getElementById('qExplain');
+  const qExplainTag = document.getElementById('qExplainTag');
+  const qExplainText = document.getElementById('qExplainText');
+  const qIdxEl = document.getElementById('qIdx');
+  const qScoreEl = document.getElementById('qScore');
+  const qFillEl = document.getElementById('qFill');
+  const qPrevEl = document.getElementById('qPrev');
+  const qNextEl = document.getElementById('qNext');
+  const qcardEl = document.getElementById('qcard');
+  const qfootEl = document.getElementById('qfoot');
+  const progressRow = document.querySelector('.progress-row');
+  const resultEl = document.getElementById('result');
+
+  function score() {
+    return answers.filter(v => v === true).length;
+  }
+  function updateScoreBar() {
+    qScoreEl.textContent = score();
+    qIdxEl.textContent = currentIdx + 1;
+    qFillEl.style.width = ((currentIdx + 1) / questions.length * 100) + '%';
+  }
+
+  function render() {
+    const q = questions[currentIdx];
+    qNumEl.textContent = romans[currentIdx];
+    qTextEl.innerHTML = q.text;
+    qOptsEl.innerHTML = '';
+    q.options.forEach((op, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.innerHTML = '<span class="letter">' + letters[i] + '</span><span>' + op.t + '</span>';
+      btn.addEventListener('click', () => pick(i, btn));
+      qOptsEl.appendChild(btn);
+    });
+    qExplainEl.classList.remove('show', 'err');
+    qNextEl.disabled = true;
+    qNextEl.textContent = currentIdx === questions.length - 1 ? 'Ver resultado →' : 'Siguiente pregunta →';
+    qPrevEl.disabled = currentIdx === 0;
+    updateScoreBar();
+
+    // Si ya respondió esta pregunta, repintar en estado final
+    if (answers[currentIdx] !== null) {
+      replayAnswer();
+    }
+  }
+
+  function replayAnswer() {
+    const q = questions[currentIdx];
+    const btns = qOptsEl.querySelectorAll('.opt');
+    btns.forEach((b, i) => {
+      b.disabled = true;
+      if (q.options[i].ok) b.classList.add('correct');
+    });
+    const correct = answers[currentIdx];
+    qExplainEl.classList.add('show');
+    if (correct) {
+      qExplainTag.textContent = '— correcto —';
+      qExplainEl.classList.remove('err');
+      qExplainText.innerHTML = q.ok;
+    } else {
+      qExplainTag.textContent = '— revisa —';
+      qExplainEl.classList.add('err');
+      qExplainText.innerHTML = q.err;
+    }
+    qNextEl.disabled = false;
+  }
+
+  function pick(i, btn) {
+    if (answers[currentIdx] !== null) return;
+    const q = questions[currentIdx];
+    const op = q.options[i];
+    const correct = !!op.ok;
+    answers[currentIdx] = correct;
+
+    const btns = qOptsEl.querySelectorAll('.opt');
+    btns.forEach((b, bi) => {
+      b.disabled = true;
+      if (q.options[bi].ok) b.classList.add('correct');
+      else b.classList.add('dim');
+    });
+    btn.classList.remove('dim');
+    btn.classList.add(correct ? 'selected' : 'wrong');
+
+    qExplainEl.classList.add('show');
+    if (correct) {
+      qExplainTag.textContent = '— correcto —';
+      qExplainEl.classList.remove('err');
+      qExplainText.innerHTML = q.ok;
+    } else {
+      qExplainTag.textContent = '— revisa —';
+      qExplainEl.classList.add('err');
+      qExplainText.innerHTML = q.err;
+    }
+    updateScoreBar();
+    qNextEl.disabled = false;
+  }
+
+  qPrevEl.addEventListener('click', () => {
+    if (currentIdx > 0) { currentIdx--; render(); }
+  });
+  qNextEl.addEventListener('click', () => {
+    if (qNextEl.disabled) return;
+    if (currentIdx < questions.length - 1) {
+      currentIdx++;
+      render();
+    } else {
+      finalize();
+    }
+  });
+
+  /* ---------- Finalize + mark complete ---------- */
+  function finalize() {
+    const s = score();
+
+    // Persistencia: si ≥2, setQuizPassed + intentar marcar modulo completado
+    if (s >= 2) {
+      progress.setQuizPassed(MODULE_NUM);
+      // Artefacto 4 ya lo validó el gate inicial (auth-guard). Ambas condiciones cumplidas:
+      const result = progress.tryMarkCompleted(MODULE_NUM, { hasQuiz: false });
+      if (result.ok) {
+        // Marcado exitoso
+      }
+    }
+
+    // Render resultado
+    qcardEl.style.display = 'none';
+    qfootEl.style.display = 'none';
+    progressRow.style.display = 'none';
+    resultEl.classList.add('show');
+    document.getElementById('resScore').textContent = s;
+
+    const title = document.getElementById('resTitle');
+    const sub = document.getElementById('resSub');
+    const kicker = document.getElementById('resKicker');
+    const primary = document.getElementById('resPrimary');
+
+    if (s === 3) {
+      kicker.textContent = '— tres de tres —';
+      title.innerHTML = 'Criterio <em>sólido</em>.';
+      sub.textContent = 'Acertaste todas. El Módulo 02 queda marcado como completado y el siguiente módulo queda desbloqueado.';
+      primary.innerHTML = 'Volver al Refuerzo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+      primary.href = 'refuerzo-r001.html';
+      toast('✓ Módulo 02 completado. Siguiente módulo desbloqueado.');
+    } else if (s === 2) {
+      kicker.textContent = '— dos de tres —';
+      title.innerHTML = 'Quiz <em>aprobado</em>.';
+      sub.textContent = 'Dos de tres es suficiente para avanzar. Relee lo que fallaste antes de aplicar en cabina. El Módulo 02 queda marcado como completado.';
+      primary.innerHTML = 'Volver al Refuerzo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+      primary.href = 'refuerzo-r001.html';
+      toast('✓ Módulo 02 completado con ' + s + '/3.');
+    } else {
+      kicker.textContent = '— quiz no aprobado —';
+      title.innerHTML = 'Hay que <em>repasar</em>.';
+      sub.textContent = 'Necesitas mínimo 2 de 3. Relee el módulo y vuelve a intentarlo. No hay prisa.';
+      primary.innerHTML = 'Volver al módulo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+      primary.href = 'modulo.html';
+      toast('Repasa el módulo. Necesitas al menos 2 aciertos.');
+    }
+  }
+
+  // Init
+  render();
+})();
+</script>
 </body></html>
