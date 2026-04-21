@@ -243,6 +243,11 @@
     30% { opacity: 1 }
     100% { top: 100%; opacity: 0 }
   }
+  /* En mobile / viewport corto el scroll-hint se superpone con los CTAs.
+     El gesto swipe ya es natural en touch, asi que lo ocultamos. */
+  @media (max-width: 780px), (max-height: 760px) {
+    .scroll-hint { display: none; }
+  }
 
   /* ============================================================
      S2 — QUÉ ES UN REFUERZO (cream)
@@ -1027,10 +1032,6 @@
 <header class="hero" data-screen-label="01 Hero">
   <canvas class="hero-canvas" id="fishCanvas"></canvas>
   <div class="hero-inner">
-    <div class="hero-overline overline-mono">
-      Cardumen <span class="dot"></span> La Dorada <span class="dot"></span> El Mundo
-    </div>
-
     <h1 class="hero-headline" id="heroHeadline">
       <span class="word" style="animation-delay:200ms">Pide</span>
       <span class="word" style="animation-delay:260ms">el</span>
