@@ -78,6 +78,16 @@
   .formfoot .next:disabled { background: rgba(212,169,74,0.25); color: rgba(14,11,8,0.6); cursor: not-allowed; transform: none; box-shadow: none; }
   .formfoot .next svg { width: 14px; height: 14px; }
 
+  /* Welcome (screen 0) */
+  .screen.welcome { padding-top: 8vh; }
+  .welcome-cta { margin-top: 40px; }
+  .btn-gold.welcome-start { font-size: 14px; padding: 16px 28px; letter-spacing: 0.04em; }
+  .welcome-micro {
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--cream-mute); margin: 18px 0 0;
+    max-width: 38ch; line-height: 1.6; opacity: 0.7;
+  }
+
   /* Resumen narrativo (screen 7) */
   .narrative {
     font-family: var(--font-display); font-weight: 400;
@@ -140,9 +150,26 @@
 <main class="stage" id="stage">
 
   <!-- ============================================================
+       PANTALLA 0 — Bienvenida (no cuenta como paso)
+       ============================================================ -->
+  <section class="screen active welcome" data-step="0">
+    <div class="kicker">Antes de empezar</div>
+    <h1 class="question">Contanos qué te <em>faltó</em>.</h1>
+    <p class="hint">Esto no es un formulario largo. Son siete preguntas cortas. Te toma cinco minutos. Al final sabremos exactamente qué construir y cuánto te costaría sola o con cardumen.</p>
+
+    <div class="welcome-cta">
+      <button class="btn-gold welcome-start" id="welcomeStartBtn">
+        Empezar
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+      <p class="welcome-micro">Tus respuestas se guardan automáticamente. Podés volver si cerrás la pestaña.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
        PANTALLA 1 — ¿Quién pide este Refuerzo?
        ============================================================ -->
-  <section class="screen active" data-step="1">
+  <section class="screen" data-step="1">
     <div class="kicker">Paso 01 de 07</div>
     <h1 class="question">¿Quién pide este <em>Refuerzo</em>?</h1>
     <p class="hint">Esto nos ayuda a entender el contexto y armar la respuesta correcta. Podés cambiarlo después.</p>
@@ -368,7 +395,7 @@
   const FULL_FLOW = ['1', '2', '3', '4', '5', '6', '7'];
   const BRANCH_FLOW = ['1', '1b']; // experto/docente/institución termina aquí
 
-  let currentStep = '1';
+  let currentStep = '0';
   let data = loadDraft();
 
   // ============================================================
@@ -393,6 +420,15 @@
   function renderProgress() {
     const flow = isBranch() ? BRANCH_FLOW : FULL_FLOW;
     const idx = flow.indexOf(currentStep);
+    // Pantalla 0 (bienvenida): no mostrar progress ni step-tag
+    if (currentStep === '0') {
+      stepTagEl.style.visibility = 'hidden';
+      progFillEl.parentElement.style.opacity = '0';
+      return;
+    }
+    stepTagEl.style.visibility = '';
+    progFillEl.parentElement.style.opacity = '';
+
     if (currentStep === '8') {
       stepTagEl.textContent = '— enviado —';
       progFillEl.style.width = '100%';
@@ -459,7 +495,8 @@
     const nextBtn = document.getElementById('nextBtn');
     const foot = document.getElementById('formFoot');
 
-    if (currentStep === '8') {
+    // Pantalla 0 (welcome) y 8 (confirmación) sin footer global
+    if (currentStep === '0' || currentStep === '8') {
       foot.style.display = 'none';
       return;
     }
@@ -662,6 +699,14 @@
   document.getElementById('f_grupo_desc').addEventListener('input', e => {
     data.grupoDesc = e.target.value; saveDraft();
   });
+
+  // ============================================================
+  // WELCOME — botón "Empezar" salta a paso 1
+  // ============================================================
+  const welcomeBtn = document.getElementById('welcomeStartBtn');
+  if (welcomeBtn) {
+    welcomeBtn.addEventListener('click', () => showScreen('1', 'fwd'));
+  }
 
   // ============================================================
   // NAV BUTTONS
