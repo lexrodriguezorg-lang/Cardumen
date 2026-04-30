@@ -1,3 +1,112 @@
+# PENDIENTE — sprint formulario-real (29 abr 2026)
+
+> Cosas que necesitan tu mano para que el formulario de solicitud quede 100% en producción. Sin esto el formulario igual funciona vía WhatsApp (ruta principal). Ordenado por urgencia.
+
+## 🔴 Crítico — antes de compartir el link
+
+### 1. Número de WhatsApp del fundador
+
+**Archivo:** `pedir-refuerzo.html` · bloque `CONFIG` al inicio del último `<script>`
+
+Hoy:
+```js
+whatsappNumber: '573001234567', // TODO: número real del fundador
+```
+
+Reemplazar con el número real, **sin `+` ni espacios**, formato internacional. Ejemplo Colombia: `573001234567`.
+
+Si no se cambia: las solicitudes abren WhatsApp pero a un número que no es tuyo y nunca te llegan.
+
+---
+
+### 2. Curadora real de R·001
+
+**Archivo:** `index.html` · sección `.s-biblioteca` · card R001
+
+Hoy quedó como `Curado · equipo Cardumen` y `En curaduría · Próximamente disponible` porque el brief de la tarea dice que la Dra. Lina Parra **no está confirmada** como curadora real.
+
+- Si **es real y aprobó**: revertir a `Dra. Lina Parra` + `9 módulos · 2h 45m` (o números reales)
+- Si **es ficticia**: dejar como está hasta tener una curadora real confirmada
+
+---
+
+## 🟡 Importante — para que el email también llegue
+
+### 3. Email automático vía Web3Forms (opcional, recomendado)
+
+Hoy el formulario solo dispara WhatsApp. Para que **además** te llegue un correo a `hola@cardumen.co` con el JSON completo del pedido:
+
+1. Ir a https://web3forms.com → "Get Free Access Key"
+2. Crear cuenta con `hola@cardumen.co`
+3. Confirmar el correo
+4. Copiar el access key (formato UUID)
+5. Pegar en `pedir-refuerzo.html`:
+
+```js
+web3FormsAccessKey: '' // ← pegar acá
+```
+
+Cuota free: 250 emails/mes.
+
+**Alternativas:** Formspree (`formspree.io`) cambiando la URL del fetch en `tryEmailViaWeb3Forms()`. EmailJS más complejo. Backend propio con endpoint `/api/pedido`.
+
+Si no se configura: el formulario sigue funcionando vía WhatsApp + queda en localStorage del navegador del usuario. Solo se pierde el correo automático.
+
+### 4. Email destinatario `hola@cardumen.co`
+
+**Archivo:** `pedir-refuerzo.html` · CONFIG
+
+Confirmar si es el correo real al que querés que lleguen los pedidos. Cambiar si es otro.
+
+---
+
+## 🟢 Opcional — pulido editorial
+
+### 5. Branch flow completo (experto / docente / institución)
+
+Hoy si la persona elige una de esas 3 opciones en pantalla 1, ve un placeholder pidiéndole solo el correo (pantalla 1b). El flujo completo de cada rama queda en TODO.
+
+Cuando estén definidos, agregar pantallas a `pedir-refuerzo.html`:
+- Expandir `BRANCH_FLOW` con los nuevos steps
+- Crear secciones `.screen[data-step="..."]` correspondientes
+- Implementar validaciones en `isStepValid()`
+
+---
+
+## 🛠 Técnicos — no urgentes
+
+### 6. Histórico local de pedidos
+
+Cada solicitud enviada se guarda en `localStorage['cardumen_pedidos_enviados']` del navegador del usuario. Útil como respaldo si Web3Forms falla. Ver desde devtools:
+
+```js
+JSON.parse(localStorage.getItem('cardumen_pedidos_enviados'))
+```
+
+No es backend real — si el usuario limpia caché, se pierde. Es solo seguro vía WhatsApp + email.
+
+### 7. Borrador local
+
+Mientras la usuaria llena el formulario, cada cambio guarda en `localStorage['cardumen_pedido_borrador']`. Si recarga, no pierde nada. Se borra cuando envía. No requiere acción.
+
+### 8. Analytics / tracking
+
+Sin tracking instalado. Si querés saber cuántos abren el formulario vs cuántos lo terminan, agregar GA4 / Plausible.
+
+---
+
+## Checklist mínimo para mañana
+
+- [ ] Cambiar `whatsappNumber` en `pedir-refuerzo.html` por el número real
+- [ ] Probar el flujo completo en mobile (375px) — verificar que el WhatsApp llegue a vos
+- [ ] (Opcional) Configurar Web3Forms para email automático
+- [ ] Mergear PR a `main` → Vercel hace deploy
+- [ ] Pasarle el link a tu pareja para la prueba real
+
+**Último commit del sprint:** ver `git log claude/sprint-formulario-real`
+
+---
+
 # Cardumen — Pendientes ejecutables
 
 > Cosas concretas para la próxima sesión de Code, ordenadas por prioridad. Cada punto es acción, no discusión.
