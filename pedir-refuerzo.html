@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pedir un Refuerzo · Cardumen</title>
+<link rel="stylesheet" href="css/colors_and_type.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  body { background: var(--ink); min-height: 100vh; color: var(--cream); }
+
+  /* Top bar */
+  .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 18px 24px; background: rgba(14,11,8,0.78); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--cream-line); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .topbar a.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .topbar a.brand img { height: 36px; width: auto; display: block; }
+  .topbar .step-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+  .topbar .exit { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-mute); text-decoration: none; }
+  .topbar .exit:hover { color: var(--gold); }
+
+  /* Progress bar */
+  .progressbar { position: fixed; top: 72px; left: 0; right: 0; z-index: 49; height: 2px; background: rgba(250,245,233,0.06); }
+  .progressbar .fill { height: 100%; background: var(--gold); width: 0; transition: width .45s var(--ease-out); }
+
+  /* Stage */
+  .stage { padding: 120px 24px 200px; max-width: 720px; margin: 0 auto; position: relative; min-height: 100dvh; }
+
+  /* Screen — base + transitions */
+  .screen { display: none; opacity: 0; transform: translateX(40px); transition: opacity .35s var(--ease-out), transform .35s var(--ease-out); }
+  .screen.active { display: block; opacity: 1; transform: translateX(0); }
+  .screen.leaving-fwd { display: block; opacity: 0; transform: translateX(-40px); pointer-events: none; }
+  .screen.leaving-back { display: block; opacity: 0; transform: translateX(40px); pointer-events: none; }
+  .screen.entering-back { display: block; opacity: 0; transform: translateX(-40px); }
+
+  /* Editorial typography */
+  .kicker { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); display: inline-flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .kicker::before { content: ''; width: 22px; height: 1px; background: var(--gold); }
+
+  .question { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1.08; letter-spacing: -0.025em; color: var(--cream); margin: 0 0 20px; max-width: 22ch; }
+  .question em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+  .hint { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.1rem; line-height: 1.55; color: var(--cream-soft); margin: 0 0 36px; max-width: 50ch; letter-spacing: -0.005em; }
+
+  /* Inputs */
+  .field { margin-bottom: 22px; }
+  .field label { display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-mute); margin-bottom: 10px; }
+  .field input[type=text], .field input[type=email], .field input[type=tel], .field textarea {
+    width: 100%; background: rgba(250,245,233,0.04); color: var(--cream);
+    border: 1px solid var(--cream-line); border-radius: var(--r-md);
+    padding: 14px 16px; font-family: var(--font-body); font-size: 16px;
+    line-height: 1.5; outline: none; transition: border-color .2s, background .2s;
+    -webkit-appearance: none; appearance: none;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: var(--cream-dim); font-style: italic; }
+  .field input:focus, .field textarea:focus { border-color: var(--gold); background: rgba(250,245,233,0.06); }
+  .field textarea { min-height: 130px; resize: vertical; font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.05rem; line-height: 1.55; }
+  .field .counter { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; color: var(--cream-mute); margin-top: 6px; text-align: right; }
+  .field .counter.ok { color: #8fb88a; }
+
+  /* Radio cards */
+  .radio-cards { display: flex; flex-direction: column; gap: 10px; }
+  .rcard { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; background: rgba(250,245,233,0.03); border: 1px solid var(--cream-line); border-radius: var(--r-lg); cursor: pointer; transition: all .2s; font-family: var(--font-body); font-size: 15px; line-height: 1.4; color: var(--cream-soft); }
+  .rcard:hover { border-color: rgba(212,169,74,0.5); background: rgba(212,169,74,0.04); }
+  .rcard input { position: absolute; opacity: 0; pointer-events: none; }
+  .rcard .dot { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--cream-line); flex-shrink: 0; margin-top: 2px; transition: all .2s; position: relative; }
+  .rcard.selected { border-color: var(--gold); background: rgba(212,169,74,0.08); color: var(--cream); }
+  .rcard.selected .dot { border-color: var(--gold); }
+  .rcard.selected .dot::after { content: ''; position: absolute; inset: 4px; background: var(--gold); border-radius: 50%; }
+  .rcard .body { flex: 1; }
+  .rcard .body strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: 17px; color: var(--cream); margin-bottom: 2px; letter-spacing: -0.01em; }
+  .rcard .body em { font-style: italic; color: var(--gold); }
+
+  /* Footer nav */
+  .formfoot { position: fixed; bottom: 0; left: 0; right: 0; padding: 18px 24px; background: rgba(14,11,8,0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--cream-line); display: flex; justify-content: space-between; align-items: center; gap: 12px; z-index: 50; }
+  .formfoot button { font-family: var(--font-body); font-size: 13.5px; font-weight: 500; letter-spacing: 0.02em; padding: 14px 24px; border-radius: var(--r-pill); cursor: pointer; transition: all .2s; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 10px; }
+  .formfoot .back { background: transparent; color: var(--cream); border-color: var(--cream-line); }
+  .formfoot .back:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+  .formfoot .back:disabled { opacity: 0.3; cursor: not-allowed; }
+  .formfoot .next { background: var(--gold); color: var(--ink); font-weight: 600; }
+  .formfoot .next:hover:not(:disabled) { background: var(--gold-soft); transform: translateY(-1px); box-shadow: var(--glow-gold); }
+  .formfoot .next:disabled { background: rgba(212,169,74,0.25); color: rgba(14,11,8,0.6); cursor: not-allowed; transform: none; box-shadow: none; }
+  .formfoot .next svg { width: 14px; height: 14px; }
+
+  /* Summary card (screen 7) */
+  .summary { background: rgba(250,245,233,0.03); border: 1px solid var(--cream-line); border-radius: var(--r-lg); padding: 24px; margin-bottom: 28px; }
+  .summary .row { display: grid; grid-template-columns: 130px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--cream-line); align-items: baseline; }
+  .summary .row:last-child { border-bottom: none; }
+  .summary .row .lab { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--cream-mute); text-transform: uppercase; }
+  .summary .row .val { font-family: var(--font-body); font-size: 14.5px; line-height: 1.5; color: var(--cream); }
+  .summary .row .val em { font-style: italic; color: var(--gold); }
+  .summary .row .val.q { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: 1.05rem; line-height: 1.55; color: var(--cream-soft); }
+
+  /* Confirmation screen */
+  .confirm-mark { width: 88px; height: 88px; margin: 0 auto 36px; border-radius: 50%; border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; position: relative; animation: markIn .6s var(--ease-out); }
+  .confirm-mark::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(212,169,74,0.25); border-radius: 50%; }
+  .confirm-mark svg { width: 36px; height: 36px; stroke: var(--gold); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  @keyframes markIn { from { opacity: 0; transform: scale(0.92) } to { opacity: 1; transform: scale(1) } }
+
+  .confirm-block { margin: 40px 0; padding: 24px 26px; background: rgba(212,169,74,0.06); border: 1px solid rgba(212,169,74,0.25); border-radius: var(--r-lg); }
+  .confirm-block .t { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .confirm-block p { font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--cream-soft); font-size: 1.05rem; line-height: 1.55; margin: 0; }
+  .confirm-block p em { font-style: normal; color: var(--gold); }
+
+  .branch-msg { padding: 28px 24px; background: rgba(61,107,158,0.08); border: 1px solid rgba(61,107,158,0.3); border-radius: var(--r-lg); margin: 24px 0; }
+  .branch-msg .t { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--navy); margin-bottom: 10px; }
+  .branch-msg p { font-family: var(--font-display); font-style: italic; font-weight: 300; color: var(--cream-soft); font-size: 1.1rem; line-height: 1.55; margin: 0 0 12px; }
+  .branch-msg input { margin-top: 10px; }
+
+  /* Mobile tweaks */
+  @media (max-width: 480px) {
+    .stage { padding: 110px 20px 180px; }
+    .topbar { padding: 14px 20px; }
+    .topbar a.brand img { height: 32px; }
+    .formfoot { padding: 14px 20px; }
+    .formfoot button { padding: 12px 18px; font-size: 13px; }
+    .question { font-size: 1.7rem; }
+    .summary .row { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style></head>
+<body>
+
+<nav class="topbar" data-screen-label="Pedir Refuerzo">
+  <a class="brand" href="index.html"><img src="assets/logo/cardumen-white-premium.png" alt="Cardumen"></a>
+  <span class="step-tag" id="stepTag">Paso 01 de 07</span>
+  <a class="exit" href="index.html" id="exitLink" title="Salir">Salir</a>
+</nav>
+<div class="progressbar"><div class="fill" id="progFill"></div></div>
+
+<main class="stage" id="stage">
+
+  <!-- ============================================================
+       PANTALLA 1 — ¿Quién pide este Refuerzo?
+       ============================================================ -->
+  <section class="screen active" data-step="1">
+    <div class="kicker">Paso 01 de 07</div>
+    <h1 class="question">¿Quién pide este <em>Refuerzo</em>?</h1>
+    <p class="hint">Esto nos ayuda a entender el contexto y armar la respuesta correcta. Podés cambiarlo después.</p>
+
+    <div class="radio-cards" id="quienGroup">
+      <label class="rcard" data-value="estudiante">
+        <input type="radio" name="quien" value="estudiante">
+        <span class="dot"></span>
+        <span class="body"><strong>Soy estudiante o profesional</strong>Quiero aprender algo concreto que me hace falta.</span>
+      </label>
+      <label class="rcard" data-value="experto">
+        <input type="radio" name="quien" value="experto">
+        <span class="dot"></span>
+        <span class="body"><strong>Soy experto</strong>Quiero proponer un tema que <em>domino</em>.</span>
+      </label>
+      <label class="rcard" data-value="docente">
+        <input type="radio" name="quien" value="docente">
+        <span class="dot"></span>
+        <span class="body"><strong>Soy docente</strong>Quiero un Refuerzo para mis estudiantes.</span>
+      </label>
+      <label class="rcard" data-value="institucion">
+        <input type="radio" name="quien" value="institucion">
+        <span class="dot"></span>
+        <span class="body"><strong>Represento una institución</strong>Colegio, universidad, academia, empresa.</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 1B — Branch placeholder (experto / docente / institución)
+       ============================================================ -->
+  <section class="screen" data-step="1b">
+    <div class="kicker">Paso 01 de 07 · ramificación</div>
+    <h1 class="question">Pronto te <em>contactaremos</em>.</h1>
+    <p class="hint">Para esa ruta estamos puliendo el flujo. Mientras tanto, dejanos tu correo y te escribimos en menos de 48 horas con los siguientes pasos.</p>
+
+    <div class="branch-msg">
+      <div class="t">— modo placeholder —</div>
+      <p>El flujo completo de <span id="branchLabel">esta ruta</span> abre la próxima semana. Si nos dejás tu correo, te aseguramos el primer aviso.</p>
+    </div>
+
+    <div class="field">
+      <label>Tu correo</label>
+      <input type="email" id="branchEmail" placeholder="vos@correo.com" autocomplete="email">
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 2 — ¿Quién eres tú?
+       ============================================================ -->
+  <section class="screen" data-step="2">
+    <div class="kicker">Paso 02 de 07</div>
+    <h1 class="question">Cuéntanos quién <em>eres</em>.</h1>
+    <p class="hint">Datos básicos. Nada que no nos hayas dicho ya en una conversación normal.</p>
+
+    <div class="field">
+      <label>Nombre completo</label>
+      <input type="text" id="f_nombre" placeholder="Cómo te llamás" autocomplete="name">
+    </div>
+    <div class="field">
+      <label>Profesión u oficio actual</label>
+      <input type="text" id="f_profesion" placeholder="Esteticista, docente, enfermera…" autocomplete="organization-title">
+    </div>
+    <div class="field">
+      <label>Ciudad</label>
+      <input type="text" id="f_ciudad" placeholder="Bogotá, La Dorada, CDMX…" autocomplete="address-level2">
+    </div>
+    <div class="field">
+      <label>Edad</label>
+      <div class="radio-cards" id="edadGroup">
+        <label class="rcard" data-value="16-25"><input type="radio" name="edad" value="16-25"><span class="dot"></span><span class="body"><strong>16–25 años</strong></span></label>
+        <label class="rcard" data-value="26-35"><input type="radio" name="edad" value="26-35"><span class="dot"></span><span class="body"><strong>26–35 años</strong></span></label>
+        <label class="rcard" data-value="36-50"><input type="radio" name="edad" value="36-50"><span class="dot"></span><span class="body"><strong>36–50 años</strong></span></label>
+        <label class="rcard" data-value="51+"><input type="radio" name="edad" value="51+"><span class="dot"></span><span class="body"><strong>51+ años</strong></span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>WhatsApp (con código país)</label>
+      <input type="tel" id="f_whatsapp" placeholder="+57 300 123 4567" autocomplete="tel">
+    </div>
+    <div class="field">
+      <label>Correo</label>
+      <input type="email" id="f_email" placeholder="vos@correo.com" autocomplete="email">
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 3 — ¿Qué tema necesitás reforzar?
+       ============================================================ -->
+  <section class="screen" data-step="3">
+    <div class="kicker">Paso 03 de 07</div>
+    <h1 class="question">¿Qué tema necesitás <em>reforzar</em>?</h1>
+    <p class="hint">Sé específica. No "estética", sí "drenaje en pacientes postoperatorias". No "ICFES", sí "lectura crítica nivel inferencial". Mientras más concreta, mejor sale el Refuerzo.</p>
+
+    <div class="field">
+      <textarea id="f_tema" placeholder="Escribí acá el tema concreto que querés que el Refuerzo cubra…" minlength="30"></textarea>
+      <div class="counter" id="temaCount">0 / 30 mínimo</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 4 — ¿Por qué lo necesitás ahora?
+       ============================================================ -->
+  <section class="screen" data-step="4">
+    <div class="kicker">Paso 04 de 07</div>
+    <h1 class="question">¿Qué pasó? ¿Por qué lo <em>necesitás</em> ahora?</h1>
+    <p class="hint">Contanos el caso real. Una clienta que llegó y no supiste qué hacer. Un examen que viene. Un vacío que detectaste. Esto nos ayuda a construir el Refuerzo desde la realidad, no desde un manual.</p>
+
+    <div class="field">
+      <textarea id="f_porque" placeholder="El caso real, la situación, el momento…" minlength="50"></textarea>
+      <div class="counter" id="porqueCount">0 / 50 mínimo</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 5 — ¿Qué querés lograr?
+       ============================================================ -->
+  <section class="screen" data-step="5">
+    <div class="kicker">Paso 05 de 07</div>
+    <h1 class="question">Cuando termines, ¿qué deberías saber <em>hacer</em> que ahora no hacés?</h1>
+    <p class="hint">La promesa concreta. "Saber identificar banderas rojas en consulta". "Leer un texto del ICFES sin dejarme engañar por las opciones". "Atender a clientas postparto sin miedo". Una frase clara.</p>
+
+    <div class="field">
+      <textarea id="f_meta" placeholder="Lo que vas a poder hacer al terminar el Refuerzo…" minlength="30"></textarea>
+      <div class="counter" id="metaCount">0 / 30 mínimo</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 6 — ¿Cuántas personas?
+       ============================================================ -->
+  <section class="screen" data-step="6">
+    <div class="kicker">Paso 06 de 07</div>
+    <h1 class="question">¿Conocés a otras personas con la misma <em>necesidad</em>?</h1>
+    <p class="hint">En Cardumen, mientras más personas piden el mismo Refuerzo, menos paga cada una. Contanos si tenés red.</p>
+
+    <div class="radio-cards" id="grupoGroup">
+      <label class="rcard" data-value="1"><input type="radio" name="grupo" value="1"><span class="dot"></span><span class="body"><strong>Solo yo</strong></span></label>
+      <label class="rcard" data-value="2-5"><input type="radio" name="grupo" value="2-5"><span class="dot"></span><span class="body"><strong>2 a 5 personas como yo</strong></span></label>
+      <label class="rcard" data-value="6-20"><input type="radio" name="grupo" value="6-20"><span class="dot"></span><span class="body"><strong>6 a 20 personas</strong></span></label>
+      <label class="rcard" data-value="20-50"><input type="radio" name="grupo" value="20-50"><span class="dot"></span><span class="body"><strong>20 a 50 personas</strong></span></label>
+      <label class="rcard" data-value="50+"><input type="radio" name="grupo" value="50+"><span class="dot"></span><span class="body"><strong>Más de 50</strong>Grupo, clase, comunidad, colegio, empresa.</span></label>
+    </div>
+
+    <div class="field" style="margin-top: 28px;">
+      <label>Contanos sobre ese grupo (opcional)</label>
+      <textarea id="f_grupo_desc" placeholder="¿Quiénes son? ¿Cómo se conocen? ¿Cómo los podríamos sumar?"></textarea>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 7 — Confirmar y enviar
+       ============================================================ -->
+  <section class="screen" data-step="7">
+    <div class="kicker">Paso 07 de 07</div>
+    <h1 class="question">Revisá tu solicitud antes de <em>enviarla</em>.</h1>
+    <p class="hint">Si algo no te cuadra, podés volver y editar. Cuando esté lista, enviá.</p>
+
+    <div class="summary" id="summaryBox">
+      <!-- Se renderiza por JS -->
+    </div>
+
+    <p class="hint" style="margin-top: 32px;">Cuando envíes, recibirás en tu correo y WhatsApp:</p>
+    <ul style="font-family: var(--font-body); font-size: 14.5px; line-height: 1.7; color: var(--cream-soft); padding-left: 22px; margin: 0 0 24px; max-width: 50ch;">
+      <li>Un brief preliminar de lo que entendimos.</li>
+      <li>Una cotización con dos opciones (individual y cardumen).</li>
+      <li>Un link único para invitar a más personas y bajar el precio.</li>
+    </ul>
+    <p class="hint" style="font-style: normal; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);">Tiempo de respuesta · 24 a 48 horas hábiles</p>
+  </section>
+
+  <!-- ============================================================
+       PANTALLA 8 — Confirmación post-envío
+       ============================================================ -->
+  <section class="screen" data-step="8">
+    <div class="confirm-mark">
+      <svg viewBox="0 0 24 24"><path d="M4 12c2-3 5-5 8-5s6 1 8 3c-2 2-4 4-8 4s-6-1-8-2z"/><circle cx="14" cy="10" r="0.8" fill="var(--gold)" stroke="none"/></svg>
+    </div>
+    <div class="kicker" style="display: flex; justify-content: center;">— tu solicitud llegó al cardumen —</div>
+    <h1 class="question" style="text-align: center; max-width: 100%; margin-left: auto; margin-right: auto;">Lo <em>leímos</em>.<br>Ahora pensamos.</h1>
+    <p class="hint" style="text-align: center; margin-left: auto; margin-right: auto;">En las próximas 24 a 48 horas recibirás en tu WhatsApp y correo el brief preliminar y la cotización. Mientras tanto, podés empezar a invitar a más personas — cuanto más cardumen, menos paga cada una.</p>
+
+    <div class="confirm-block">
+      <div class="t">Tu link para compartir · próximamente</div>
+      <p>Cuando confirmemos tu solicitud, recibirás un link único para invitar a otras personas. Por cada persona que se sume, <em>el precio baja para todas</em>.</p>
+    </div>
+
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 40px;">
+      <a href="index.html" class="btn-ghost">Volver al inicio</a>
+      <a href="biblioteca.html" class="btn-gold">Ver el Refuerzo en pre-lanzamiento
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="formfoot" id="formFoot">
+  <button class="back" id="backBtn" disabled>← Atrás</button>
+  <button class="next" id="nextBtn" disabled>
+    Siguiente
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+  </button>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // ============================================================
+  // CONFIGURACIÓN — ajustar por el fundador
+  // ============================================================
+  const CONFIG = {
+    whatsappNumber: '573001234567',          // TODO: número real del fundador (sin + ni espacios)
+    contactEmail:   'hola@cardumen.co',      // TODO: confirmar correo destino
+    web3FormsAccessKey: ''                    // TODO: pegar access_key de https://web3forms.com (vacío = solo WhatsApp)
+  };
+
+  // ============================================================
+  // STATE
+  // ============================================================
+  const STORAGE_KEY = 'cardumen_pedido_borrador';
+  const HISTORY_KEY = 'cardumen_pedidos_enviados';
+
+  // Flujo de pasos. Si "quien" no es estudiante, salta a 1b y termina ahí.
+  const FULL_FLOW = ['1', '2', '3', '4', '5', '6', '7'];
+  const BRANCH_FLOW = ['1', '1b']; // experto/docente/institución termina aquí
+
+  let currentStep = '1';
+  let data = loadDraft();
+
+  // ============================================================
+  // PERSISTENCIA
+  // ============================================================
+  function loadDraft() {
+    try {
+      const s = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+      return s && typeof s === 'object' ? s : {};
+    } catch (_) { return {}; }
+  }
+  function saveDraft() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (_) {}
+  }
+
+  // ============================================================
+  // RENDER STEP TAG + PROGRESS
+  // ============================================================
+  const stepTagEl = document.getElementById('stepTag');
+  const progFillEl = document.getElementById('progFill');
+
+  function renderProgress() {
+    const flow = isBranch() ? BRANCH_FLOW : FULL_FLOW;
+    const idx = flow.indexOf(currentStep);
+    if (currentStep === '8') {
+      stepTagEl.textContent = '— enviado —';
+      progFillEl.style.width = '100%';
+      return;
+    }
+    const stepNum = currentStep === '1b' ? '01' : String(parseInt(currentStep, 10)).padStart(2, '0');
+    stepTagEl.textContent = 'Paso ' + stepNum + ' de 07';
+    const pct = idx >= 0 ? ((idx + 1) / flow.length) * 100 : 0;
+    progFillEl.style.width = pct + '%';
+  }
+
+  function isBranch() {
+    return data.quien && data.quien !== 'estudiante';
+  }
+
+  // ============================================================
+  // SCREEN TRANSITIONS
+  // ============================================================
+  function showScreen(stepKey, direction = 'fwd') {
+    const all = document.querySelectorAll('.screen');
+    const current = document.querySelector('.screen.active');
+    const next = document.querySelector('.screen[data-step="' + stepKey + '"]');
+    if (!next) return;
+
+    if (current && current !== next) {
+      current.classList.add(direction === 'fwd' ? 'leaving-fwd' : 'leaving-back');
+      current.classList.remove('active');
+      setTimeout(() => current.classList.remove('leaving-fwd', 'leaving-back'), 380);
+    }
+
+    if (direction === 'back') next.classList.add('entering-back');
+    setTimeout(() => {
+      next.classList.add('active');
+      next.classList.remove('entering-back');
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }, direction === 'back' ? 50 : 120);
+
+    currentStep = stepKey;
+    renderProgress();
+    paintFromState();
+    refreshNav();
+  }
+
+  // ============================================================
+  // VALIDATION
+  // ============================================================
+  function isStepValid(step) {
+    switch (step) {
+      case '1':  return !!data.quien;
+      case '1b': return !!(data.branchEmail && /^\S+@\S+\.\S+$/.test(data.branchEmail));
+      case '2':  return !!(data.nombre && data.profesion && data.ciudad && data.edad
+                         && data.whatsapp && data.email && /^\S+@\S+\.\S+$/.test(data.email));
+      case '3':  return !!(data.tema && data.tema.trim().length >= 30);
+      case '4':  return !!(data.porque && data.porque.trim().length >= 50);
+      case '5':  return !!(data.meta && data.meta.trim().length >= 30);
+      case '6':  return !!data.grupo;
+      case '7':  return true; // permite enviar siempre que llegue acá
+      default:   return false;
+    }
+  }
+
+  function refreshNav() {
+    const backBtn = document.getElementById('backBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const foot = document.getElementById('formFoot');
+
+    if (currentStep === '8') {
+      foot.style.display = 'none';
+      return;
+    }
+    foot.style.display = '';
+
+    backBtn.disabled = (currentStep === '1');
+
+    if (currentStep === '7') {
+      nextBtn.innerHTML = 'Enviar solicitud <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+    } else if (currentStep === '1b') {
+      nextBtn.innerHTML = 'Reservar mi lugar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+    } else {
+      nextBtn.innerHTML = 'Siguiente <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+    }
+
+    nextBtn.disabled = !isStepValid(currentStep);
+  }
+
+  // ============================================================
+  // PAINT FROM STATE — re-pinta inputs cuando volvés a la pantalla
+  // ============================================================
+  function paintFromState() {
+    // Pantalla 1 — quien
+    document.querySelectorAll('#quienGroup .rcard').forEach(el => {
+      el.classList.toggle('selected', el.dataset.value === data.quien);
+    });
+    // Pantalla 1b — branchEmail
+    const branchEmail = document.getElementById('branchEmail');
+    if (branchEmail) branchEmail.value = data.branchEmail || '';
+    const branchLabel = document.getElementById('branchLabel');
+    if (branchLabel) {
+      const labels = { experto: 'expertos', docente: 'docentes', institucion: 'instituciones' };
+      branchLabel.textContent = labels[data.quien] || 'esta ruta';
+    }
+    // Pantalla 2 — perfil
+    setVal('f_nombre', data.nombre);
+    setVal('f_profesion', data.profesion);
+    setVal('f_ciudad', data.ciudad);
+    setVal('f_whatsapp', data.whatsapp);
+    setVal('f_email', data.email);
+    document.querySelectorAll('#edadGroup .rcard').forEach(el => {
+      el.classList.toggle('selected', el.dataset.value === data.edad);
+    });
+    // Pantallas 3–5 — textos
+    setVal('f_tema', data.tema); updateCounter('f_tema', 'temaCount', 30);
+    setVal('f_porque', data.porque); updateCounter('f_porque', 'porqueCount', 50);
+    setVal('f_meta', data.meta); updateCounter('f_meta', 'metaCount', 30);
+    // Pantalla 6 — grupo
+    document.querySelectorAll('#grupoGroup .rcard').forEach(el => {
+      el.classList.toggle('selected', el.dataset.value === data.grupo);
+    });
+    setVal('f_grupo_desc', data.grupoDesc);
+    // Pantalla 7 — summary
+    if (currentStep === '7') renderSummary();
+  }
+
+  function setVal(id, val) {
+    const el = document.getElementById(id);
+    if (el && typeof val === 'string') el.value = val;
+  }
+  function updateCounter(inputId, counterId, min) {
+    const el = document.getElementById(inputId);
+    const c = document.getElementById(counterId);
+    if (!el || !c) return;
+    const len = (el.value || '').trim().length;
+    c.textContent = len + ' / ' + min + ' mínimo';
+    c.classList.toggle('ok', len >= min);
+  }
+
+  // ============================================================
+  // SUMMARY (pantalla 7)
+  // ============================================================
+  function renderSummary() {
+    const box = document.getElementById('summaryBox');
+    const labels = {
+      estudiante: 'Estudiante o profesional',
+      experto: 'Experto', docente: 'Docente', institucion: 'Institución'
+    };
+    const grupos = {
+      '1': 'Solo yo', '2-5': '2 a 5 personas', '6-20': '6 a 20',
+      '20-50': '20 a 50', '50+': 'Más de 50'
+    };
+    const rows = [
+      ['Quién',     labels[data.quien] || '—', false],
+      ['Nombre',    data.nombre || '—', false],
+      ['Profesión', data.profesion || '—', false],
+      ['Ciudad',    data.ciudad || '—', false],
+      ['Edad',      data.edad || '—', false],
+      ['WhatsApp',  data.whatsapp || '—', false],
+      ['Correo',    data.email || '—', false],
+      ['Tema',      data.tema || '—', true],
+      ['Por qué',   data.porque || '—', true],
+      ['Meta',      data.meta || '—', true],
+      ['Grupo',     grupos[data.grupo] || '—', false]
+    ];
+    if (data.grupoDesc) rows.push(['Sobre el grupo', data.grupoDesc, true]);
+
+    box.innerHTML = rows.map(([lab, val, isQuote]) => {
+      const safe = String(val).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+      return '<div class="row"><span class="lab">' + lab + '</span><span class="val' + (isQuote ? ' q' : '') + '">' + (isQuote ? '"' + safe + '"' : safe) + '</span></div>';
+    }).join('');
+  }
+
+  // ============================================================
+  // EVENTS — wiring inputs
+  // ============================================================
+  // Pantalla 1
+  document.querySelectorAll('#quienGroup .rcard').forEach(el => {
+    el.addEventListener('click', () => {
+      data.quien = el.dataset.value;
+      saveDraft();
+      paintFromState();
+      refreshNav();
+    });
+  });
+
+  // Pantalla 1b
+  const branchEmailEl = document.getElementById('branchEmail');
+  branchEmailEl.addEventListener('input', e => { data.branchEmail = e.target.value.trim(); saveDraft(); refreshNav(); });
+
+  // Pantalla 2
+  ['f_nombre', 'f_profesion', 'f_ciudad', 'f_whatsapp', 'f_email'].forEach(id => {
+    const el = document.getElementById(id);
+    const key = id.replace('f_', '');
+    el.addEventListener('input', e => {
+      data[key === 'profesion' ? 'profesion' : key] = e.target.value;
+      saveDraft();
+      refreshNav();
+    });
+  });
+  document.querySelectorAll('#edadGroup .rcard').forEach(el => {
+    el.addEventListener('click', () => {
+      data.edad = el.dataset.value;
+      saveDraft(); paintFromState(); refreshNav();
+    });
+  });
+
+  // Pantallas 3–5 — textareas con counter
+  function wireTextarea(id, key, counterId, min) {
+    const el = document.getElementById(id);
+    el.addEventListener('input', e => {
+      data[key] = e.target.value;
+      saveDraft();
+      updateCounter(id, counterId, min);
+      refreshNav();
+    });
+  }
+  wireTextarea('f_tema', 'tema', 'temaCount', 30);
+  wireTextarea('f_porque', 'porque', 'porqueCount', 50);
+  wireTextarea('f_meta', 'meta', 'metaCount', 30);
+
+  // Pantalla 6
+  document.querySelectorAll('#grupoGroup .rcard').forEach(el => {
+    el.addEventListener('click', () => {
+      data.grupo = el.dataset.value;
+      saveDraft(); paintFromState(); refreshNav();
+    });
+  });
+  document.getElementById('f_grupo_desc').addEventListener('input', e => {
+    data.grupoDesc = e.target.value; saveDraft();
+  });
+
+  // ============================================================
+  // NAV BUTTONS
+  // ============================================================
+  document.getElementById('backBtn').addEventListener('click', () => {
+    const flow = isBranch() ? BRANCH_FLOW : FULL_FLOW;
+    const idx = flow.indexOf(currentStep);
+    if (idx <= 0) return;
+    showScreen(flow[idx - 1], 'back');
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (!isStepValid(currentStep)) return;
+
+    // Branch: si en pantalla 1 eligió no-estudiante, salta a 1b
+    if (currentStep === '1' && isBranch()) {
+      showScreen('1b', 'fwd');
+      return;
+    }
+    // Branch terminada: enviar reserva mínima y mostrar pantalla 8
+    if (currentStep === '1b') {
+      submitForm({ branch: true });
+      return;
+    }
+    // Pantalla 7: enviar
+    if (currentStep === '7') {
+      submitForm({ branch: false });
+      return;
+    }
+    const flow = isBranch() ? BRANCH_FLOW : FULL_FLOW;
+    const idx = flow.indexOf(currentStep);
+    if (idx >= 0 && idx < flow.length - 1) {
+      showScreen(flow[idx + 1], 'fwd');
+    }
+  });
+
+  // ============================================================
+  // SUBMIT — WhatsApp + email + localStorage histórico
+  // ============================================================
+  function buildPayload(opts) {
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const serial = 'CDM-P-' + now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()) + '-' + pad(now.getHours()) + pad(now.getMinutes());
+    return {
+      serial: serial,
+      timestamp: now.toISOString(),
+      branch: !!opts.branch,
+      quien: data.quien || null,
+      branchEmail: data.branchEmail || null,
+      perfil: opts.branch ? null : {
+        nombre: data.nombre, profesion: data.profesion, ciudad: data.ciudad,
+        edad: data.edad, whatsapp: data.whatsapp, email: data.email
+      },
+      pedido: opts.branch ? null : {
+        tema: data.tema, porque: data.porque, meta: data.meta,
+        grupo: data.grupo, grupoDesc: data.grupoDesc || ''
+      }
+    };
+  }
+
+  function buildWhatsAppText(payload) {
+    const lines = [];
+    lines.push('🐟 *Nueva solicitud de Refuerzo · ' + payload.serial + '*');
+    lines.push('');
+    if (payload.branch) {
+      lines.push('Tipo: ' + (payload.quien || 'desconocido'));
+      lines.push('Correo: ' + (payload.branchEmail || '—'));
+      lines.push('');
+      lines.push('— ruta placeholder, pidió ser contactado/a —');
+    } else {
+      const p = payload.perfil, q = payload.pedido;
+      lines.push('*Quién:* ' + (payload.quien || '—'));
+      lines.push('*Nombre:* ' + (p.nombre || '—'));
+      lines.push('*Profesión:* ' + (p.profesion || '—'));
+      lines.push('*Ciudad:* ' + (p.ciudad || '—'));
+      lines.push('*Edad:* ' + (p.edad || '—'));
+      lines.push('*WhatsApp:* ' + (p.whatsapp || '—'));
+      lines.push('*Correo:* ' + (p.email || '—'));
+      lines.push('');
+      lines.push('*Tema:* ' + (q.tema || '—'));
+      lines.push('');
+      lines.push('*Por qué:* ' + (q.porque || '—'));
+      lines.push('');
+      lines.push('*Meta:* ' + (q.meta || '—'));
+      lines.push('');
+      lines.push('*Grupo:* ' + (q.grupo || '—'));
+      if (q.grupoDesc) lines.push('*Sobre el grupo:* ' + q.grupoDesc);
+    }
+    return lines.join('\n');
+  }
+
+  function pushToHistory(payload) {
+    try {
+      const list = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      list.push(payload);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(list));
+    } catch (_) {}
+  }
+
+  function tryEmailViaWeb3Forms(payload) {
+    // Si no hay access_key configurado, no intenta. El WhatsApp ya cubre la ruta principal.
+    if (!CONFIG.web3FormsAccessKey) return Promise.resolve({ ok: false, reason: 'no_key' });
+    const body = {
+      access_key: CONFIG.web3FormsAccessKey,
+      subject: '[Cardumen] Nueva solicitud · ' + payload.serial,
+      from_name: 'Cardumen formulario',
+      to: CONFIG.contactEmail,
+      message: JSON.stringify(payload, null, 2)
+    };
+    return fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(body)
+    }).then(r => r.json()).catch(err => ({ ok: false, reason: 'fetch_error', err: String(err) }));
+  }
+
+  function submitForm(opts) {
+    const payload = buildPayload(opts);
+
+    // 1. Histórico local (siempre, aunque falle todo lo demás)
+    pushToHistory(payload);
+
+    // 2. Email asincrónico (si está configurado)
+    tryEmailViaWeb3Forms(payload).catch(() => {});
+
+    // 3. WhatsApp con resumen pre-cargado
+    const text = buildWhatsAppText(payload);
+    const waUrl = 'https://wa.me/' + CONFIG.whatsappNumber + '?text=' + encodeURIComponent(text);
+    window.open(waUrl, '_blank', 'noopener');
+
+    // 4. Limpiar borrador y mostrar pantalla 8
+    try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+    showScreen('8', 'fwd');
+  }
+
+  // ============================================================
+  // INIT — prefill desde querystring (?tema=...) si vino del CTA del home
+  // ============================================================
+  (function applyQueryPrefill() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tema = params.get('tema');
+      if (tema && tema.trim() && !data.tema) {
+        data.tema = tema.trim();
+        saveDraft();
+      }
+    } catch (_) {}
+  })();
+
+  paintFromState();
+  refreshNav();
+  renderProgress();
+})();
+</script>
+</body></html>
