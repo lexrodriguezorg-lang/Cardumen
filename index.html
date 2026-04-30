@@ -1025,7 +1025,7 @@
     <a class="nav-link" href="#puertas">Para ti</a>
     <a class="nav-link" href="#como">Cómo funciona</a>
   </div>
-  <button class="nav-cta" onclick="document.querySelector('#pide').scrollIntoView({behavior:'smooth'})">Pedir un Refuerzo</button>
+  <button class="nav-cta" onclick="window.location.href='pedir-refuerzo.html'">Pedir un Refuerzo</button>
 </nav>
 
 <!-- ================= S1 · HERO ================= -->
@@ -1540,20 +1540,13 @@
     });
   });
 
-  /* ---------- S7 · Submit ---------- */
+  /* ---------- S7 · Submit · redirige al formulario completo ---------- */
   function handlePide(e) {
     e.preventDefault();
     const v = document.getElementById('pideInput').value.trim();
-    const meta = document.getElementById('pideMeta');
-    if (!v) {
-      meta.innerHTML = 'Escribe algo primero <span class="dot">·</span> Una pregunta concreta';
-      meta.style.color = 'var(--coral)';
-      return false;
-    }
-    meta.innerHTML = 'Recibido <span class="dot">·</span> Te escribimos a tu email en 48h';
-    meta.style.color = 'var(--gold)';
-    document.getElementById('pideInput').value = '';
-    document.getElementById('pideInput').placeholder = 'Pide otro tema si quieres';
+    // El formulario completo guarda el tema como prefill si llega via querystring
+    const target = v ? 'pedir-refuerzo.html?tema=' + encodeURIComponent(v) : 'pedir-refuerzo.html';
+    window.location.href = target;
     return false;
   }
 

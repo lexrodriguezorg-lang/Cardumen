@@ -746,9 +746,19 @@
   }
 
   // ============================================================
-  // INIT
+  // INIT — prefill desde querystring (?tema=...) si vino del CTA del home
   // ============================================================
-  // Si tiene un borrador a medias, arrancar donde quedó (priorizar pantalla 1)
+  (function applyQueryPrefill() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tema = params.get('tema');
+      if (tema && tema.trim() && !data.tema) {
+        data.tema = tema.trim();
+        saveDraft();
+      }
+    } catch (_) {}
+  })();
+
   paintFromState();
   refreshNav();
   renderProgress();
