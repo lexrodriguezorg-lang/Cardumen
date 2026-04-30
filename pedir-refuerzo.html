@@ -78,6 +78,25 @@
   .formfoot .next:disabled { background: rgba(212,169,74,0.25); color: rgba(14,11,8,0.6); cursor: not-allowed; transform: none; box-shadow: none; }
   .formfoot .next svg { width: 14px; height: 14px; }
 
+  /* Microtransiciones (auto-advance 2.3s entre paso 2-3 y 4-5) */
+  .screen.transition {
+    text-align: center; padding: 12vh 24px;
+    min-height: 50dvh;
+    display: none; align-items: center; justify-content: center;
+  }
+  .screen.transition.active { display: flex; }
+  .screen.transition .t-text {
+    font-family: var(--font-display); font-style: italic; font-weight: 300;
+    font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.3;
+    color: var(--cream); letter-spacing: -0.015em;
+    max-width: 22ch; margin: 0;
+    opacity: 0;
+    animation: tFadeIn 400ms var(--ease-out) forwards,
+               tFadeOut 400ms var(--ease-out) 1900ms forwards;
+  }
+  @keyframes tFadeIn  { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
+  @keyframes tFadeOut { from { opacity: 1 } to { opacity: 0 } }
+
   /* Welcome (screen 0) */
   .screen.welcome { padding-top: 8vh; }
   .welcome-cta { margin-top: 40px; }
@@ -257,6 +276,13 @@
   </section>
 
   <!-- ============================================================
+       MICROTRANSICIÓN 2t — entre paso 2 y paso 3 (auto-advance 2.3s)
+       ============================================================ -->
+  <section class="screen transition" data-step="2t">
+    <p class="t-text">Bien. Ahora viene lo importante.</p>
+  </section>
+
+  <!-- ============================================================
        PANTALLA 3 — ¿Qué tema necesitás reforzar?
        ============================================================ -->
   <section class="screen" data-step="3">
@@ -282,6 +308,13 @@
       <textarea id="f_porque" placeholder="El caso real, la situación, el momento…" minlength="50"></textarea>
       <div class="counter" id="porqueCount">0 / 50 mínimo</div>
     </div>
+  </section>
+
+  <!-- ============================================================
+       MICROTRANSICIÓN 4t — entre paso 4 y paso 5 (auto-advance 2.3s)
+       ============================================================ -->
+  <section class="screen transition" data-step="4t">
+    <p class="t-text">Ya casi. Solo dos preguntas más.</p>
   </section>
 
   <!-- ============================================================
@@ -434,6 +467,17 @@
       progFillEl.style.width = '100%';
       return;
     }
+    // Microtransiciones: ocultar el step-tag pero mantener barra del paso anterior
+    if (currentStep === '2t') {
+      stepTagEl.style.visibility = 'hidden';
+      progFillEl.style.width = (2 / FULL_FLOW.length * 100) + '%';
+      return;
+    }
+    if (currentStep === '4t') {
+      stepTagEl.style.visibility = 'hidden';
+      progFillEl.style.width = (4 / FULL_FLOW.length * 100) + '%';
+      return;
+    }
     const stepNum = currentStep === '1b' ? '01' : String(parseInt(currentStep, 10)).padStart(2, '0');
     stepTagEl.textContent = 'Paso ' + stepNum + ' de 07';
     const pct = idx >= 0 ? ((idx + 1) / flow.length) * 100 : 0;
@@ -463,6 +507,16 @@
     setTimeout(() => {
       next.classList.add('active');
       next.classList.remove('entering-back');
+      // Reset animación de microtransición si reentra
+      if (stepKey === '2t' || stepKey === '4t') {
+        const tText = next.querySelector('.t-text');
+        if (tText) {
+          tText.style.animation = 'none';
+          // force reflow para reiniciar animación CSS
+          void tText.offsetWidth;
+          tText.style.animation = '';
+        }
+      }
       window.scrollTo({ top: 0, behavior: 'auto' });
     }, direction === 'back' ? 50 : 120);
 
@@ -495,8 +549,8 @@
     const nextBtn = document.getElementById('nextBtn');
     const foot = document.getElementById('formFoot');
 
-    // Pantalla 0 (welcome) y 8 (confirmación) sin footer global
-    if (currentStep === '0' || currentStep === '8') {
+    // Pantalla 0 (welcome), 8 (confirmación) y microtransiciones sin footer
+    if (currentStep === '0' || currentStep === '8' || currentStep === '2t' || currentStep === '4t') {
       foot.style.display = 'none';
       return;
     }
@@ -736,12 +790,28 @@
       submitForm({ branch: false });
       return;
     }
+    // Microtransiciones después del paso 2 y del paso 4
+    if (currentStep === '2') {
+      playTransition('2t', '3');
+      return;
+    }
+    if (currentStep === '4') {
+      playTransition('4t', '5');
+      return;
+    }
     const flow = isBranch() ? BRANCH_FLOW : FULL_FLOW;
     const idx = flow.indexOf(currentStep);
     if (idx >= 0 && idx < flow.length - 1) {
       showScreen(flow[idx + 1], 'fwd');
     }
   });
+
+  // Transiciones automáticas: muestra la pantalla intermedia y avanza
+  // sola al destino real tras 2300ms (400 fade in + 1500 hold + 400 fade out).
+  function playTransition(transStep, finalStep) {
+    showScreen(transStep, 'fwd');
+    setTimeout(() => showScreen(finalStep, 'fwd'), 2300);
+  }
 
   // ============================================================
   // SUBMIT — WhatsApp + email + localStorage histórico
